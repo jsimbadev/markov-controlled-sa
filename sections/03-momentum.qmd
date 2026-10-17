@@ -66,17 +66,6 @@ $\Eunder{\statlawtheta}{\norm{\Mtheta-S_J}}
 \leq c_\theta\alpha^{J+1}\to0$. This proves the $L^1$ assertion as well.
 :::
 
-Applying the same formula at each integer time defines
-$M_k^\theta:=(1-\alpha)\sum_{j\geq0}\alpha^j
-\Htheta(X_{k-j}^\theta)$, with $M_0^\theta=\Mtheta$.
-The series converge simultaneously for all $k\in\mathbb Z$ outside one
-null set. Shifting indices in these absolutely convergent series gives
-
-$$
-M_{k+1}^\theta
-=\alpha M_k^\theta+(1-\alpha)\Htheta(X_{k+1}^\theta).
-$$ {#eq-frozen-momentum-recursion}
-
 ## Preservation of the frozen field
 
 ::: {#prp-momentum-field}
@@ -91,9 +80,6 @@ $$
 \Eunder{\statlawtheta}{\Mtheta}=\htheta.
 $$ {#eq-momentum-mean-field}
 
-In particular, $\Eunder{\statlawtheta}{\Mtheta}=0$ if and only if
-$\htheta=0$. Fixed linear momentum preserves the entire frozen mean
-field, not only its zeros.
 :::
 
 ::: {.proof}
@@ -119,6 +105,19 @@ for any stationary observation sequence with the same marginal and
 first-moment bound.
 :::
 
+The equality in @eq-momentum-mean-field is stronger than equality of
+roots: it leaves the entire frozen first-order Robbins–Monro field
+unchanged. In particular,
+
+$$
+\Eunder{\statlawtheta}{\Mtheta}=0
+\quad\Longleftrightarrow\quad
+\htheta=0.
+$$
+
+This is a stationary field identification; it does not by itself prove
+convergence of the adaptive recursion @eq-momentum-sa.
+
 ::: {#rem-momentum-initialisation .remark}
 ## Initialisation in the frozen system
 
@@ -143,10 +142,20 @@ expectation calculation. These are frozen identities; they do not
 replace $\theta_n$ by a constant in the actual adaptive recursion.
 :::
 
-## The augmented Markov state and its stationary lift
+## An alternative augmented-state interpretation
 
-Let $Y_n:=(X_n,M_n)\in\StateSpace\times\R^d$. The frozen augmented
-kernel is
+The augmented-state construction is not needed to prove
+@prp-momentum-field. That identity follows directly from stationarity
+and linearity, with the interchange justified by integrability.
+Augmentation instead provides a stronger structural interpretation:
+by adjoining the memory state, the history-dependent momentum algorithm
+can be written again as an ordinary controlled Markov stochastic
+approximation recursion.
+
+When $\alpha>0$, the readout in @eq-momentum-recursion depends on the
+stored $M_n$ and is generally not a one-step observable of $X_{n+1}$
+alone. Set $Y_n:=(X_n,M_n)\in\StateSpace\times\R^d$. The frozen
+augmented kernel is
 
 $$
 \begin{aligned}
@@ -168,9 +177,18 @@ Y_{n+1}\mid\cF_n&\sim Q_{\theta_n}(Y_n,\cdot),\\
 \end{aligned}
 $$ {#eq-momentum-augmented-sa}
 
-Thus linear memory fits the controlled-SA structure by enlarging the
-Markov state rather than treating its readout as a one-step observable
-of $X_n$ alone.
+Thus the memory update is represented as a Markov recursion on an
+enlarged state space. To describe its stationary lift, apply the
+filter in @eq-frozen-momentum at each integer time, defining
+$M_k^\theta:=(1-\alpha)\sum_{j\geq0}\alpha^j
+\Htheta(X_{k-j}^\theta)$, with $M_0^\theta=\Mtheta$.
+The series converge simultaneously for all $k\in\mathbb Z$ outside one
+null set. Shifting indices in these absolutely convergent series gives
+
+$$
+M_{k+1}^\theta
+=\alpha M_k^\theta+(1-\alpha)\Htheta(X_{k+1}^\theta).
+$$ {#eq-frozen-momentum-recursion}
 
 ::: {#prp-momentum-stationary-lift}
 ## An invariant lift of the frozen path law
@@ -213,36 +231,37 @@ which proves invariance. The readout is integrable by
 @eq-momentum-mean-field. No uniqueness assertion is needed.
 :::
 
-For two frozen momentum recursions driven by the same future $X$-path,
-subtraction gives, for $k\geq1$,
-$M_k-\widetilde M_k=\alpha^k(M_0-\widetilde M_0)$,
-so $\norm{M_k-\widetilde M_k}=\alpha^k\norm{M_0-\widetilde M_0}$.
-This proves forgetting of the initial momentum along that path. It
-does not give mixing of the base chain or uniqueness over different
-invariant base marginals. Uniqueness and quantitative mixing of the
-augmented family, if required later, remain proof obligations.
+Starting from the lifted formulation, its ordinary frozen drift is
+therefore
 
-## Field identification versus adaptive convergence
+$$
+\nu_\theta^{\mathrm{mom}}(G_{\mathrm m})
+=\Eunder{\statlawtheta}{\Mtheta}
+=\htheta.
+$$ {#eq-momentum-lifted-field}
 
-@prp-momentum-field and @prp-momentum-stationary-lift identify the
-frozen field averaged by the augmented readout. They do not establish
-convergence of @eq-momentum-augmented-sa, whose parameter and
-transition kernel evolve together.
+This gives an alternative identification of the same Robbins–Monro
+field and its roots, already obtained by the direct filter calculation.
+The two routes have different purposes:
 
-An applicable controlled-Markov SA theorem still requires appropriate
-stability, ergodicity or mixing, Poisson-equation bounds, and regularity
-in $\theta$ for the augmented family. When its hypotheses are verified,
-the averaged drift is
-$\nu_\theta^{\mathrm{mom}}(G_{\mathrm m})=\htheta$, so the limiting
-ODE remains @eq-base-ode, exactly as without momentum. An APT conclusion
-in the sense of @def-apt is a separate analytical step, not a consequence
-of the expectation identity alone.
+- **Route A: direct stationary filter.** Take the expectation of
+  @eq-frozen-momentum to obtain @eq-momentum-mean-field; no augmented
+  kernel is needed.
+- **Route B: augmented-state lift.** Pass from $\Ptheta$ to $Q_\theta$,
+  construct the invariant law $\nu_\theta^{\mathrm{mom}}$, and average
+  $G_{\mathrm m}$ to recover @eq-momentum-lifted-field. This supplies
+  the stronger structural formulation; using it to establish adaptive
+  convergence requires additional analysis.
 
-<!-- TODO[cite]: Controlled Markov stochastic approximation results applicable to augmented-state kernels. -->
-<!-- TODO[proof]: Verify stability, the required ergodicity/mixing and Poisson bounds, and parameter regularity for the augmented family before claiming adaptive convergence. -->
+### Discussion point: augmented-state lifting
 
-Neither temporal Markov dependence nor exponentially weighted linear
-memory alone changes this stationary first-order field. The next
-section treats the qualitatively different nonlinear random
-normalisation by a second-moment memory in Adam, for which expectation
-cannot in general be interchanged with the readout.
+A possible stronger route is to treat the momentum recursion as a
+controlled Markov stochastic approximation on the enlarged state
+$Y_n=(X_n,M_n)$. This is not needed to establish
+@prp-momentum-field: preservation of the frozen Robbins–Monro field
+follows directly from stationarity and linearity. The stronger question
+is whether assumptions on the base frozen family $\Ptheta$ can be
+transferred to the lifted family $Q_\theta$ strongly enough to invoke
+an existing controlled-Markov SA theorem. Relevant properties would
+include invariant-law, mixing or coupling, Poisson-equation, and
+parameter-regularity estimates. We leave this as a discussion point.

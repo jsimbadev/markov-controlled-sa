@@ -25,9 +25,6 @@ date: last-modified
 
 {{< include sections/09-discussion.qmd >}}
 
-<!-- Remove the following include and its file before circulating a draft. -->
-{{< include notes/authoring-examples.qmd >}}
-
 # References {.unnumbered}
 
 ::: {#refs}

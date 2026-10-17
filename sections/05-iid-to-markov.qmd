@@ -1,0 +1,9 @@
+# From IID histories to controlled Markov histories {#sec-iid-to-markov}
+
+<!--
+- Identify which steps of an IID-history argument require modification under Markov dependence.
+- Specify a local parameter-freezing construction and its error terms.
+- Set out the roles of remote-history forgetting and stationary frozen-chain approximation.
+-->
+
+<!-- TODO: State and prove the history-forgetting and freezing lemmas after choosing their assumptions. -->

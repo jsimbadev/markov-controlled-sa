@@ -1,0 +1,9 @@
+# Adaptive MCMC consequences {#sec-adaptive-mcmc}
+
+<!--
+- Specify the adaptive MCMC setting and its relationship to the controlled chain.
+- Identify the additional hypotheses needed for any waning-adaptation consequence.
+- Separate conclusions about adaptation from conclusions about Monte Carlo estimators.
+-->
+
+<!-- TODO: Formulate the proposed waning corollary and prove it from explicit hypotheses. -->

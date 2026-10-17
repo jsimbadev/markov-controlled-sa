@@ -1,0 +1,73 @@
+project:
+  type: default
+  output-dir: _output
+  render:
+    - index.qmd
+  pre-render:
+    - python3 scripts/sync-macros.py
+
+quarto-required: ">=1.6.0"
+lang: en-GB
+bibliography: references.bib
+citeproc: true
+link-citations: true
+reference-section-title: References
+number-sections: true
+toc-depth: 2
+filters:
+  - path: filters/assumptions.lua
+    at: pre-ast
+
+crossref:
+  ref-hyperlink: true
+  eq-prefix: Equation
+  sec-prefix: Section
+  thm-prefix: Theorem
+  prp-prefix: Proposition
+  lem-prefix: Lemma
+  cor-prefix: Corollary
+  def-prefix: Definition
+  cnj-title: Assumption
+  cnj-prefix: Assumption
+  exm-prefix: Example
+
+format:
+  html:
+    theme: default
+    toc: true
+    toc-location: right
+    anchor-sections: true
+    html-math-method: mathjax
+    include-in-header: mathjax-macros.html
+    css: styles.css
+    crossref:
+      chapters: true
+  pdf:
+    documentclass: article
+    pdf-engine: lualatex
+    latex-auto-install: false
+    keep-tex: true
+    papersize: a4
+    fontsize: 11pt
+    geometry:
+      - margin=28mm
+    mainfont: Latin Modern Roman
+    sansfont: Latin Modern Sans
+    monofont: Latin Modern Mono
+    mathfont: Latin Modern Math
+    colorlinks: true
+    linkcolor: black
+    citecolor: black
+    urlcolor: black
+    toc: false
+    crossref:
+      chapters: false
+    include-in-header:
+      - tex/preamble.tex
+      - macros.tex
+      - tex/pdf-only.tex
+
+editor:
+  mode: source
+  markdown:
+    wrap: none

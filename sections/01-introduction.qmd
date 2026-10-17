@@ -1,0 +1,9 @@
+# Introduction {#sec-introduction}
+
+<!--
+- State the research question and intended scope.
+- Explain how controlled Markov noise, momentum, and adaptive MCMC are connected in this note.
+- Outline the argument and distinguish proposed claims from established literature.
+-->
+
+<!-- TODO: Add introductory motivation and a roadmap after the central statements are settled. -->

@@ -1,0 +1,49 @@
+# Quarto output and caches
+/.quarto/
+/_output/
+/_site/
+/_book/
+/_freeze/
+/index.html
+/index.pdf
+/index.tex
+/index_files/
+
+# LaTeX intermediates
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+*.xdv
+
+# Editors
+*~
+*.swp
+*.swo
+/.idea/
+/.vscode/
+
+# Python caches and environments
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+**/*.quarto_ipynb

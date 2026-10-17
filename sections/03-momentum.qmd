@@ -1,0 +1,9 @@
+# Momentum and preservation of the mean field {#sec-momentum}
+
+<!--
+- Define the momentum recursion and its frozen-parameter counterpart.
+- Identify the stationarity and integrability conditions needed to compare mean fields.
+- Separate the proposed field identity from the conditions required for stochastic approximation.
+-->
+
+<!-- TODO: Formulate the momentum proposition and supply its proof under explicit assumptions. -->

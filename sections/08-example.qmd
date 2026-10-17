@@ -1,0 +1,9 @@
+# Example / numerical illustration {#sec-example}
+
+<!--
+- Choose a model that exposes the distinction between the candidate mean fields.
+- Document the simulation settings, random seeds, and quantities to be displayed.
+- Connect each planned figure or table to a stated question without treating numerics as a proof.
+-->
+
+<!-- TODO: Add a worked example or reproducible numerical illustration once the theoretical setup is fixed. -->

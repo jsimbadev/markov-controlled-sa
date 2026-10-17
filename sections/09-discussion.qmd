@@ -1,0 +1,9 @@
+# Discussion and general moment-augmentation interface {#sec-discussion}
+
+<!--
+- Summarise the scope and limitations of results actually established in the note.
+- Describe the proposed interface for other moment-augmentation recursions.
+- Record open questions and assumptions that might be weakened in future work.
+-->
+
+<!-- TODO: Write the discussion after the statements and proofs have been verified. -->

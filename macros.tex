@@ -1,0 +1,61 @@
+% Canonical math vocabulary. Run python3 scripts/sync-macros.py after editing.
+% Keep each definition on one line; use portable \newcommand definitions.
+
+% Probability
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Etheta}{\E_{\theta}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\Law}{\operatorname{Law}}
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\statlaw}[1]{\Prob_{#1}^{\mathrm{stat}}}
+\newcommand{\statlawtheta}{\statlaw{\theta}}
+\newcommand{\expect}[1]{\E\!\left[#1\right]}
+\newcommand{\Eunder}[2]{\E_{#1}\!\left[#2\right]}
+\newcommand{\indicator}[1]{\mathbf{1}_{\{#1\}}}
+
+% Markov kernels
+\newcommand{\Ptheta}{P_{\theta}}
+\newcommand{\Pthetan}{P_{\theta_n}}
+\newcommand{\Pvartheta}{P_{\vartheta}}
+\newcommand{\pitheta}{\pi_{\theta}}
+\newcommand{\Pkern}[3]{P_{#1}\!\left(#2,#3\right)}
+\newcommand{\Pstep}{\Pkern{\theta}{x}{\cdot}}
+\newcommand{\Pstepn}{\Pkern{\theta_n}{X_n}{\cdot}}
+
+% Stochastic approximation
+\newcommand{\htheta}{h(\theta)}
+\newcommand{\Htheta}{H_{\theta}}
+\newcommand{\Gtheta}{G_{\theta}}
+\newcommand{\meanfieldtheta}{\pitheta(\Htheta)}
+\newcommand{\SAupdate}{\theta_{n+1}=\theta_n+\gamma_{n+1}H(\theta_n,X_{n+1})}
+
+% Adam/momentum
+\newcommand{\Ftheta}{F(\theta)}
+\newcommand{\Mtheta}{M^{\theta}}
+\newcommand{\Vtheta}{V^{\theta}}
+\newcommand{\Adamratio}[2]{\frac{#1}{\sqrt{#2}+\eps}}
+\newcommand{\Momentumupdate}{M_{n+1}=\alpha M_n+(1-\alpha)H_{\theta_n}(X_{n+1})}
+\newcommand{\Secondmomentupdate}{V_{n+1}=\beta V_n+(1-\beta)H_{\theta_n}(X_{n+1})^{\odot 2}}
+\newcommand{\Adamupdate}{\theta_{n+1}=\theta_n+\gamma_{n+1}\Adamratio{M_{n+1}}{V_{n+1}}}
+\newcommand{\FrozenAdamfield}{\Ftheta=\Eunder{\statlawtheta}{\Adamratio{\Mtheta}{\Vtheta}}}
+
+% Spaces and operators
+\newcommand{\ThetaSet}{\Theta}
+\newcommand{\StateSpace}{\mathsf{X}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\inner}[2]{\left\langle#1,#2\right\rangle}
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\newcommand{\pushforward}[2]{{#1}_{\#}{#2}}
+
+% Convenience notation
+\newcommand{\eps}{\varepsilon}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\bigO}[1]{\mathcal{O}\!\left(#1\right)}
+\newcommand{\littleo}[1]{o\!\left(#1\right)}
+\newcommand{\eqdist}{\overset{\mathrm{d}}{=}}
+\newcommand{\convprob}{\xrightarrow{\Prob}}
+\newcommand{\convlaw}{\xrightarrow{\mathrm{d}}}

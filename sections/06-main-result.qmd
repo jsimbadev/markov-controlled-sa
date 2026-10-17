@@ -1,0 +1,9 @@
+# Main result and proof architecture {#sec-main-result}
+
+<!--
+- Collect the hypotheses needed for the intended main statement.
+- Organise the approximation errors and centred Markov fluctuations into separate proof obligations.
+- Specify the intended APT/ODE conclusion and identify the results required to obtain it.
+-->
+
+<!-- TODO: Insert the main theorem, any Poisson-equation lemma, and a proof that discharges every listed obligation. -->

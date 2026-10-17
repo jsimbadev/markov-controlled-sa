@@ -1,0 +1,9 @@
+# The stationary Adam field {#sec-adam-field}
+
+<!--
+- Introduce the first- and second-moment recursions and the regularisation convention.
+- Define the frozen stationary history and the proposed Adam field when they are well defined.
+- Record the existence, integrability, and regularity questions needed for the later argument.
+-->
+
+<!-- TODO: State the field definition and any existence or regularity results with complete assumptions and proofs. -->

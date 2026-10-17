@@ -1,0 +1,9 @@
+# Controlled Markov stochastic approximation {#sec-controlled-markov-sa}
+
+<!--
+- Specify the state space, parameter space, filtration, and controlled transition kernels.
+- Introduce the stochastic approximation recursion and candidate averaged field.
+- List the assumptions that will be used in later statements.
+-->
+
+<!-- TODO: State definitions and assumptions; add supporting results and proofs only once justified. -->

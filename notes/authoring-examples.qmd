@@ -1,0 +1,147 @@
+# Disposable authoring examples {#sec-authoring-examples}
+
+**SYNTAX EXAMPLES ONLY.** This section tests the writing infrastructure;
+it contains no research results. Remove its include from `index.qmd`, then
+delete this file and replace the synthetic bibliography entries through
+Zotero before circulating the note. The labels become available for your
+actual mathematics after removing these examples.
+
+## Equations and the initial notation
+
+The numbered display and reference below demonstrate native Quarto syntax.
+
+$$
+\theta_{n+1}
+=
+\theta_n+\gamma_{n+1}H(\theta_n,X_{n+1})
+$$ {#eq-controlled-sa}
+
+By @eq-controlled-sa, the update can also be written using `\SAupdate`.
+The following displays record the intended notation only; hypotheses and
+validity remain to be supplied in the research sections.
+
+$$
+\begin{aligned}
+X_{n+1}\mid\cF_n
+&\sim \Pkern{\theta_n}{X_n}{\cdot},
+\\
+\SAupdate,
+\qquad \htheta &= \meanfieldtheta.
+\end{aligned}
+$$ {#eq-controlled-notation}
+
+$$
+\Momentumupdate
+$$ {#eq-momentum}
+
+$$
+\Momentumupdate
+$$ {#eq-adam-m}
+
+$$
+\Secondmomentupdate
+$$ {#eq-adam-v}
+
+$$
+\Adamupdate
+$$ {#eq-adam-update}
+
+$$
+\Ftheta
+=
+\E_{\statlawtheta}
+\left[
+  \frac{\Mtheta}{\sqrt{\Vtheta}+\eps}
+\right]
+$$ {#eq-frozen-field}
+
+Compare the source of @eq-controlled-notation and @eq-frozen-field with
+their rendered output. For a measure-valued kernel use
+$\Pkern{\theta_n}{X_n}{\dd x}$.
+
+## Theorem-style blocks
+
+::: {#thm-main-template}
+## Theorem template only
+
+TODO: State a theorem after its hypotheses and proof are available.
+:::
+
+::: {#prp-momentum-field-template}
+## Proposition template only
+
+TODO: Formulate the momentum proposition. No assertion is made here.
+:::
+
+::: {#lem-history-forgetting-template}
+## Lemma template only
+
+TODO: State a history-forgetting lemma and supply its proof.
+:::
+
+::: {#cor-waning-template}
+## Corollary template only
+
+TODO: Supply assumptions, statement, and derivation.
+:::
+
+::: {#def-adam-field-template}
+## Definition template only
+
+TODO: Define the frozen field with its domain and integrability conditions.
+:::
+
+::: {#asm-uniform-ergodicity-template}
+## Assumption template only
+
+TODO: Specify any required uniformity and quantify all parameters.
+:::
+
+::: {#rem-authoring-template .remark}
+## Remark template only
+
+TODO: Add a remark when there is something to explain.
+:::
+
+::: {#exm-authoring-template}
+## Example template only
+
+TODO: Provide a worked example after the framework is fixed.
+:::
+
+Reference checks: @thm-main-template; @prp-momentum-field-template;
+@lem-history-forgetting-template; @cor-waning-template;
+@def-adam-field-template; @asm-uniform-ergodicity-template;
+@rem-authoring-template; @exm-authoring-template.
+
+::: {.proof}
+TODO: Replace this proof template with a proof of a stated result.
+:::
+
+## Citations
+
+All citations in this paragraph point to synthetic test records.
+Narrative citation: @exampleAuthoring2026.
+Parenthetical citation: [@exampleAuthoring2026].
+Multiple citations: [@exampleAuthoring2026; @exampleCompanion2026].
+Page locator: [@exampleAuthoring2026, p. 3].
+Section locator: [@exampleCompanion2026, sec. 2].
+
+## Figures, tables, and sections
+
+::: {#fig-placeholder}
+
+Replace this paragraph with an image, for example
+`![](figures/experiment.pdf)`.
+
+Disposable figure caption; this is a layout placeholder.
+:::
+
+| Symbol | Intended role |
+|:-------|:--------------|
+| $\htheta$ | Mean field notation |
+| $\Ftheta$ | Frozen Adam field notation |
+
+: Disposable notation table. {#tbl-notation-example}
+
+See @fig-placeholder, @tbl-notation-example, and @sec-controlled-markov-sa.

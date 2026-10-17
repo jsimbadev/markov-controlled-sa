@@ -4,7 +4,8 @@
 
 In @sec-momentum, linear memory preserved the entire frozen field:
 $\Eunder{\statlawtheta}{\Mtheta}=\htheta$. Adam adds a second-moment
-memory and a nonlinear readout. Fix $0\leq\alpha,\beta<1$ and $\eps>0$,
+memory and divides the momentum by the regularised square root of that
+memory. Fix $0\leq\alpha,\beta<1$ and $\eps>0$,
 and consider the controlled observations of @eq-controlled-transition with
 
 $$
@@ -82,7 +83,7 @@ not a consequence of this pointwise definition.
 ## Relation to the IID Adam field
 
 @Dereich2025_UJMNX8NK [Definition 1.3] define the corresponding field
-by averaging an infinite-history readout under IID innovations.
+by averaging the normalised momentum computed from an infinite IID history.
 Their Lemma 3.1 gives a bounded, $1$-Lipschitz history map in a specific
 weighted sequence norm; with their locally $p$-regular innovation
 (Definition 1.4), the field is bounded and locally Lipschitz when
@@ -109,7 +110,7 @@ the controlled-Markov APT result sought here.
     These are the results explicitly recalled in Lemma 3.1 of
     @Dereich2025_UJMNX8NK.
 
-## A pathwise readout bound
+## A pathwise bound on the normalised momentum
 
 The boundedness part of the cited history-map estimate has a short
 proof that does not involve a probability law.

@@ -1,9 +1,9 @@
 ---
 title: "Adam-type stochastic approximation under controlled Markov noise"
 author:
-  - name: "[Author name]"
+  - name: "Jordan Simbananiye"
     affiliations:
-      - name: "[Affiliation]"
+      - name: "University College London (UCL) - CCMI CDT"
 date: last-modified
 ---
 

@@ -1,9 +1,225 @@
 # Controlled Markov stochastic approximation {#sec-controlled-markov-sa}
 
-<!--
-- Specify the state space, parameter space, filtration, and controlled transition kernels.
-- Introduce the stochastic approximation recursion and candidate averaged field.
-- List the assumptions that will be used in later statements.
--->
+## Controlled observations and the slow recursion
 
-<!-- TODO: State definitions and assumptions; add supporting results and proofs only once justified. -->
+Let $\ThetaSet\subseteq\R^d$ carry its Borel sigma-algebra, and let
+$(\StateSpace,\mathcal X)$ be a standard Borel state space, for example a
+Polish space with its Borel sigma-algebra. For each $\theta\in\ThetaSet$,
+let $\Ptheta$ be a Markov transition kernel on $\StateSpace$, with
+$(\theta,x)\mapsto P_\theta(x,A)$ measurable for every $A\in\mathcal X$.
+Let $H:\ThetaSet\times\StateSpace\to\R^d$ be measurable and write
+$\Htheta(x):=H(\theta,x)$.
+
+On a filtered probability space, take $(\theta_n,X_n)$ to be
+$\cF_n$-measurable and impose the controlled Markov condition
+
+$$
+X_{n+1}\mid\cF_n\sim\Pstepn,
+\qquad n\geq0.
+$$ {#eq-controlled-transition}
+
+For a measurable function $f$, the frozen kernel also acts as an operator:
+
+$$
+\Ptheta f(x)
+:=\int_{\StateSpace}f(y)\,\Pkern{\theta}{x}{\dd y}.
+$$ {#eq-frozen-kernel-operator}
+
+Equivalently, @eq-controlled-transition says that
+
+$$
+\E\!\left[f(X_{n+1})\mid\cF_n\right]
+=\Pthetan f(X_n)
+$$ {#eq-controlled-operator}
+
+for every bounded measurable $f$. The same identity holds for nonnegative
+$f$, allowing extended values, and for integrable $f(X_{n+1})$.
+For vector-valued functions we apply the operator componentwise.
+
+Given deterministic positive gains $(\gamma_n)_{n\geq1}$, the basic
+stochastic approximation recursion is
+
+$$
+\theta_{n+1}
+=\theta_n+\gamma_{n+1}H_{\theta_n}(X_{n+1}).
+$$ {#eq-controlled-sa-recursion}
+
+The gain $\gamma_{n+1}$ sets the slow parameter scale, while $P_{\theta_n}$
+generates the next observation. Thus the parameter both determines the
+observation law and is updated from that observation: the feedback is
+$\theta_n\longmapsto P_{\theta_n}\longmapsto X_{n+1}
+\longmapsto\theta_{n+1}$. The recursion is required to remain in
+$\ThetaSet$; ensuring this and proving stability, or introducing a
+stabilisation mechanism, are separate tasks.
+
+<!-- TODO[cite]: Benveniste–Métivier–Priouret and controlled Markov stochastic approximation formulations. -->
+
+## Frozen invariant marginals and the ordinary mean field
+
+Fixing $\theta$ gives a homogeneous Markov chain with transition kernel
+$\Ptheta$. By contrast, @eq-controlled-transition uses the changing,
+history-dependent parameter $\theta_n$; the observations alone need not
+form a Markov chain on $\StateSpace$.
+
+::: {#asm-frozen-invariant-marginal}
+## Frozen invariant marginal and integrability
+
+For each $\theta\in\ThetaSet$, choose an invariant probability $\pitheta$
+for $\Ptheta$, and suppose
+
+$$
+\pitheta\Ptheta=\pitheta,
+\qquad
+\int_{\StateSpace}\norm{\Htheta(x)}\,\pitheta(\dd x)<\infty.
+$$
+:::
+
+Here invariance means $\pitheta(\Ptheta f)=\pitheta(f)$ for every bounded
+measurable $f$. This assumption supplies a reference marginal, not a
+mixing rate or uniqueness. If several invariant probabilities exist,
+the field below depends on the specified choice. Measurability and
+regularity of that choice as $\theta$ varies are additional questions.
+
+Under @asm-frozen-invariant-marginal, define the ordinary frozen mean field
+by
+
+$$
+\htheta
+:=\meanfieldtheta
+=\int_{\StateSpace}\Htheta(x)\,\pitheta(\dd x).
+$$ {#eq-ordinary-mean-field}
+
+The centred observable is $\bar H_\theta(x):=\Htheta(x)-\htheta$.
+Consequently $\pitheta(\bar H_\theta)=0$, but
+$\bar H_{\theta_n}(X_{n+1})$ need not have conditional mean zero given
+$\cF_n$: the conditional law in @eq-controlled-transition is
+$\Pstepn$, not $\pi_{\theta_n}$.
+
+::: {#rem-common-invariant-target .remark}
+## A common target in adaptive MCMC
+
+In the adaptive-MCMC special case one has $\pitheta\equiv\pi$, so each
+frozen kernel preserves the same target $\pi$. This alone does not make
+the adaptive observations stationary at finite times. In particular,
+when the kernel choice depends on the observed history, common invariance
+does not by itself propagate the marginal $\pi$ through that choice,
+even if $X_0$ has law $\pi$.
+:::
+
+Classical controlled Markov SA seeks conditions under which the weighted
+accumulation of $\bar H_{\theta_n}(X_{n+1})$ becomes negligible over bounded
+intervals of SA time. Together with stability and suitable regularity,
+this connects the slow recursion to the ODE
+
+$$
+\dot\theta=\htheta.
+$$ {#eq-base-ode}
+
+No such approximation or convergence theorem is asserted here.
+
+## The frozen stationary path law
+
+For fixed $\theta$, the stationary finite-dimensional distributions
+specified by $\pitheta$ and $\Ptheta$ extend on this standard Borel space
+to a two-sided stationary Markov chain $(X_k^\theta)_{k\in\mathbb Z}$.
+Denote its law on $(\StateSpace^{\mathbb Z},\mathcal X^{\otimes\mathbb Z})$
+by $\statlawtheta$. Its one-time marginal is $\pitheta$ and its forward
+transition kernel, conditional on the entire past, is $\Ptheta$.
+
+These two probability laws have different domains: $\pitheta$ describes
+one state, whereas $\statlawtheta$ describes an entire trajectory and
+therefore its temporal dependence. The path law is not in general a
+product law. For an ordinary one-step observable only its marginal
+matters:
+
+$$
+\Eunder{\statlawtheta}{\Htheta(X_0^\theta)}
+=\meanfieldtheta
+=\htheta.
+$$ {#eq-stationary-one-step-field}
+
+History-dependent variables will instead be defined as functions of the
+stationary path. Expectations under $\statlawtheta$ always refer to this
+frozen construction, not to the law of the adaptive observations.
+
+## Poisson equation notation
+
+For a measurable function $g_\theta:\StateSpace\to\R^d$, the frozen
+Poisson equation is
+
+$$
+g_\theta-\Ptheta g_\theta
+=\Htheta-\htheta
+=\bar H_\theta.
+$$ {#eq-base-poisson}
+
+The operator is that of @eq-frozen-kernel-operator. To indicate its role,
+suppose a jointly measurable solution family is available, with the
+identities valid on the visited states and the required integrability.
+Then @eq-controlled-operator gives a martingale difference
+$\Delta_{n+1}:=g_{\theta_n}(X_{n+1})
+-(\Pthetan g_{\theta_n})(X_n)$.
+Substitution into @eq-base-poisson yields
+
+$$
+\bar H_{\theta_n}(X_{n+1})
+=\Delta_{n+1}
++(\Pthetan g_{\theta_n})(X_n)
+-(\Pthetan g_{\theta_n})(X_{n+1}).
+$$
+
+After multiplication by gains and summation, the last two terms give
+boundary, gain-variation, and parameter-change remainders by summation
+by parts. Existence of $g_\theta$, its growth bounds, and its regularity
+in $\theta$ are later hypotheses or proof obligations. Invariance alone
+does not provide these properties or control the remainders.
+
+<!-- TODO[cite]: Benveniste–Métivier–Priouret and Andrieu–Vihola on the Poisson-equation decomposition for Markovian stochastic approximation. -->
+<!-- TODO[proof]: Establish existence, growth bounds, and parameter regularity of the Poisson solutions used by the eventual convergence theorem. -->
+
+## SA time and the ODE language
+
+For the ODE description take $\gamma_n\to0$ and
+$\sum_{n\geq1}\gamma_n=\infty$, in addition to positivity. Set
+
+$$
+\begin{aligned}
+t_0&=0,\qquad t_n=\sum_{k=1}^n\gamma_k,\\
+\bar\theta(t)
+&=\theta_n+\frac{t-t_n}{\gamma_{n+1}}
+  (\theta_{n+1}-\theta_n),
+\qquad t\in[t_n,t_{n+1}].
+\end{aligned}
+$$ {#eq-sa-interpolation}
+
+For a general $\ThetaSet$, the straight segments in
+@eq-sa-interpolation need not remain in $\ThetaSet$. Applying the
+following definition requires a domain containing the interpolated path
+on which the ODE has a continuous semiflow.
+
+::: {#def-apt}
+## Asymptotic pseudo-trajectory
+
+Suppose @eq-base-ode generates a continuous semiflow
+$\Phi:[0,\infty)\times D\to D$ on a domain $D\subseteq\ThetaSet$.
+A continuous path $\bar\theta:[0,\infty)\to D$ is an *asymptotic
+pseudo-trajectory* (APT) of $\Phi$ if, for every $T>0$,
+
+$$
+\lim_{t\to\infty}\sup_{0\leq s\leq T}
+\norm{\bar\theta(t+s)-\Phi_s(\bar\theta(t))}=0.
+$$
+:::
+
+Thus each late finite-horizon segment follows the ODE started from its
+own initial point. Well-posedness of the ODE, stability of the
+interpolation, and the noise estimates needed for this property remain
+to be verified; the definition itself supplies none of them.
+
+<!-- TODO[cite]: Benaïm–Hirsch / Benaïm for asymptotic pseudo-trajectories and the stochastic approximation ODE method. -->
+<!-- TODO[proof]: State and verify the stability, gain, regularity, and noise conditions for the intended APT conclusion. -->
+
+Ordinary controlled Markov SA therefore has the one-step frozen mean
+field $\htheta=\meanfieldtheta$ of @eq-ordinary-mean-field. The next
+section asks what happens when the update is first passed through a
+stable linear memory.

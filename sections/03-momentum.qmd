@@ -1,9 +1,248 @@
 # Momentum and preservation of the mean field {#sec-momentum}
 
-<!--
-- Define the momentum recursion and its frozen-parameter counterpart.
-- Identify the stationarity and integrability conditions needed to compare mean fields.
-- Separate the proposed field identity from the conditions required for stochastic approximation.
--->
+## Fixed linear memory
 
-<!-- TODO: Formulate the momentum proposition and supply its proof under explicit assumptions. -->
+In the setup of @sec-controlled-markov-sa, fix $0\leq\alpha<1$ and
+introduce an $\R^d$-valued momentum variable with $M_0$ measurable with
+respect to $\cF_0$. Replace
+@eq-controlled-sa-recursion by
+
+$$
+\Momentumupdate
+$$ {#eq-momentum-recursion}
+
+and
+
+$$
+\theta_{n+1}=\theta_n+\gamma_{n+1}M_{n+1}.
+$$ {#eq-momentum-sa}
+
+The filtration includes the momentum history, and the observations still
+satisfy @eq-controlled-transition. The coefficient $\alpha$ is fixed;
+it is not another vanishing SA gain. At $\alpha=0$ the recursion reduces
+to the ordinary update.
+
+## Stationary frozen momentum
+
+Fix $\theta$ and use the two-sided stationary frozen chain with path law
+$\statlawtheta$ from @sec-controlled-markov-sa. Define its stationary
+momentum by
+
+$$
+\Mtheta
+:=(1-\alpha)\sum_{j=0}^{\infty}
+  \alpha^j\Htheta(X_{-j}^\theta).
+$$ {#eq-frozen-momentum}
+
+At $\alpha=0$ this expression means $\Mtheta=\Htheta(X_0^\theta)$.
+
+::: {#lem-stationary-momentum-exists}
+## Integrable stationary memory
+
+Fix $\theta$. If the frozen observations are stationary with marginal
+$\pitheta$ and $\pitheta(\norm{\Htheta})<\infty$, the series in
+@eq-frozen-momentum converges absolutely almost surely and in $L^1$
+under $\statlawtheta$.
+:::
+
+::: {.proof}
+Put $c_\theta:=\int\norm{\Htheta(x)}\,\pitheta(\dd x)<\infty$.
+Tonelli's theorem and stationarity give
+
+$$
+\begin{aligned}
+\Eunder{\statlawtheta}{
+  (1-\alpha)\sum_{j=0}^{\infty}
+  \alpha^j\norm{\Htheta(X_{-j}^\theta)}}
+&=(1-\alpha)\sum_{j=0}^{\infty}\alpha^j c_\theta\\
+&=c_\theta.
+\end{aligned}
+$$
+
+The nonnegative series of norms is consequently finite almost surely.
+If $S_J$ denotes the partial sum in @eq-frozen-momentum through $j=J$,
+the same bound on its tail gives
+$\Eunder{\statlawtheta}{\norm{\Mtheta-S_J}}
+\leq c_\theta\alpha^{J+1}\to0$. This proves the $L^1$ assertion as well.
+:::
+
+Applying the same formula at each integer time defines
+$M_k^\theta:=(1-\alpha)\sum_{j\geq0}\alpha^j
+\Htheta(X_{k-j}^\theta)$, with $M_0^\theta=\Mtheta$.
+The series converge simultaneously for all $k\in\mathbb Z$ outside one
+null set. Shifting indices in these absolutely convergent series gives
+
+$$
+M_{k+1}^\theta
+=\alpha M_k^\theta+(1-\alpha)\Htheta(X_{k+1}^\theta).
+$$ {#eq-frozen-momentum-recursion}
+
+## Preservation of the frozen field
+
+::: {#prp-momentum-field}
+## Momentum preserves the frozen mean field
+
+For fixed $\theta$ and $0\leq\alpha<1$, suppose the frozen Markov chain
+with kernel $\Ptheta$ is stationary with marginal $\pitheta$ and
+$\pitheta(\norm{\Htheta})<\infty$. Then the stationary momentum in
+@eq-frozen-momentum satisfies
+
+$$
+\Eunder{\statlawtheta}{\Mtheta}=\htheta.
+$$ {#eq-momentum-mean-field}
+
+In particular, $\Eunder{\statlawtheta}{\Mtheta}=0$ if and only if
+$\htheta=0$. Fixed linear momentum preserves the entire frozen mean
+field, not only its zeros.
+:::
+
+::: {.proof}
+The integrable series-of-norms bound in
+@lem-stationary-momentum-exists justifies interchanging the sum and
+expectation, componentwise. Stationarity and
+@eq-stationary-one-step-field then yield
+
+$$
+\begin{aligned}
+\Eunder{\statlawtheta}{\Mtheta}
+&=(1-\alpha)\sum_{j=0}^{\infty}\alpha^j
+  \Eunder{\statlawtheta}{\Htheta(X_{-j}^\theta)}\\
+&=(1-\alpha)\sum_{j=0}^{\infty}\alpha^j\htheta\\
+&=\htheta.
+\end{aligned}
+$$
+
+No independence across time is used. The calculation uses only
+stationarity, integrability, and the normalisation
+$(1-\alpha)\sum_{j\geq0}\alpha^j=1$; indeed, this field identity holds
+for any stationary observation sequence with the same marginal and
+first-moment bound.
+:::
+
+::: {#rem-momentum-initialisation .remark}
+## Initialisation in the frozen system
+
+For frozen stationary observations and any integrable initial $M_0$,
+iteration of the frozen recursion gives, for $n\geq1$,
+
+$$
+M_n=\alpha^n M_0
++(1-\alpha)\sum_{j=0}^{n-1}\alpha^j\Htheta(X_{n-j}^\theta).
+$$ {#eq-frozen-momentum-unrolling}
+
+Taking expectations and summing the finite geometric series gives
+
+$$
+\E[M_n]=\alpha^n\E[M_0]+(1-\alpha^n)\htheta.
+$$ {#eq-frozen-momentum-expectation}
+
+Thus $M_0=0$ gives $\E[M_n]=(1-\alpha^n)\htheta$, and the
+initialisation bias relative to $\htheta$ decays geometrically. No
+independence between $M_0$ and the observations is needed for this
+expectation calculation. These are frozen identities; they do not
+replace $\theta_n$ by a constant in the actual adaptive recursion.
+:::
+
+## The augmented Markov state and its stationary lift
+
+Let $Y_n:=(X_n,M_n)\in\StateSpace\times\R^d$. The frozen augmented
+kernel is
+
+$$
+\begin{aligned}
+Q_\theta((x,m),\dd x'\,\dd m')
+&=\Pkern{\theta}{x}{\dd x'}\,
+  \delta_{\alpha m+(1-\alpha)\Htheta(x')}(\dd m').
+\end{aligned}
+$$ {#eq-momentum-augmented-kernel}
+
+The Dirac factor records the deterministic momentum update after the
+new observation is drawn. With readout $G_{\mathrm m}(x,m):=m$,
+@eq-momentum-recursion and @eq-momentum-sa become
+
+$$
+\begin{aligned}
+Y_{n+1}\mid\cF_n&\sim Q_{\theta_n}(Y_n,\cdot),\\
+\theta_{n+1}
+&=\theta_n+\gamma_{n+1}G_{\mathrm m}(Y_{n+1}).
+\end{aligned}
+$$ {#eq-momentum-augmented-sa}
+
+Thus linear memory fits the controlled-SA structure by enlarging the
+Markov state rather than treating its readout as a one-step observable
+of $X_n$ alone.
+
+::: {#prp-momentum-stationary-lift}
+## An invariant lift of the frozen path law
+
+Under the hypotheses of @prp-momentum-field, define
+
+$$
+\nu_\theta^{\mathrm{mom}}
+:=\Law_{\statlawtheta}(X_0^\theta,\Mtheta).
+$$ {#eq-momentum-stationary-law}
+
+Then $\nu_\theta^{\mathrm{mom}}$ is invariant for $Q_\theta$ and
+$\nu_\theta^{\mathrm{mom}}(G_{\mathrm m})=\htheta$.
+:::
+
+::: {.proof}
+Put $Y_k^\theta:=(X_k^\theta,M_k^\theta)$. The map from the base
+trajectory to $Y_k^\theta$ is the same measurable history functional
+shifted by $k$. Shift stationarity of the base path therefore makes
+$(Y_k^\theta)_{k\in\mathbb Z}$ stationary.
+
+Moreover, $M_0^\theta$ is measurable with respect to
+$\mathcal H_0^\theta:=\sigma(X_k^\theta:k\leq0)$.
+Conditional on this past, $X_1^\theta$ has law
+$\Pkern{\theta}{X_0^\theta}{\cdot}$, and $M_1^\theta$ is determined
+by @eq-frozen-momentum-recursion. Hence, for every bounded measurable
+$u:\StateSpace\times\R^d\to\R$,
+$\Eunder{\statlawtheta}{u(Y_1^\theta)\mid\mathcal H_0^\theta}
+=Q_\theta u(Y_0^\theta)$. Integrating this identity and using
+stationarity gives
+
+$$
+\nu_\theta^{\mathrm{mom}}(Q_\theta u)
+=\Eunder{\statlawtheta}{u(Y_1^\theta)}
+=\nu_\theta^{\mathrm{mom}}(u),
+$$
+
+which proves invariance. The readout is integrable by
+@lem-stationary-momentum-exists, and its mean is given by
+@eq-momentum-mean-field. No uniqueness assertion is needed.
+:::
+
+For two frozen momentum recursions driven by the same future $X$-path,
+subtraction gives, for $k\geq1$,
+$M_k-\widetilde M_k=\alpha^k(M_0-\widetilde M_0)$,
+so $\norm{M_k-\widetilde M_k}=\alpha^k\norm{M_0-\widetilde M_0}$.
+This proves forgetting of the initial momentum along that path. It
+does not give mixing of the base chain or uniqueness over different
+invariant base marginals. Uniqueness and quantitative mixing of the
+augmented family, if required later, remain proof obligations.
+
+## Field identification versus adaptive convergence
+
+@prp-momentum-field and @prp-momentum-stationary-lift identify the
+frozen field averaged by the augmented readout. They do not establish
+convergence of @eq-momentum-augmented-sa, whose parameter and
+transition kernel evolve together.
+
+An applicable controlled-Markov SA theorem still requires appropriate
+stability, ergodicity or mixing, Poisson-equation bounds, and regularity
+in $\theta$ for the augmented family. When its hypotheses are verified,
+the averaged drift is
+$\nu_\theta^{\mathrm{mom}}(G_{\mathrm m})=\htheta$, so the limiting
+ODE remains @eq-base-ode, exactly as without momentum. An APT conclusion
+in the sense of @def-apt is a separate analytical step, not a consequence
+of the expectation identity alone.
+
+<!-- TODO[cite]: Controlled Markov stochastic approximation results applicable to augmented-state kernels. -->
+<!-- TODO[proof]: Verify stability, the required ergodicity/mixing and Poisson bounds, and parameter regularity for the augmented family before claiming adaptive convergence. -->
+
+Neither temporal Markov dependence nor exponentially weighted linear
+memory alone changes this stationary first-order field. The next
+section treats the qualitatively different nonlinear random
+normalisation by a second-moment memory in Adam, for which expectation
+cannot in general be interchanged with the readout.

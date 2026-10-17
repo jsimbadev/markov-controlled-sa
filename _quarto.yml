@@ -9,6 +9,7 @@ project:
 quarto-required: ">=1.6.0"
 lang: en-GB
 bibliography: references.bib
+csl: styles/numeric.csl
 citeproc: true
 link-citations: true
 reference-section-title: References
@@ -34,6 +35,7 @@ crossref:
 format:
   html:
     theme: default
+    reference-location: document
     toc: true
     toc-location: right
     anchor-sections: true

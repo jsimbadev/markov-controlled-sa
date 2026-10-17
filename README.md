@@ -1,9 +1,8 @@
 # Controlled Markov stochastic approximation research note
 
 Quarto is the canonical source. `index.qmd` assembles nine section files into
-one article with linked HTML and an understated LuaLaTeX PDF. The mathematics
-is deliberately unwritten; the included **disposable authoring examples**
-exercise the infrastructure without claiming research results.
+one article with linked HTML and an understated LuaLaTeX PDF. Authoring
+patterns are documented here rather than included in the manuscript.
 
 ## Requirements and setup
 
@@ -39,9 +38,7 @@ are a convenient alternative.
 
 Replace the bracketed author and affiliation in `index.qmd`. Start drafting in
 `sections/03-momentum.qmd` and `sections/04-adam-field.qmd` to settle the notation.
-Before circulation, remove the `notes/authoring-examples.qmd` include from
-`index.qmd`, delete that example file, and replace the two synthetic bibliography
-records through Zotero. No details for real publications have been invented.
+No details for real publications have been invented.
 
 ## Preview, build, and check
 
@@ -68,6 +65,9 @@ formats, rejects unresolved-reference diagnostics, and checks local HTML anchors
 These lightweight checks handle common Markdown patterns, not every Pandoc
 extension; final rendering remains authoritative.
 
+HTML footnotes appear as linked endnotes, with hover previews. PDF footnotes
+use the standard page-bottom placement.
+
 Every render synchronizes MathJax macros from `macros.tex`. After changing that
 file, `make sync-macros` updates the generated header; commit both files.
 `make check-source` detects a stale header before rendering can repair it.
@@ -80,7 +80,7 @@ Zotero should own it after setup:
 1. Install Zotero and Better BibTeX, then create a collection for this note.
 2. Right-click that collection and choose **Export Collection…**.
 3. Choose **Better BibTeX** and enable **Keep updated**.
-4. Export directly to `<repo>/references.bib`, replacing the example records.
+4. Export directly to `<repo>/references.bib`, including the papers already cited.
 5. In Better BibTeX preferences, review **Automatic exports** and choose an
    update schedule such as on change or on idle.
 
@@ -99,9 +99,11 @@ Compare [@kassing2025; @andrieuVihola2014].
 See [@kassing2025, p. 12] or [@andrieuVihola2014, sec. 3].
 ```
 
-Pandoc's built-in author–date citation style is used, with linked citations and
-an automatic References list. It requires no downloaded CSL file. A journal CSL
-can be added later with `csl: path/to/style.csl` in `_quarto.yml`.
+The local `styles/numeric.csl` style produces linked citations such as `[1]`
+and a numbered References list in order of first citation, in both HTML and
+PDF. Numbers update automatically; keep writing citation keys rather than
+typing numbers. The style is version controlled and requires no download.
+A journal CSL can replace it through `csl: path/to/style.csl` in `_quarto.yml`.
 
 ## Common writing patterns
 
@@ -133,8 +135,8 @@ As shown in @eq-frozen-field, ...
 Numbered equations receive labels explicitly. Use native references throughout;
 never write a positional number such as “equation (7)” or a positional label
 such as `eq-1`. Semantic names like `eq-adam-m`, `eq-adam-v`, `eq-adam-update`,
-and `eq-poisson` survive reordering. Remove the disposable example labels before
-reusing them in the main sections.
+and `eq-poisson` survive reordering. Labels must be unique across all included
+sections.
 
 ### Results, assumptions, and proofs
 
@@ -238,7 +240,7 @@ Keep mathematical source on deliberately broken lines; the source editor and
 ```text
 _quarto.yml                 shared settings and format-specific configuration
 index.qmd                   metadata, ordered section includes, References
-sections/01-…09-*.qmd        nine empty research sections
+sections/01-…09-*.qmd        nine modular research sections
 macros.tex                  canonical semantic mathematical macros
 mathjax-macros.html          generated HTML macro configuration
 references.bib              Zotero-owned, version-controlled bibliography
@@ -248,7 +250,6 @@ filters/assumptions.lua     assumption adapter to native Quarto theorems
 notes/notation.md           macro cheat sheet and notation conventions
 notes/proof-obligations.md  internal PROVED / LITERATURE / TODO tracking
 notes/literature-map.md     literature TODO headings
-notes/authoring-examples.qmd disposable rendered syntax examples
 figures/                    figure source and assets
 scripts/                    standard-library checking, synchronization, cleaning
 tests/                      source-checker regression tests

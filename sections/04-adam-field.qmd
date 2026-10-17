@@ -1,9 +1,295 @@
 # The stationary Adam field {#sec-adam-field}
 
-<!--
-- Introduce the first- and second-moment recursions and the regularisation convention.
-- Define the frozen stationary history and the proposed Adam field when they are well defined.
-- Record the existence, integrability, and regularity questions needed for the later argument.
--->
+## Nonlinear fading memory
 
-<!-- TODO: State the field definition and any existence or regularity results with complete assumptions and proofs. -->
+In @sec-momentum, linear memory preserved the entire frozen field:
+$\Eunder{\statlawtheta}{\Mtheta}=\htheta$. Adam adds a second-moment
+memory and a nonlinear readout. Fix $0\leq\alpha,\beta<1$ and $\eps>0$,
+and consider the controlled observations of @eq-controlled-transition with
+
+$$
+\Momentumupdate,
+$$ {#eq-adam-m}
+
+$$
+\Secondmomentupdate,
+$$ {#eq-adam-v}
+
+$$
+\Adamupdate.
+$$ {#eq-adam-update}
+
+Squares, square roots, division, and the product $\odot$ are componentwise;
+the scalar $\eps$ is added in each coordinate. Initially take
+$M_0\in\R^d$ and $V_0\in[0,\infty)^d$, measurable with respect to
+$\cF_0$. These are uncorrected memories, with no finite-time bias factors.
+We view this as an SA mechanism, without requiring $H$ to be a gradient.
+The two memories are linear filters of the signal and its square, but
+their data-dependent normalisation is nonlinear: this is where the
+mean-field preservation argument of @prp-momentum-field ceases to apply.
+
+## Frozen memories and the candidate drift
+
+Fix $\theta$ and work under the stationary path law $\statlawtheta$ of
+@sec-controlled-markov-sa. Throughout the frozen construction assume
+$\pitheta(\norm{\Htheta}^2)<\infty$. Alongside $\Mtheta$ from
+@eq-frozen-momentum, define
+
+$$
+\Vtheta:=(1-\beta)\sum_{j=0}^{\infty}
+  \beta^j\Htheta(X_{-j}^\theta)^{\odot2}.
+$$ {#eq-frozen-second-moment}
+
+When a memory coefficient is zero, its series means just its $j=0$ term.
+For each coordinate $i$, Tonelli's theorem and stationarity give
+
+$$
+\Eunder{\statlawtheta}{V_i^\theta}
+=(1-\beta)\sum_{j\geq0}\beta^j
+  \pitheta(H_{\theta,i}^2)
+=\pitheta(H_{\theta,i}^2)<\infty.
+$$
+
+Thus the nonnegative series is finite almost surely and integrable;
+its partial sums converge in $L^1$ as well, since their expected tails
+are $\beta^{J+1}\pitheta(H_{\theta,i}^2)$ after index $J$.
+The same moment assumption implies the hypothesis of
+@lem-stationary-momentum-exists, so $\Mtheta$ exists in $L^1$.
+Neither argument uses independence.
+
+::: {#def-stationary-adam-field}
+## Stationary Adam field
+
+Under these frozen moment assumptions, put
+$W^\theta:=(\sqrt{\Vtheta}+\eps)^{-1}$ and
+$A^\theta:=\Mtheta\odot W^\theta$. The *stationary Adam field* is
+
+$$
+\Ftheta:=\Eunder{\statlawtheta}{A^\theta}
+=\Eunder{\statlawtheta}{\Adamratio{\Mtheta}{\Vtheta}}.
+$$ {#eq-stationary-adam-field}
+
+:::
+
+This expectation exists because $0<W_i^\theta\leq\eps^{-1}$ and
+$\norm{A^\theta}\leq\eps^{-1}\norm{\Mtheta}$. Unlike
+$\htheta=\meanfieldtheta$, which uses only a one-time marginal,
+$\Ftheta$ uses the stationary path law through both fading histories.
+It is a candidate frozen drift, not yet an ODE approximation for the
+actual adaptive recursion @eq-adam-update. Regularity in $\theta$ is
+not a consequence of this pointwise definition.
+
+## Relation to the IID Adam field
+
+@Dereich2025_UJMNX8NK [Definition 1.3] define the corresponding field
+by averaging an infinite-history readout under IID innovations.
+Their Lemma 3.1 gives a bounded, $1$-Lipschitz history map in a specific
+weighted sequence norm; with their locally $p$-regular innovation
+(Definition 1.4), the field is bounded and locally Lipschitz when
+$\alpha<\sqrt\beta$. That lemma recalls earlier work by Dereich and
+Jentzen, rather than proving a new history-map estimate.[^adam-history-source]
+
+For IID innovations, their Theorem 1.5 gives localised finite-horizon
+ODE tracking under local $p$-regularity, $p\geq2$, and positive,
+non-summable, decreasing gains tending to zero with their step-size
+regularity condition (10). With
+$\sum_n\gamma_n^{1+p/3}<\infty$, Corollary 1.9 gives the APT property
+on the event of bounded iterates. Corollary 1.10 requires any limit
+in probability to be a zero of the Adam field. As discussed after
+Definition 1.4, that field can have different zeros and directions
+from the ordinary mean field [@Dereich2025_UJMNX8NK].
+Their Definition 1.1 uses a finite-time second-moment bias correction;
+the stationary history functional agrees with ours, but the finite
+recursion differs. Neither their IID theorem nor that agreement proves
+the controlled-Markov APT result sought here.
+
+[^adam-history-source]: @DereichJentzen2024, Lemma 3.1 and equation (148).
+    The former proves the deterministic history-map bound and Lipschitz
+    estimate; the latter bounds the induced field's parameter variation.
+    These are the results explicitly recalled in Lemma 3.1 of
+    @Dereich2025_UJMNX8NK.
+
+## A pathwise readout bound
+
+The boundedness part of the cited history-map estimate has a short
+proof that does not involve a probability law.
+
+::: {#lem-adam-readout-bounded}
+## Uniform bound for normalised histories
+
+Suppose $0\leq\alpha<\sqrt\beta<1$. For a scalar history
+$(z_j)_{j\geq0}$ with $\sum_j\beta^jz_j^2<\infty$, set
+
+$$
+m=(1-\alpha)\sum_{j\geq0}\alpha^jz_j,
+\qquad v=(1-\beta)\sum_{j\geq0}\beta^jz_j^2.
+$$
+
+Then the numerator converges absolutely and
+
+$$
+\frac{\abs{m}}{\sqrt v+\eps}
+\leq c_{\alpha,\beta}
+:=\frac{1-\alpha}
+  {\sqrt{1-\beta}\sqrt{1-\alpha^2/\beta}}.
+$$ {#eq-adam-scalar-bound}
+
+Applying this coordinatewise to vector histories gives the Euclidean
+bound $\norm{A}\leq C_{\alpha,\beta,d}:=\sqrt d\,c_{\alpha,\beta}$.
+:::
+
+::: {.proof}
+Weighted Cauchy--Schwarz, first for partial sums and then for the
+nonnegative series of absolute values, gives
+
+$$
+\begin{aligned}
+(1-\alpha)\sum_{j\geq0}\alpha^j\abs{z_j}
+&\leq(1-\alpha)
+  \left[\sum_{j\geq0}(\alpha^2/\beta)^j\right]^{1/2}
+  \left[\sum_{j\geq0}\beta^jz_j^2\right]^{1/2}\\
+&=c_{\alpha,\beta}\sqrt v.
+\end{aligned}
+$$
+
+Division by $\sqrt v+\eps$ proves @eq-adam-scalar-bound, including
+$v=0$. Summing squared coordinate bounds proves the vector assertion.
+:::
+
+This estimate is deterministic and pathwise; it applies to stationary
+Markov histories just as to IID histories. It bounds $\Ftheta$ uniformly
+wherever the frozen moment assumption holds, but supplies no parameter
+regularity or controlled-Markov ODE theorem.
+
+## Bounded velocity and adaptive-MCMC validity
+
+For the actual recursion, now take $M_0=V_0=0$ and
+$\alpha<\sqrt\beta$. Unrolling both memories gives a finite history
+of the actual signals $H_{\theta_{k-1}}(X_k)$, padded with zeros.
+@lem-adam-readout-bounded therefore yields, without freezing parameters,
+
+$$
+\norm{\theta_{n+1}-\theta_n}
+\leq C_{\alpha,\beta,d}\gamma_{n+1}.
+$$ {#eq-adam-bounded-velocity}
+
+This uniform constant does not cover arbitrary initial memories without
+an additional compatibility bound. Bounded velocity is not parameter
+convergence.
+
+Suppose also that $\gamma_n\to0$, $\pitheta\equiv\pi$, the parameters
+remain in the admissible set, and the frozen family satisfies
+
+$$
+\sup_x d_{\mathrm{TV}}\bigl(\Ptheta(x,\cdot),\Pvartheta(x,\cdot)\bigr)
+\leq L\norm{\theta-\vartheta},
+\qquad\theta,\vartheta\in\ThetaSet.
+$$ {#eq-adam-kernel-lipschitz}
+
+Here $d_{\mathrm{TV}}(\mu,\nu):=\sup_B\abs{\mu(B)-\nu(B)}$.
+This is assumption (A8) of @Laitinen2024_G3FDZQA8. In particular,
+
+$$
+D_n:=\sup_x d_{\mathrm{TV}}\bigl(
+ P_{\theta_n}(x,\cdot),P_{\theta_{n-1}}(x,\cdot)\bigr)
+\leq LC_{\alpha,\beta,d}\gamma_n\longrightarrow0.
+$$ {#eq-adam-diminishing-adaptation}
+
+For measurability one may use the deterministic upper bound
+$\min\{1,LC_{\alpha,\beta,d}\gamma_n\}$ in place of the supremum.
+This gives their diminishing adaptation (A6), in fact pathwise.
+Their Lemma 10 implies weak $1$-waning; here Cesàro averaging also
+directly gives $n^{-1}\sum_{k=1}^nD_k\to0$ almost surely, their
+*strong $1$-waning* condition (A5). Lemma 16 treats the general
+SA-sized-increment mechanism [@Laitinen2024_G3FDZQA8].
+
+An LLN needs more. Under their adapted controlled-transition setup
+(A1), the common target, and simultaneous uniform ergodicity (A3),
+
+$$
+\sup_{\theta\in\ThetaSet}\sup_x
+ d_{\mathrm{TV}}\bigl(P_\theta^k(x,\cdot),\pi\bigr)
+\leq C\rho^k,
+\qquad k\geq0,\quad C<\infty,\quad0\leq\rho<1,
+$$
+
+Theorem 9(ii) then gives
+$n^{-1}\sum_{k=1}^nf(X_k)\to\pi(f)$ almost surely for every fixed
+bounded measurable $f$ [@Laitinen2024_G3FDZQA8]. Neither common
+invariance nor diminishing adaptation alone establishes this conclusion.
+Keeping $\theta_n$ in the admissible set is essential; their Remark 15
+discusses stabilisation, which requires specifying the actual algorithm.
+This sampling-validity conclusion does not require parameter convergence
+and does not identify its equilibria: it can coexist with nonconvergent
+adaptation or an Adam equilibrium different from a Robbins--Monro root.
+
+## Covariance and Robbins--Monro roots
+
+Return to the frozen moment assumptions of
+@def-stationary-adam-field; the following identities require no
+restriction $\alpha<\sqrt\beta$. All expectations and covariances in
+this subsection are under $\statlawtheta$. Since $\Mtheta$ is
+integrable and $W^\theta$ is bounded, all coordinate products below
+are integrable. By @prp-momentum-field,
+
+$$
+F_i(\theta)
+=h_i(\theta)\E[W_i^\theta]
+ +\Cov(M_i^\theta,W_i^\theta).
+$$
+
+Define the *componentwise covariance vector*, not a covariance matrix,
+by $\Cov_{\odot}(M,W)_i:=\Cov(M_i,W_i)$. Thus
+
+$$
+\Ftheta
+=\htheta\odot\E[W^\theta]
+ +\Cov_{\odot}(\Mtheta,W^\theta).
+$$ {#eq-adam-covariance-decomposition}
+
+This is exact: expand each covariance as
+$\E[M_i^\theta W_i^\theta]-\E[M_i^\theta]\E[W_i^\theta]$
+and use $\E[M_i^\theta]=h_i(\theta)$.
+
+::: {#prp-adam-root-covariance}
+## A covariance criterion at a Robbins--Monro root
+
+Let $\theta^\star$ satisfy the frozen moment assumptions and
+$h(\theta^\star)=0$. Then
+
+$$
+F(\theta^\star)
+=\Cov_{\odot}(M^{\theta^\star},W^{\theta^\star}).
+$$ {#eq-adam-field-at-rm-root}
+
+Consequently $\theta^\star$ is also an Adam root if and only if
+$\Cov(M_i^{\theta^\star},W_i^{\theta^\star})=0$ for every coordinate.
+:::
+
+::: {.proof}
+Substitute $h(\theta^\star)=0$ in
+@eq-adam-covariance-decomposition. The vector vanishes exactly when
+all its coordinates vanish.
+:::
+
+A zero stationary numerator mean is therefore insufficient: the random
+normalisation uses the same history, and root correspondence requires
+additional structure in the joint law. Conversely, an Adam root with
+$\htheta\ne0$ would satisfy the cancellation identity
+$\htheta\odot\E[W^\theta]=-\Cov_{\odot}(\Mtheta,W^\theta)$.
+There is no general reason for the two root sets to agree in either
+direction; this is not a claim that they differ in every model.
+
+Both memories use $(\ldots,X_{-1}^\theta,X_0^\theta)$.
+Even IID observations can create numerator--normaliser dependence
+through shared inputs; Markov observations introduce additional lagged
+dependence. Two frozen kernels with the same invariant marginal can
+therefore, in principle, give different Adam fields through their
+different stationary path laws. No such counterexample is asserted here.
+
+The memory existence, field integrability, pathwise bound, and covariance
+criterion above are direct derivations. Controlled-Markov Adam APT
+convergence, parameter regularity of $F$, existence or uniqueness of
+equilibria, parameter convergence, and any augmented-state transfer of
+mixing or Poisson estimates remain unproved. @sec-iid-to-markov takes
+up the passage from IID histories to controlled Markov histories.

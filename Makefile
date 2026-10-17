@@ -3,6 +3,7 @@
 
 QUARTO ?= quarto
 PYTHON ?= python3
+PORT ?= 4200
 export XDG_CACHE_HOME ?= $(CURDIR)/.quarto/cache
 export TEXMFVAR ?= _output/tex-var
 export TEXMFCACHE ?= _output/tex-cache
@@ -10,7 +11,7 @@ export TEXMFCACHE ?= _output/tex-cache
 .PHONY: preview html pdf render clean check check-source sync-macros
 
 preview: sync-macros
-	$(QUARTO) preview index.qmd --to html
+	$(QUARTO) preview index.qmd --to html --port $(PORT)
 
 html: sync-macros
 	$(QUARTO) render index.qmd --to html

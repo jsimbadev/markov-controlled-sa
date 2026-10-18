@@ -1,0 +1,47 @@
+name: Render HTML
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/render-html.yml"
+      - "_quarto.yml"
+      - "index.qmd"
+      - "sections/**"
+      - "filters/**"
+      - "styles/**"
+      - "styles.css"
+      - "macros.tex"
+      - "mathjax-macros.html"
+      - "references.bib"
+      - "scripts/sync-macros.py"
+
+permissions:
+  contents: write
+
+jobs:
+  render-html:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Render HTML
+        run: quarto render index.qmd --to html
+
+      - name: Commit rendered HTML
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f _output
+          if git diff --cached --quiet; then
+            echo "Rendered HTML is unchanged."
+          else
+            git commit -m "docs: render HTML [skip ci]"
+            git push
+          fi

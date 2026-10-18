@@ -35,7 +35,8 @@ jobs:
           tinytex: true
 
       - name: Enable LaTeX auto-install in CI
-        run: sed -i 's/latex-auto-install: false/latex-auto-install: true/' _quarto.yml
+        run: |
+          sed -i 's/latex-auto-install: false/latex-auto-install: true/' _quarto.yml
 
       - name: Render HTML
         run: quarto render index.qmd --to html

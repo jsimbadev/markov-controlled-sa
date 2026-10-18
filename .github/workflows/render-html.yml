@@ -40,16 +40,34 @@ jobs:
         run: quarto render index.qmd --to html
 
       - name: Render PDF
-        run: quarto render index.qmd --to pdf
+        id: render_pdf
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          quarto render index.qmd --to pdf 2>&1 | tee pdf-build.log
 
-      - name: Commit rendered outputs
+      - name: Commit rendered outputs or PDF build log
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f _output/index.html _output/index_files _output/styles.css _output/index.pdf
+          git add -f _output/index.html _output/index_files _output/styles.css
+          if [ -f _output/index.pdf ]; then
+            git add -f _output/index.pdf
+          fi
+          if [ "${{ steps.render_pdf.outcome }}" != "success" ]; then
+            mkdir -p _output
+            cp pdf-build.log _output/pdf-build.log
+            git add -f _output/pdf-build.log
+          else
+            git rm -f --ignore-unmatch _output/pdf-build.log || true
+          fi
           if git diff --cached --quiet; then
             echo "Rendered outputs are unchanged."
           else
-            git commit -m "docs: render HTML and PDF [skip ci]"
+            git commit -m "docs: render outputs [skip ci]"
             git push
           fi
+
+      - name: Fail if PDF render failed
+        if: steps.render_pdf.outcome != 'success'
+        run: exit 1

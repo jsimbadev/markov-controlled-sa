@@ -34,9 +34,8 @@ jobs:
         with:
           tinytex: true
 
-      - name: Install LaTeX packages
-        run: |
-          tlmgr install collection-luatex collection-latexrecommended collection-latexextra collection-fontsrecommended
+      - name: Enable LaTeX auto-install in CI
+        run: sed -i 's/latex-auto-install: false/latex-auto-install: true/' _quarto.yml
 
       - name: Render HTML
         run: quarto render index.qmd --to html
@@ -48,6 +47,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git restore _quarto.yml
           git add -f _output/index.html _output/index_files _output/styles.css _output/index.pdf
           git rm -f --ignore-unmatch _output/pdf-build.log || true
           if git diff --cached --quiet; then

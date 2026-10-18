@@ -1,4 +1,4 @@
-name: Render HTML
+name: Render HTML and PDF
 
 on:
   workflow_dispatch:
@@ -17,31 +17,39 @@ on:
       - "mathjax-macros.html"
       - "references.bib"
       - "scripts/sync-macros.py"
+      - "tex/**"
 
 permissions:
   contents: write
 
 jobs:
-  render-html:
+  render:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up Quarto
+      - name: Set up Quarto and TinyTeX
         uses: quarto-dev/quarto-actions/setup@v2
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tinytex: true
 
       - name: Render HTML
         run: quarto render index.qmd --to html
 
-      - name: Commit rendered HTML
+      - name: Render PDF
+        run: quarto render index.qmd --to pdf
+
+      - name: Commit rendered outputs
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -f _output
+          git add -f _output/index.html _output/index_files _output/styles.css _output/index.pdf
           if git diff --cached --quiet; then
-            echo "Rendered HTML is unchanged."
+            echo "Rendered outputs are unchanged."
           else
-            git commit -m "docs: render HTML [skip ci]"
+            git commit -m "docs: render HTML and PDF [skip ci]"
             git push
           fi

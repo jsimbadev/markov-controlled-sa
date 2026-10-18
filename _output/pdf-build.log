@@ -1,0 +1,86 @@
+MathJax macros synchronized (47 commands).
+
+[1mpandoc [22m
+  to: latex
+  output-file: index.tex
+  standalone: true
+  pdf-engine: lualatex
+  variables:
+    graphics: true
+    tables: true
+  default-image-extension: pdf
+  number-sections: true
+  toc-depth: 2
+  toc: false
+  
+[1mmetadata[22m
+  block-headings: true
+  quarto-required: '>=1.6.0'
+  lang: en-GB
+  bibliography:
+    - references.bib
+  csl: styles/numeric.csl
+  link-citations: true
+  reference-section-title: References
+  crossref:
+    ref-hyperlink: true
+    eq-prefix: Equation
+    sec-prefix: Section
+    thm-prefix: Theorem
+    prp-prefix: Proposition
+    lem-prefix: Lemma
+    cor-prefix: Corollary
+    def-prefix: Definition
+    cnj-title: Assumption
+    cnj-prefix: Assumption
+    exm-prefix: Example
+    chapters: false
+  editor:
+    mode: source
+    markdown:
+      wrap: none
+  documentclass: article
+  papersize: a4
+  fontsize: 11pt
+  geometry:
+    - margin=28mm
+  mainfont: Latin Modern Roman
+  sansfont: Latin Modern Sans
+  monofont: Latin Modern Mono
+  mathfont: Latin Modern Math
+  colorlinks: true
+  linkcolor: black
+  citecolor: black
+  urlcolor: black
+  title: Adam-type stochastic approximation under controlled Markov noise
+  author:
+    - name: Jordan Simbananiye
+      affiliations:
+        - name: University College London (UCL) - CCMI CDT
+  date: last-modified
+  
+[1m[34m
+Rendering PDF[39m[22m
+[1m[34mrunning lualatex - 1[39m[22m
+  This is LuaHBTeX, Version 1.24.0 (TeX Live 2026) 
+   restricted system commands enabled.
+  
+  luaotfload | db : Font names database not found, generating new one.
+  luaotfload | db : This can take several minutes; please be patient.
+[91mERROR: 
+compilation failed- missing packages (automatic installed disabled)[39m
+LaTeX Error: File `luatexbase.sty' not found.
+
+Type X to quit or <RETURN> to proceed,
+or enter new name. (Default extension: sty)
+
+Enter file name: 
+! Emergency stop.
+<read *> 
+   
+l.1475     \bbl@activate@preotf
+                             
+
+
+see /home/runner/work/markov-controlled-sa/markov-controlled-sa/index.log for more information.
+[33mWARN: Error encountered when rendering files[39m

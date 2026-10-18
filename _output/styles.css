@@ -1,0 +1,20 @@
+:root {
+  --bs-link-color: #253e54;
+  --bs-link-hover-color: #152939;
+}
+
+main {
+  max-width: 52rem;
+}
+
+.quarto-title h1.title {
+  font-weight: 500;
+}
+
+.theorem {
+  margin-block: 1.25rem;
+}
+
+.theorem-title {
+  font-weight: 600;
+}

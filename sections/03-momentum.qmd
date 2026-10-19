@@ -148,8 +148,8 @@ The direct argument of @prp-momentum-field already establishes
 preservation of the entire frozen Robbins–Monro field without enlarging
 the state. A stronger alternative interpretation is to adjoin the memory
 state, $Y_n=(X_n,M_n)$, representing momentum as a controlled Markov
-stochastic approximation with a lifted kernel $Q_\theta$. For discussion
-with Matt and Sam, the potentially reusable question is whether suitable
+stochastic approximation with a lifted kernel $Q_\theta$. For discussion, 
+the potentially reusable question is whether suitable
 assumptions on the base frozen family $\Ptheta$ can be transferred to
 $Q_\theta$ strongly enough to invoke existing controlled-Markov SA
 machinery, through invariant-law, coupling or mixing, Poisson-equation,

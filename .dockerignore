@@ -1,0 +1,3 @@
+# Only the Dockerfile is needed to build the toolchain; sources are bind-mounted.
+**
+!Dockerfile

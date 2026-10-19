@@ -6,16 +6,33 @@ patterns are documented here rather than included in the manuscript.
 
 ## Requirements and setup
 
-- Docker with the Compose plugin (included in Docker Desktop), running Linux
-  containers.
-- GNU Make (on Windows, run these commands in WSL with Docker Desktop's WSL
-  integration enabled).
+Make commands run natively by default. Install:
 
-Clone this repository, start Docker, and run from the repository directory:
+- [Quarto CLI](https://quarto.org/docs/get-started/) 1.6 or newer, including its bundled Pandoc.
+- Python 3.10 or newer, using only the standard library.
+- GNU Make (on Windows, use WSL or an equivalent Make installation).
+- LuaLaTeX from a current TeX Live or TinyTeX installation, with Latin Modern
+  fonts and the standard Pandoc article packages. The additional preamble uses
+  `microtype` and `booktabs`; Quarto supplies AMS mathematics,
+  `amsthm`, `fontspec`, `unicode-math`, and hyperlink support as needed.
+
+Clone this repository and run from the repository directory:
 
 ```sh
+quarto --version
+python3 --version
+quarto check
+make check
 make preview
 ```
+
+If you need a TeX distribution, `quarto install tinytex` installs one. With an
+existing TeX Live installation, install missing packages through its package
+manager. Automatic package installation during rendering is disabled, so builds
+do not silently change your TeX installation. Typical TinyTeX additions are
+`tlmgr install microtype booktabs`; Pandoc's other standard packages
+must also be present. TeX Live's recommended LaTeX, fonts, and LuaTeX collections
+are a convenient alternative.
 
 Open <http://localhost:4200>. Edits to the source files automatically rebuild
 the preview; press Ctrl+C to stop it. Use `make preview PORT=4300` to serve at
@@ -25,11 +42,49 @@ The preview helper also watches included sections, macros, bibliography entries,
 styles, filters, and figures. It updates `index.qmd`'s timestamp to trigger Quarto
 when these inputs change; its text is unchanged.
 
-Every Make target runs in the Docker environment by default, including PDF
-builds, source checks, render checks, macro synchronization, and cleanup. No
-host Quarto, Python, or TeX installation is needed. The first command downloads
-and builds the toolchain image, which includes Quarto 1.9.37, Python, Make, and
-TeX Live with LuaLaTeX and the required fonts and packages. This needs an internet
+No R, Jupyter, Python packages, Quarto extensions, Biber, or separate
+`pandoc-crossref` executable is required. HTML math uses Quarto's MathJax CDN
+loader, so reading the mathematics in a browser requires an internet connection.
+Zotero plus [Better BibTeX](https://retorque.re/zotero-better-bibtex/) is optional
+for bibliography management on your desktop; builds use the committed
+`references.bib`.
+
+Replace the bracketed author and affiliation in `index.qmd`. Start drafting in
+`sections/03-momentum.qmd` and `sections/04-adam-field.qmd` to settle the notation.
+No details for real publications have been invented.
+
+### Docker (optional)
+
+To use Docker, install Docker with the Compose plugin (included in Docker
+Desktop), running Linux containers, and GNU Make. On Windows, run Make in WSL
+with Docker Desktop's WSL integration enabled. Start Docker, then opt in for
+any command with `USE_DOCKER=1`:
+
+```sh
+make USE_DOCKER=1 preview
+make USE_DOCKER=1 check
+```
+
+The switch applies to every Make target, including HTML/PDF builds, source and
+render checks, macro synchronization, and cleanup. To use another preview port,
+run `make USE_DOCKER=1 preview PORT=4300` and open <http://localhost:4300>.
+
+You can also toggle the workflow for your current shell:
+
+```sh
+export USE_DOCKER=1  # subsequent Make commands use Docker
+make preview
+export USE_DOCKER=0  # subsequent Make commands run natively
+```
+
+`unset USE_DOCKER` also restores the native default. A command-line setting
+overrides the shell setting, so `make USE_DOCKER=0 preview` always selects native
+execution.
+
+Docker execution needs no host Quarto, Python, or TeX installation. The first
+Docker command downloads and builds the toolchain image, which includes Quarto
+1.9.37, Python, Make, and TeX Live with LuaLaTeX and the required fonts and
+packages. This needs an internet
 connection and can take several minutes; subsequent commands reuse cached layers.
 Changes to the Dockerfile are picked up automatically on the next command.
 
@@ -50,47 +105,9 @@ Compose commands with `LOCAL_UID=$(id -u) LOCAL_GID=$(id -g)` to match your user
 the Make targets set these automatically. Docker Desktop handles bind-mount
 permissions on macOS and Windows.
 
-No R, Jupyter, Python packages, Quarto extensions, Biber, or separate
-`pandoc-crossref` executable is required. HTML math uses Quarto's MathJax CDN
-loader, so reading the mathematics in a browser requires an internet connection.
-Zotero plus [Better BibTeX](https://retorque.re/zotero-better-bibtex/) is optional
-for bibliography management on your desktop; the container builds directly from
-the committed `references.bib`.
-
-### Native installation (optional)
-
-To run outside Docker, install:
-
-- [Quarto CLI](https://quarto.org/docs/get-started/) 1.6 or newer, including its bundled Pandoc.
-- Python 3.10 or newer, using only the standard library.
-- GNU Make.
-- LuaLaTeX from a current TeX Live or TinyTeX installation, with Latin Modern
-  fonts and the standard Pandoc article packages. The additional preamble uses
-  `microtype` and `booktabs`; Quarto supplies AMS mathematics,
-  `amsthm`, `fontspec`, `unicode-math`, and hyperlink support as needed.
-
-Then select the native workflow with `USE_DOCKER=0`:
-
-```sh
-quarto --version
-python3 --version
-quarto check
-make USE_DOCKER=0 check
-```
-
-If you need a TeX distribution, `quarto install tinytex` installs one. With an
-existing TeX Live installation, install missing packages through its package
-manager. Automatic package installation during rendering is disabled, so builds
-do not silently change your TeX installation. Typical TinyTeX additions are
-`tlmgr install microtype booktabs`; Pandoc's other standard packages
-must also be present. TeX Live's recommended LaTeX, fonts, and LuaTeX collections
-are a convenient alternative.
-
-Replace the bracketed author and affiliation in `index.qmd`. Start drafting in
-`sections/03-momentum.qmd` and `sections/04-adam-field.qmd` to settle the notation.
-No details for real publications have been invented.
-
 ## Preview, build, and check
+
+These commands run natively by default; add `USE_DOCKER=1` to run them in Docker.
 
 | Command | Result |
 | --- | --- |
@@ -292,7 +309,7 @@ Keep mathematical source on deliberately broken lines; the source editor and
 _quarto.yml                 shared settings and format-specific configuration
 Dockerfile                  Quarto, Python, Make, and LuaLaTeX toolchain
 compose.yaml                mounted workspace and local preview port
-Makefile                    Docker-backed preview, builds, checks, and cleanup
+Makefile                    native or Docker preview, builds, checks, and cleanup
 index.qmd                   metadata, ordered section includes, References
 sections/01-…09-*.qmd        nine modular research sections
 macros.tex                  canonical semantic mathematical macros
@@ -327,8 +344,8 @@ Quarto/Pandoc scaffolding may still be required.
 ## Validation environment
 
 The Docker environment pins Quarto 1.9.37 on Debian Bookworm with TeX Live and
-LuaLaTeX. Run `make check` to validate source files and render both formats in
-that environment. The native setup has also been validated with Quarto 1.9.37
+LuaLaTeX. Run `make USE_DOCKER=1 check` to validate source files and render both
+formats in that environment. The native setup has also been validated with Quarto 1.9.37
 and TinyTeX/TeX Live 2026. Make uses writable project-local caches automatically.
 When running Quarto directly in a sandbox with a read-only home directory, use:
 

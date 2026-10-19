@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := render
 .NOTPARALLEL:
 
-USE_DOCKER ?= 1
+USE_DOCKER ?= 0
 PORT ?= 4200
 
 .PHONY: preview html pdf render clean check check-source sync-macros

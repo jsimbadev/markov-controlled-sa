@@ -168,6 +168,19 @@ $$
 -(\Pthetan g_{\theta_n})(X_{n+1}).
 $$
 
+Here $X_{n+1}\mid\cF_n\sim\Pstepn$ and the Poisson representation of
+$H_{\theta_n}(X_{n+1})$ already uses $\theta_n$, so
+$g_{\theta_n}(X_{n+1})-(\Pthetan g_{\theta_n})(X_n)$ is directly a
+martingale difference and only one add/subtract step is needed.
+In Laitinen–Vihola [@Laitinen2024_G3FDZQA8, sec. 2], $X_k$ is generated
+using $\theta_{k-1}$, whereas their initial Poisson representation uses $\theta_k$.
+Adding and subtracting $g_{\theta_{k-1}}(X_k)$ aligns the parameter with the
+transition and produces their extra adaptation remainder in $M_n+A_n+R_n$.
+The distinction is mainly indexing and adaptation timing, with the same
+Poisson-equation principle.
+Controlled SA still has parameter-change remainders when summation by parts
+compares $\Pthetan g_{\theta_n}$ with $P_{\theta_{n-1}}g_{\theta_{n-1}}$.
+
 After multiplication by gains and summation, the last two terms give
 boundary, gain-variation, and parameter-change remainders by summation
 by parts. Existence of $g_\theta$, its growth bounds, and its regularity

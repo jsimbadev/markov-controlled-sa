@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.19">
+<meta name="generator" content="quarto-1.10.20">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jordan Simbananiye">
-<meta name="dcterms.date" content="2026-10-18">
+<meta name="dcterms.date" content="2026-10-31">
 
 <title>Adam-type stochastic approximation under controlled Markov noise</title>
 <style>
@@ -58,10 +58,10 @@ div.csl-indent {
 <script src="index_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="index_files/libs/quarto-html/anchor.min.js"></script>
 <link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-17888a1159294d3eb470f19f6f52f5a5.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="index_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="index_files/libs/bootstrap/bootstrap-6361b62e05e0dd2885e2defe5cef72c7.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="index_files/libs/bootstrap/bootstrap-090de03104414071009f862d1eef2b15.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <!-- Generated from macros.tex by scripts/sync-macros.py; edit macros.tex. -->
 <script>
 window.MathJax = window.MathJax || {};
@@ -260,7 +260,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">18 October 2026</p>
+      <p class="date">31 October 2026</p>
     </div>
   </div>
   
@@ -366,6 +366,7 @@ g_\theta-\Ptheta g_\theta
 +(\Pthetan g_{\theta_n})(X_n)
 -(\Pthetan g_{\theta_n})(X_{n+1}).
 \]</span></p>
+<p>Here <span class="math inline">\(X_{n+1}\mid\cF_n\sim\Pstepn\)</span> and the Poisson representation of <span class="math inline">\(H_{\theta_n}(X_{n+1})\)</span> already uses <span class="math inline">\(\theta_n\)</span>, so <span class="math inline">\(g_{\theta_n}(X_{n+1})-(\Pthetan g_{\theta_n})(X_n)\)</span> is directly a martingale difference and only one add/subtract step is needed. In Laitinen–Vihola <span class="citation" data-cites="Laitinen2024_G3FDZQA8">[<a href="#ref-Laitinen2024_G3FDZQA8" role="doc-biblioref">1</a>, sec.&nbsp;2]</span>, <span class="math inline">\(X_k\)</span> is generated using <span class="math inline">\(\theta_{k-1}\)</span>, whereas their initial Poisson representation uses <span class="math inline">\(\theta_k\)</span>. Adding and subtracting <span class="math inline">\(g_{\theta_{k-1}}(X_k)\)</span> aligns the parameter with the transition and produces their extra adaptation remainder in <span class="math inline">\(M_n+A_n+R_n\)</span>. The distinction is mainly indexing and adaptation timing, with the same Poisson-equation principle. Controlled SA still has parameter-change remainders when summation by parts compares <span class="math inline">\(\Pthetan g_{\theta_n}\)</span> with <span class="math inline">\(P_{\theta_{n-1}}g_{\theta_{n-1}}\)</span>.</p>
 <p>After multiplication by gains and summation, the last two terms give boundary, gain-variation, and parameter-change remainders by summation by parts. Existence of <span class="math inline">\(g_\theta\)</span>, its growth bounds, and its regularity in <span class="math inline">\(\theta\)</span> are later hypotheses or proof obligations. Invariance alone does not provide these properties or control the remainders.</p>
 <!-- TODO[cite]: Benveniste–Métivier–Priouret and Andrieu–Vihola on the Poisson-equation decomposition for Markovian stochastic approximation. -->
 <!-- TODO[proof]: Establish existence, growth bounds, and parameter regularity of the Poisson solutions used by the eventual convergence theorem. -->
@@ -480,7 +481,7 @@ M_n=\alpha^n M_0
 </section>
 <section id="discussion-point-augmented-state-lifting" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="discussion-point-augmented-state-lifting"><span class="header-section-number">3.4</span> Discussion point: augmented-state lifting</h2>
-<p>The direct argument of <a href="#prp-momentum-field" class="quarto-xref">Proposition&nbsp;3.1</a> already establishes preservation of the entire frozen Robbins–Monro field without enlarging the state. A stronger alternative interpretation is to adjoin the memory state, <span class="math inline">\(Y_n=(X_n,M_n)\)</span>, representing momentum as a controlled Markov stochastic approximation with a lifted kernel <span class="math inline">\(Q_\theta\)</span>. For discussion with Matt and Sam, the potentially reusable question is whether suitable assumptions on the base frozen family <span class="math inline">\(\Ptheta\)</span> can be transferred to <span class="math inline">\(Q_\theta\)</span> strongly enough to invoke existing controlled-Markov SA machinery, through invariant-law, coupling or mixing, Poisson-equation, and parameter-regularity estimates. This possible lifting principle and the required transfer estimates are not pursued here.</p>
+<p>The direct argument of <a href="#prp-momentum-field" class="quarto-xref">Proposition&nbsp;3.1</a> already establishes preservation of the entire frozen Robbins–Monro field without enlarging the state. A stronger alternative interpretation is to adjoin the memory state, <span class="math inline">\(Y_n=(X_n,M_n)\)</span>, representing momentum as a controlled Markov stochastic approximation with a lifted kernel <span class="math inline">\(Q_\theta\)</span>. For discussion, the potentially reusable question is whether suitable assumptions on the base frozen family <span class="math inline">\(\Ptheta\)</span> can be transferred to <span class="math inline">\(Q_\theta\)</span> strongly enough to invoke existing controlled-Markov SA machinery, through invariant-law, coupling or mixing, Poisson-equation, and parameter-regularity estimates. This possible lifting principle and the required transfer estimates are not pursued here.</p>
 </section>
 </section>
 <section id="sec-adam-field" class="level1" data-number="4">
@@ -525,8 +526,8 @@ M_n=\alpha^n M_0
 </section>
 <section id="relation-to-the-iid-adam-field" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="relation-to-the-iid-adam-field"><span class="header-section-number">4.3</span> Relation to the IID Adam field</h2>
-<p><span class="citation" data-cites="Dereich2025_UJMNX8NK">[<a href="#ref-Dereich2025_UJMNX8NK" role="doc-biblioref">1</a>, Definition 1.3]</span> define the corresponding field by averaging the normalised momentum computed from an infinite IID history. Their Lemma 3.1 gives a bounded, <span class="math inline">\(1\)</span>-Lipschitz history map in a specific weighted sequence norm; with their locally <span class="math inline">\(p\)</span>-regular innovation (Definition 1.4), the field is bounded and locally Lipschitz when <span class="math inline">\(\alpha&lt;\sqrt\beta\)</span>. That lemma recalls earlier work by Dereich and Jentzen, rather than proving a new history-map estimate.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<p>For IID innovations, their Theorem 1.5 gives localised finite-horizon ODE tracking under local <span class="math inline">\(p\)</span>-regularity, <span class="math inline">\(p\geq2\)</span>, and positive, non-summable, decreasing gains tending to zero with their step-size regularity condition (10). With <span class="math inline">\(\sum_n\gamma_n^{1+p/3}&lt;\infty\)</span>, Corollary 1.9 gives the APT property on the event of bounded iterates. Corollary 1.10 requires any limit in probability to be a zero of the Adam field. As discussed after Definition 1.4, that field can have different zeros and directions from the ordinary mean field <span class="citation" data-cites="Dereich2025_UJMNX8NK">[<a href="#ref-Dereich2025_UJMNX8NK" role="doc-biblioref">1</a>]</span>. Their Definition 1.1 uses a finite-time second-moment bias correction; the stationary history functional agrees with ours, but the finite recursion differs. Neither their IID theorem nor that agreement proves the controlled-Markov APT result sought here.</p>
+<p><span class="citation" data-cites="Dereich2025_UJMNX8NK">[<a href="#ref-Dereich2025_UJMNX8NK" role="doc-biblioref">2</a>, Definition 1.3]</span> define the corresponding field by averaging the normalised momentum computed from an infinite IID history. Their Lemma 3.1 gives a bounded, <span class="math inline">\(1\)</span>-Lipschitz history map in a specific weighted sequence norm; with their locally <span class="math inline">\(p\)</span>-regular innovation (Definition 1.4), the field is bounded and locally Lipschitz when <span class="math inline">\(\alpha&lt;\sqrt\beta\)</span>. That lemma recalls earlier work by Dereich and Jentzen, rather than proving a new history-map estimate.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>For IID innovations, their Theorem 1.5 gives localised finite-horizon ODE tracking under local <span class="math inline">\(p\)</span>-regularity, <span class="math inline">\(p\geq2\)</span>, and positive, non-summable, decreasing gains tending to zero with their step-size regularity condition (10). With <span class="math inline">\(\sum_n\gamma_n^{1+p/3}&lt;\infty\)</span>, Corollary 1.9 gives the APT property on the event of bounded iterates. Corollary 1.10 requires any limit in probability to be a zero of the Adam field. As discussed after Definition 1.4, that field can have different zeros and directions from the ordinary mean field <span class="citation" data-cites="Dereich2025_UJMNX8NK">[<a href="#ref-Dereich2025_UJMNX8NK" role="doc-biblioref">2</a>]</span>. Their Definition 1.1 uses a finite-time second-moment bias correction; the stationary history functional agrees with ours, but the finite recursion differs. Neither their IID theorem nor that agreement proves the controlled-Markov APT result sought here.</p>
 </section>
 <section id="a-pathwise-bound-on-the-normalised-momentum" class="level2" data-number="4.4">
 <h2 data-number="4.4" class="anchored" data-anchor-id="a-pathwise-bound-on-the-normalised-momentum"><span class="header-section-number">4.4</span> A pathwise bound on the normalised momentum</h2>
@@ -575,13 +576,13 @@ m=(1-\alpha)\sum_{j\geq0}\alpha^jz_j,
 \leq L\norm{\theta-\vartheta},
 \qquad\theta,\vartheta\in\ThetaSet.
 \tag{4.8}\]</span></span></p>
-<p>Here <span class="math inline">\(d_{\mathrm{TV}}(\mu,\nu):=\sup_B\abs{\mu(B)-\nu(B)}\)</span>. This is assumption (A8) of <span class="citation" data-cites="Laitinen2024_G3FDZQA8">[<a href="#ref-Laitinen2024_G3FDZQA8" role="doc-biblioref">3</a>]</span>. In particular,</p>
+<p>Here <span class="math inline">\(d_{\mathrm{TV}}(\mu,\nu):=\sup_B\abs{\mu(B)-\nu(B)}\)</span>. This is assumption (A8) of <span class="citation" data-cites="Laitinen2024_G3FDZQA8">[<a href="#ref-Laitinen2024_G3FDZQA8" role="doc-biblioref">1</a>]</span>. In particular,</p>
 <p><span id="eq-adam-diminishing-adaptation"><span class="math display">\[
 D_n:=\sup_x d_{\mathrm{TV}}\bigl(
 P_{\theta_n}(x,\cdot),P_{\theta_{n-1}}(x,\cdot)\bigr)
 \leq LC_{\alpha,\beta,d}\gamma_n\longrightarrow0.
 \tag{4.9}\]</span></span></p>
-<p>For measurability one may use the deterministic upper bound <span class="math inline">\(\min\{1,LC_{\alpha,\beta,d}\gamma_n\}\)</span> in place of the supremum. This gives their diminishing adaptation (A6), in fact pathwise. Their Lemma 10 implies weak <span class="math inline">\(1\)</span>-waning; here Cesàro averaging also directly gives <span class="math inline">\(n^{-1}\sum_{k=1}^nD_k\to0\)</span> almost surely, their <em>strong <span class="math inline">\(1\)</span>-waning</em> condition (A5). Lemma 16 treats the general SA-sized-increment mechanism <span class="citation" data-cites="Laitinen2024_G3FDZQA8">[<a href="#ref-Laitinen2024_G3FDZQA8" role="doc-biblioref">3</a>]</span>.</p>
+<p>For measurability one may use the deterministic upper bound <span class="math inline">\(\min\{1,LC_{\alpha,\beta,d}\gamma_n\}\)</span> in place of the supremum. This gives their diminishing adaptation (A6), in fact pathwise. Their Lemma 10 implies weak <span class="math inline">\(1\)</span>-waning; here Cesàro averaging also directly gives <span class="math inline">\(n^{-1}\sum_{k=1}^nD_k\to0\)</span> almost surely, their <em>strong <span class="math inline">\(1\)</span>-waning</em> condition (A5). Lemma 16 treats the general SA-sized-increment mechanism <span class="citation" data-cites="Laitinen2024_G3FDZQA8">[<a href="#ref-Laitinen2024_G3FDZQA8" role="doc-biblioref">1</a>]</span>.</p>
 <p>An LLN needs more. Under their adapted controlled-transition setup (A1), the common target, and simultaneous uniform ergodicity (A3),</p>
 <p><span class="math display">\[
 \sup_{\theta\in\ThetaSet}\sup_x
@@ -589,7 +590,7 @@ d_{\mathrm{TV}}\bigl(P_\theta^k(x,\cdot),\pi\bigr)
 \leq C\rho^k,
 \qquad k\geq0,\quad C&lt;\infty,\quad0\leq\rho&lt;1,
 \]</span></p>
-<p>Theorem 9(ii) then gives <span class="math inline">\(n^{-1}\sum_{k=1}^nf(X_k)\to\pi(f)\)</span> almost surely for every fixed bounded measurable <span class="math inline">\(f\)</span> <span class="citation" data-cites="Laitinen2024_G3FDZQA8">[<a href="#ref-Laitinen2024_G3FDZQA8" role="doc-biblioref">3</a>]</span>. Neither common invariance nor diminishing adaptation alone establishes this conclusion. Keeping <span class="math inline">\(\theta_n\)</span> in the admissible set is essential; their Remark 15 discusses stabilisation, which requires specifying the actual algorithm. This sampling-validity conclusion does not require parameter convergence and does not identify its equilibria: it can coexist with nonconvergent adaptation or an Adam equilibrium different from a Robbins–Monro root.</p>
+<p>Theorem 9(ii) then gives <span class="math inline">\(n^{-1}\sum_{k=1}^nf(X_k)\to\pi(f)\)</span> almost surely for every fixed bounded measurable <span class="math inline">\(f\)</span> <span class="citation" data-cites="Laitinen2024_G3FDZQA8">[<a href="#ref-Laitinen2024_G3FDZQA8" role="doc-biblioref">1</a>]</span>. Neither common invariance nor diminishing adaptation alone establishes this conclusion. Keeping <span class="math inline">\(\theta_n\)</span> in the admissible set is essential; their Remark 15 discusses stabilisation, which requires specifying the actual algorithm. This sampling-validity conclusion does not require parameter convergence and does not identify its equilibria: it can coexist with nonconvergent adaptation or an Adam equilibrium different from a Robbins–Monro root.</p>
 </section>
 <section id="covariance-and-robbinsmonro-roots" class="level2" data-number="4.6">
 <h2 data-number="4.6" class="anchored" data-anchor-id="covariance-and-robbinsmonro-roots"><span class="header-section-number">4.6</span> Covariance and Robbins–Monro roots</h2>
@@ -670,14 +671,14 @@ F(\theta^\star)
 <section id="references" class="level1 unnumbered">
 <h1 class="unnumbered">References</h1>
 <div id="refs" class="references csl-bib-body" data-entry-spacing="0" role="list">
+<div id="ref-Laitinen2024_G3FDZQA8" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[1] </div><div class="csl-right-inline">P. Laitinen and M. Vihola. <em>An Invitation to Adaptive Markov Chain Monte Carlo Convergence Theory</em>. 2024. doi: <a href="https://doi.org/10.48550/arXiv.2408.14903">10.48550/arXiv.2408.14903</a>.</div>
+</div>
 <div id="ref-Dereich2025_UJMNX8NK" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[1] </div><div class="csl-right-inline">S. Dereich, A. Jentzen, and S. Kassing. <em>ODE Approximation for the Adam Algorithm: General and Overparametrized Setting</em>. 2025. doi: <a href="https://doi.org/10.48550/arXiv.2511.04622">10.48550/arXiv.2511.04622</a>.</div>
+<div class="csl-left-margin">[2] </div><div class="csl-right-inline">S. Dereich, A. Jentzen, and S. Kassing. <em>ODE Approximation for the Adam Algorithm: General and Overparametrized Setting</em>. 2025. doi: <a href="https://doi.org/10.48550/arXiv.2511.04622">10.48550/arXiv.2511.04622</a>.</div>
 </div>
 <div id="ref-DereichJentzen2024" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[2] </div><div class="csl-right-inline">S. Dereich and A. Jentzen. <em>Convergence Rates for the Adam Optimizer</em>. 2024. doi: <a href="https://doi.org/10.48550/arXiv.2407.21078">10.48550/arXiv.2407.21078</a>.</div>
-</div>
-<div id="ref-Laitinen2024_G3FDZQA8" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[3] </div><div class="csl-right-inline">P. Laitinen and M. Vihola. <em>An Invitation to Adaptive Markov Chain Monte Carlo Convergence Theory</em>. 2024. doi: <a href="https://doi.org/10.48550/arXiv.2408.14903">10.48550/arXiv.2408.14903</a>.</div>
+<div class="csl-left-margin">[3] </div><div class="csl-right-inline">S. Dereich and A. Jentzen. <em>Convergence Rates for the Adam Optimizer</em>. 2024. doi: <a href="https://doi.org/10.48550/arXiv.2407.21078">10.48550/arXiv.2407.21078</a>.</div>
 </div>
 </div>
 </section>
@@ -686,7 +687,7 @@ F(\theta^\star)
 <div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p><span class="citation" data-cites="DereichJentzen2024">[<a href="#ref-DereichJentzen2024" role="doc-biblioref">2</a>]</span>, Lemma 3.1 and equation (148). The former proves the deterministic history-map bound and Lipschitz estimate; the latter bounds the induced field’s parameter variation. These are the results explicitly recalled in Lemma 3.1 of <span class="citation" data-cites="Dereich2025_UJMNX8NK">[<a href="#ref-Dereich2025_UJMNX8NK" role="doc-biblioref">1</a>]</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p><span class="citation" data-cites="DereichJentzen2024">[<a href="#ref-DereichJentzen2024" role="doc-biblioref">3</a>]</span>, Lemma 3.1 and equation (148). The former proves the deterministic history-map bound and Lipschitz estimate; the latter bounds the induced field’s parameter variation. These are the results explicitly recalled in Lemma 3.1 of <span class="citation" data-cites="Dereich2025_UJMNX8NK">[<a href="#ref-Dereich2025_UJMNX8NK" role="doc-biblioref">2</a>]</span>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main>
 <!-- /main column -->

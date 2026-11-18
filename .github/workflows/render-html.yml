@@ -5,11 +5,13 @@ on:
   push:
     branches:
       - main
+      - augemented-space
     paths:
       - ".github/workflows/render-html.yml"
       - "_quarto.yml"
       - "index.qmd"
       - "sections/**"
+      - "appendices/**"
       - "filters/**"
       - "styles/**"
       - "styles.css"

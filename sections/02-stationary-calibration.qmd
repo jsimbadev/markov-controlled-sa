@@ -1,0 +1,136 @@
+# Stationary calibration and the Adam mean field {#sec-stationary-calibration}
+
+## Frozen kernels and probability laws
+
+Let $(\mathsf X,\mathcal A)$ be a standard Borel measurable space and $\Theta\subseteq\mathbb R^d$ a Borel parameter set. For each $\theta\in\Theta$, let $P_\theta$ be a Markov transition kernel on $\mathsf X$, with $(\theta,x)\mapsto P_\theta(x,A)$ measurable for every $A\in\mathcal A$. Let $H:\Theta\times\mathsf X\to\mathbb R^d$ be measurable and write $H_\theta(x)=H(\theta,x)$. Write $\mu(f)=\int f\,d\mu$ when this integral exists. The action of a kernel on a probability measure is
+
+$$
+(\mu P_\theta)(A)=\int_{\mathsf X}P_\theta(x,A)\,\mu(dx),\qquad A\in\mathcal A.
+$$ {#eq-measure-kernel-action}
+
+An invariant probability $\pi_\theta$ satisfies
+
+$$
+\pi_\theta P_\theta=\pi_\theta.
+$$ {#eq-driver-invariance}
+
+Thus one transition preserves the marginal $\pi_\theta$ when the parameter is fixed. In the usual MCMC setting the sampling kernels share a target $\pi_\theta=\pi$, although their transition dependence changes with $\theta$.
+
+::: {#asm-frozen-driver}
+## Frozen driver and innovation moment
+
+For each $\theta\in\Theta$, $P_\theta$ has a unique invariant probability $\pi_\theta$, and
+
+$$
+\pi_\theta(\|H_\theta\|^2)<\infty.
+$$
+:::
+
+All subsequent stationary constructions are pointwise in $\theta$; no regularity of the family of invariant laws is assumed here. Under @asm-frozen-driver, the consistent stationary finite-dimensional laws specified by $\pi_\theta$ and $P_\theta$ extend, by the Kolmogorov extension theorem, to a two-sided stationary Markov chain $(X_k^\theta)_{k\in\mathbb Z}$ on this standard Borel space. Denote its law on $(\mathsf X^\mathbb Z,\mathcal A^{\otimes\mathbb Z})$ by $\mathbb P_\theta^{\mathrm{stat}}$. Its one-time marginal is $\pi_\theta$, and its forward transition conditional on the entire past is $P_\theta$. The marginal $\pi_\theta$ describes one observation; $\mathbb P_\theta^{\mathrm{stat}}$ also describes temporal dependence and is generally not a product law.
+
+The ordinary frozen mean field is
+
+$$
+h(\theta)=\pi_\theta(H_\theta)
+=\mathbb E_{\mathbb P_\theta^{\mathrm{stat}}}[H_\theta(X_0^\theta)].
+$$ {#eq-ordinary-frozen-field}
+
+A Robbins--Monro root $\theta^\star$ satisfies $h(\theta^\star)=0$. For acceptance-rate calibration one may use $H_\theta(x)=a_\theta(x)-a^\star$, where $a_\theta(x)$ is the conditional expected acceptance probability and $a^\star$ is the target rate. If the observed residual instead uses proposals or acceptance indicators, the driving state must include the variables needed to make that observation a function of its current state; the invariant law in @eq-ordinary-frozen-field then refers to that enlarged driver.
+
+## Fixed-gain memories and the stationary field
+
+For context, a controlled recursion generates observations according to
+
+$$
+X_{n+1}\mid\mathcal F_n\sim P_{\theta_n}(X_n,\cdot),
+$$ {#eq-controlled-transition}
+
+with $\theta_n,X_n$ measurable with respect to $\mathcal F_n$. Ordinary Robbins--Monro adaptation takes the form
+
+$$
+\theta_{n+1}=\theta_n+\gamma_{n+1}H_{\theta_n}(X_{n+1}).
+$$ {#eq-rm-update}
+
+Here $(\gamma_n)$ are positive deterministic parameter gains. An Adam-type alternative fixes $0\leq\alpha,\beta<1$ and $\varepsilon>0$ and uses
+
+$$
+\begin{aligned}
+M_{n+1}&=\alpha M_n+(1-\alpha)H_{\theta_n}(X_{n+1}),\\
+V_{n+1}&=\beta V_n+(1-\beta)H_{\theta_n}(X_{n+1})^{\odot2},\\
+\theta_{n+1}&=\theta_n+\gamma_{n+1}
+\frac{M_{n+1}}{\sqrt{V_{n+1}}+\varepsilon}.
+\end{aligned}
+$$ {#eq-adam-recursion}
+
+Initially $M_0\in\mathbb R^d$ and $V_0\in[0,\infty)^d$. Squares, square roots and division are componentwise, and $\varepsilon$ is added in each coordinate. We use uncorrected memories, without finite-time bias factors. The gains $1-\alpha$ and $1-\beta$ remain fixed. The displayed recursions motivate the frozen construction; no tracking assertion is made about their changing-parameter law.
+
+Fix $\theta$ and set $U_k^\theta=H_\theta(X_k^\theta)$. Define the stationary memories at time zero by
+
+$$
+M^\theta=(1-\alpha)\sum_{j=0}^\infty\alpha^j U_{-j}^\theta,\qquad
+V^\theta=(1-\beta)\sum_{j=0}^\infty\beta^j(U_{-j}^\theta)^{\odot2}.
+$$ {#eq-stationary-memories}
+
+For a zero coefficient the corresponding series consists only of its $j=0$ term. These variables are defined under $\mathbb P_\theta^{\mathrm{stat}}$.
+
+::: {#lem-stationary-memories}
+## Integrable stationary memories
+
+Under @asm-frozen-driver, the series in @eq-stationary-memories converge absolutely almost surely and in $L^1$. Moreover, $M^\theta\in L^2$.
+:::
+
+::: {.proof}
+Put $c_1=\pi_\theta(\|H_\theta\|)<\infty$ and $c_2=\pi_\theta(\|H_\theta\|^2)<\infty$. Tonelli's theorem and stationarity give
+
+$$
+\begin{aligned}
+\mathbb E\left[(1-\alpha)\sum_{j\geq0}\alpha^j\|U_{-j}^\theta\|\right]&=c_1,\\
+\mathbb E\left[(1-\beta)\sum_{j\geq0}\beta^j\|U_{-j}^\theta\|^2\right]&=c_2.
+\end{aligned}
+$$
+
+Both nonnegative series are therefore finite almost surely. Since $\|u^{\odot2}\|\leq\|u\|^2$, the expected norm tails after $j=J$ are at most $c_1\alpha^{J+1}$ and $c_2\beta^{J+1}$, respectively. This also proves $L^1$ convergence. Jensen's inequality for the weights $(1-\alpha)\alpha^j$, whose sum is one, yields
+
+$$
+\|M^\theta\|^2\leq(1-\alpha)\sum_{j\geq0}\alpha^j\|U_{-j}^\theta\|^2.
+$$
+
+Its expectation is at most $c_2$, proving the final assertion.
+:::
+
+The stationary Adam field is
+
+$$
+F(\theta)
+=\mathbb E_{\mathbb P_\theta^{\mathrm{stat}}}
+\left[\frac{M^\theta}{\sqrt{V^\theta}+\varepsilon}\right].
+$$ {#eq-adam-field}
+
+It is finite because $\|M^\theta/(\sqrt{V^\theta}+\varepsilon)\|\leq\|M^\theta\|/\varepsilon$. This expectation is under the stationary frozen Markov path law, not the nonstationary law of @eq-controlled-transition--@eq-adam-recursion. For the IID kernel $P_\theta(x,\cdot)=\pi_\theta(\cdot)$ it reduces to the history field of [@Dereich2025_UJMNX8NK, Definition 1.3]. Neither the field's existence nor the memory construction requires the additional restriction $\alpha^2<\beta$ used in their ODE theorem.
+
+## Calibration under linear and nonlinear memory
+
+Linear EMA momentum preserves the ordinary field. By the absolute integrability just proved, expectation and summation can be interchanged:
+
+$$
+\mathbb E_{\mathbb P_\theta^{\mathrm{stat}}}[M^\theta]
+=(1-\alpha)\sum_{j\geq0}\alpha^j\mathbb E[U_{-j}^\theta]
+=h(\theta).
+$$ {#eq-momentum-preservation}
+
+No independence is used. Adam instead multiplies each momentum coordinate by $W_i^\theta=(\sqrt{V_i^\theta}+\varepsilon)^{-1}$. Since $0<W_i^\theta\leq\varepsilon^{-1}$ and $M_i^\theta\in L^2$, the covariance below is well defined. Expanding its definition gives
+
+$$
+F_i(\theta)=h_i(\theta)\,\mathbb E[W_i^\theta]
++\operatorname{Cov}_{\mathbb P_\theta^{\mathrm{stat}}}(M_i^\theta,W_i^\theta).
+$$ {#eq-covariance-decomposition}
+
+Consequently, at an ordinary root,
+
+$$
+F_i(\theta^\star)
+=\operatorname{Cov}_{\mathbb P_{\theta^\star}^{\mathrm{stat}}}
+(M_i^{\theta^\star},W_i^{\theta^\star}).
+$$ {#eq-covariance-at-root}
+
+Thus an ordinary root is also an Adam root exactly when these componentwise covariances vanish. The identity isolates the calibration issue: centring the innovation centres the first memory, but does not by itself centre the normalised readout. It does not prove that any covariance is nonzero, locate an Adam equilibrium, or demonstrate root displacement for a particular Metropolis--Hastings model. Its role here is to motivate identifying the joint stationary memory law.

@@ -1,8 +1,11 @@
-# Controlled Markov stochastic approximation research note
+# Stationary calibration and Markov augmentation for Adam-type adaptive MCMC
 
-Quarto is the canonical source. `index.qmd` assembles nine section files into
-one article with linked HTML and an understated LuaLaTeX PDF. Authoring
-patterns are documented here rather than included in the manuscript.
+Quarto is the canonical source. `index.qmd` assembles the stationary Adam
+analysis, Markov iterated-function-system proof, augmented Wasserstein lifting,
+parameter perturbation, and Poisson sections, followed by a measure-level
+appendix. The manuscript was reconstructed from the current local PDF draft;
+the source remains editable Quarto with linked HTML and a LuaLaTeX PDF.
+Authoring patterns are documented here rather than included in the manuscript.
 
 ## Requirements and setup
 
@@ -49,9 +52,9 @@ Zotero plus [Better BibTeX](https://retorque.re/zotero-better-bibtex/) is option
 for bibliography management on your desktop; builds use the committed
 `references.bib`.
 
-Replace the bracketed author and affiliation in `index.qmd`. Start drafting in
-`sections/03-momentum.qmd` and `sections/04-adam-field.qmd` to settle the notation.
-No details for real publications have been invented.
+The manuscript metadata and bibliography are already populated. Edit the
+included section files to revise the mathematical statements and proofs;
+keep the bibliography keys aligned with `references.bib`.
 
 ### Docker (optional)
 
@@ -311,7 +314,8 @@ Dockerfile                  Quarto, Python, Make, and LuaLaTeX toolchain
 compose.yaml                mounted workspace and local preview port
 Makefile                    native or Docker preview, builds, checks, and cleanup
 index.qmd                   metadata, ordered section includes, References
-sections/01-…09-*.qmd        nine modular research sections
+sections/*.qmd             seven sections of the current manuscript
+appendices/*.qmd           measure-level MIFS stationarity proof
 macros.tex                  canonical semantic mathematical macros
 mathjax-macros.html          generated HTML macro configuration
 references.bib              Zotero-owned, version-controlled bibliography

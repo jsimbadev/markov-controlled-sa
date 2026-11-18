@@ -4,7 +4,7 @@ The contraction theorem is stated for each frozen parameter, with constants unif
 
 ## One-step kernel regularity
 
-For $f:\mathsf Z\to\mathbb R$ and $z=(x,u)$, write
+For $f:\mathsf Z\to\mathbb{R}$ and $z=(x,u)$, write
 
 $$
 f_{\theta,u}(y)=f(y,T_\theta(y,u)).
@@ -152,7 +152,7 @@ Uniform drift constants in @eq-augmented-drift, together with suitable moment co
 
 ## Regularity of the stationary Adam field
 
-Suppose $G_\theta:\mathsf Z\to\mathbb R^d$ has a uniform Lipschitz seminorm and satisfies
+Suppose $G_\theta:\mathsf Z\to\mathbb{R}^d$ has a uniform Lipschitz seminorm and satisfies
 
 $$
 \|G_\theta(z)-G_\vartheta(z)\|

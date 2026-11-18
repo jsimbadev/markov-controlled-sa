@@ -27,11 +27,11 @@ $$ {#eq-appendix-backward-increment}
 Here $\kappa^0=1$, also when $\kappa=0$. Stationarity of the reverse chain gives
 
 $$
-\mathbb E\sum_{n\geq0}\kappa^n b(\widehat X_n)
+\mathbb{E}\sum_{n\geq0}\kappa^n b(\widehat X_n)
 =\frac{B}{1-\kappa}<\infty.
 $$
 
-Thus the iterates are Cauchy almost surely; completeness of $\mathsf Y$ gives $B_\infty$, with $\mathbb E\|B_\infty\|\leq B/(1-\kappa)$. Summing the tail gives $\mathbb E\|B_\infty-B_n^{u_0}\|\leq\kappa^nB/(1-\kappa)$. For another deterministic $u$, $\|B_n^u-B_n^{u_0}\|\leq\kappa^n\|u\|$, proving Part 1 of @prp-fuh-stationarity. In particular, the limiting random variable, not only its law, is independent of $u$.
+Thus the iterates are Cauchy almost surely; completeness of $\mathsf Y$ gives $B_\infty$, with $\mathbb{E}\|B_\infty\|\leq B/(1-\kappa)$. Summing the tail gives $\mathbb{E}\|B_\infty-B_n^{u_0}\|\leq\kappa^nB/(1-\kappa)$. For another deterministic $u$, $\|B_n^u-B_n^{u_0}\|\leq\kappa^n\|u\|$, proving Part 1 of @prp-fuh-stationarity. In particular, the limiting random variable, not only its law, is independent of $u$.
 
 Let $\mathcal L$ be the class of measurable real functions $f(x,u)$ with $|f|\leq1$ and
 
@@ -52,7 +52,7 @@ Set $\mu_n=(\pi\otimes\delta_{u_0})Q^n$ and $\nu=\operatorname{Law}(\widehat X_0
 
 $$
 \sup_{f\in\mathcal L}|\mu_n(f)-\nu(f)|
-\leq\mathbb E\|B_n^{u_0}-B_\infty\|
+\leq\mathbb{E}\|B_n^{u_0}-B_\infty\|
 \leq\frac{B\kappa^n}{1-\kappa}.
 $$ {#eq-backward-invariant-limit}
 
@@ -61,7 +61,7 @@ Since $\mu_nQ=\mu_{n+1}$ and $Qf\in\mathcal L$, both $\mu_n(Qf)\to\nu(Qf)$ and $
 For a stationary driver and an arbitrary finite initial memory $U$, generate its future from $P(X_0,\cdot)$ and run a second memory from $u_0$ along the same observations. Their distance at time $n$ is at most $\kappa^n\|U\|$. Thus for every $f\in\mathcal L$ their expectation difference is bounded by
 
 $$
-\mathbb E\min\{2,\kappa^n\|U\|\}\longrightarrow0.
+\mathbb{E}\min\{2,\kappa^n\|U\|\}\longrightarrow0.
 $$ {#eq-arbitrary-memory-initialisation}
 
 No independence or moment assumption on $U$ is used. If $\eta$ is any invariant law of $Q$, its driving marginal is invariant for $P$, by testing against functions of $x$ alone; uniqueness of $\pi$ therefore identifies that marginal with $\pi$. Apply @eq-arbitrary-memory-initialisation from initial law $\eta$ and compare with $\mu_n$. Invariance and @eq-backward-invariant-limit imply $\eta(f)=\nu(f)$ for all $f\in\mathcal L$, so $\eta=\nu$.
@@ -73,12 +73,12 @@ Finally, choose a bounded complete compatible metric $d_X$ for the Polish topolo
 Assume @asm-weighted-driver and start at $(x,u)$. Write $b\leq Kw$. The weighted estimate gives $P^tw(x)\leq\pi(w)+Cw(x)$ for every $t\geq0$. Iterating $\|Y_{t+1}\|\leq\kappa\|Y_t\|+b(X_{t+1})$ therefore yields
 
 $$
-\mathbb E_{x,u}\|Y_t\|
+\mathbb{E}_{x,u}\|Y_t\|
 \leq\kappa^t\|u\|+
 \frac{K[\pi(w)+Cw(x)]}{1-\kappa}.
 $$ {#eq-mifs-memory-bound}
 
-For $1\leq L\leq n$, replace $Y_{n-L}$ by $u_0$ and run the same last $L$ observations, obtaining $Y_n^{[L]}$. The error in $\mathcal L$ tests is at most $\kappa^L\mathbb E_{x,u}\|Y_{n-L}\|$. The distribution of the remaining length-$L$ driving block is a Markov-kernel image of $P^{n-L}(x,\cdot)$. Comparing that starting law with $\pi$ costs at most $C\rho^{n-L}w(x)$ for tests bounded by one, by @eq-weighted-driver and $w\geq1$. With this replacement the terminal law is $\mu_L$, whose distance from $\nu$ on $\mathcal L$ is bounded in @eq-backward-invariant-limit. Combining these three comparisons,
+For $1\leq L\leq n$, replace $Y_{n-L}$ by $u_0$ and run the same last $L$ observations, obtaining $Y_n^{[L]}$. The error in $\mathcal L$ tests is at most $\kappa^L\mathbb{E}_{x,u}\|Y_{n-L}\|$. The distribution of the remaining length-$L$ driving block is a Markov-kernel image of $P^{n-L}(x,\cdot)$. Comparing that starting law with $\pi$ costs at most $C\rho^{n-L}w(x)$ for tests bounded by one, by @eq-weighted-driver and $w\geq1$. With this replacement the terminal law is $\mu_L$, whose distance from $\nu$ on $\mathcal L$ is bounded in @eq-backward-invariant-limit. Combining these three comparisons,
 
 $$
 \begin{aligned}
@@ -96,6 +96,6 @@ Choosing $L=\lfloor n/2\rfloor$ for $n\geq2$ proves convergence from each $(x,u)
 
 The dependencies are the joint MIFS augmentation in [@Fuh2021, equation (2.1)], stationary forward/reverse duality, and the uniformly contractive backward estimate in [@Fuh2021, equation (2.9) and Lemma 5]. The preceding proof supplies the limit-to-invariance, uniqueness and initial-state comparisons explicitly; none is inferred solely from contraction of memory.
 
-For $\kappa>0$ the negative logarithmic drift is $\log\kappa<0$. The printed condition in [@Fuh2021, equation (2.25)] has $\mathbb E\log^+L_1<0$, which is impossible with nonnegative $\log^+$. The condition in [@Fuh2021, equation (2.23)] and the surrounding negative-drift discussion use $\mathbb E\log L_1$. Our explicit bound @eq-appendix-backward-increment avoids relying on a correction to that printed condition.
+For $\kappa>0$ the negative logarithmic drift is $\log\kappa<0$. The printed condition in [@Fuh2021, equation (2.25)] has $\mathbb{E}\log^+L_1<0$, which is impossible with nonnegative $\log^+$. The condition in [@Fuh2021, equation (2.23)] and the surrounding negative-drift discussion use $\mathbb{E}\log L_1$. Our explicit bound @eq-appendix-backward-increment avoids relying on a correction to that printed condition.
 
 In particular, we have reconstructed the stationary-driver convergence and uniqueness mechanism in [@Fuh2021, Theorem 1(c)--(d)], and its uniformly contractive backward estimates. Passing from a stationary driver to an arbitrary driving state uses @eq-mifs-memory-bound and @eq-mifs-block-bound, not stationary time reversal alone. This gives the forward convergence relevant to the initialisations in [@Fuh2021, Theorems 2(b) and 3(b)], without claiming their general Prokhorov rates or any general-state-space extension for merely mean-contractive maps.

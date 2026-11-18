@@ -34,10 +34,10 @@ Fix a parameter region $\mathsf K\subseteq\Theta$. The constants below may depen
 ::: {#asm-driver-coupling}
 ## Geometrically contracting driver coupling
 
-For every $\theta\in\mathsf K$ there is a Markovian coupling of two $P_\theta$-chains, with joint law denoted by $\mathbb P^\theta_{x,y}$, such that for every $n\geq0$ and $x,y\in\mathsf X$,
+For every $\theta\in\mathsf K$ there is a Markovian coupling of two $P_\theta$-chains, with joint law denoted by $\mathbb{P}^\theta_{x,y}$, such that for every $n\geq0$ and $x,y\in\mathsf X$,
 
 $$
-\mathbb E^\theta_{x,y}d_X(X_n,\widetilde X_n)
+\mathbb{E}^\theta_{x,y}d_X(X_n,\widetilde X_n)
 \leq C_P\rho_P^n d_X(x,y),
 \qquad C_P<\infty,\quad 0<\rho_P<1.
 $$ {#eq-driver-trajectory-coupling}
@@ -80,19 +80,19 @@ $$ {#eq-invariant-wasserstein-rate}
 :::
 
 ::: {.proof}
-Fix $\theta$. Couple two driving paths according to @asm-driver-coupling, and evolve the corresponding memories using those paths. Put $e_n=\mathbb E^\theta_{x,y}d_Y(U_n,\widetilde U_n)$. By @eq-memory-joint-lipschitz and induction,
+Fix $\theta$. Couple two driving paths according to @asm-driver-coupling, and evolve the corresponding memories using those paths. Put $e_n=\mathbb{E}^\theta_{x,y}d_Y(U_n,\widetilde U_n)$. By @eq-memory-joint-lipschitz and induction,
 
 $$
 e_n\leq r^n d_Y(u,v)
 +L_T\sum_{j=1}^n r^{n-j}
-\mathbb E^\theta_{x,y}d_X(X_j,\widetilde X_j).
+\mathbb{E}^\theta_{x,y}d_X(X_j,\widetilde X_j).
 $$
 
 Together with @eq-driver-trajectory-coupling this gives
 
 $$
 \begin{aligned}
-\mathbb E^\theta_{x,y}d_Z(Z_n,\widetilde Z_n)
+\mathbb{E}^\theta_{x,y}d_Z(Z_n,\widetilde Z_n)
 \leq {}& C_P\rho_P^n d_X(x,y)+r^n d_Y(u,v)\\
 &+L_TC_P\sum_{j=1}^n r^{n-j}\rho_P^j d_X(x,y).
 \end{aligned}

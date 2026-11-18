@@ -2,7 +2,7 @@
 
 ## The frozen augmented kernel
 
-Fix $\theta$. Let $\mathsf Y=\mathbb R^d\times[0,\infty)^d$ be the memory space, with its Euclidean product norm, and let $\mathsf Z=\mathsf X\times\mathsf Y$ carry the product sigma-algebra. Define
+Fix $\theta$. Let $\mathsf Y=\mathbb{R}^d\times[0,\infty)^d$ be the memory space, with its Euclidean product norm, and let $\mathsf Z=\mathsf X\times\mathsf Y$ carry the product sigma-algebra. Define
 
 $$
 T_\theta(x',m,v)=
@@ -121,7 +121,7 @@ Fix $\theta$, $0\leq\alpha,\beta<1$, and suppose @asm-frozen-driver holds.
 1. The backward iterates in @eq-backward-memory converge almost surely and in $L^1$ to a limit $B_\infty$, independent of the deterministic initial memory $u$. Moreover,
 
    $$
-   \mathbb E\|B_\infty-B_n^u\|
+   \mathbb{E}\|B_\infty-B_n^u\|
    \leq\kappa^n\left(\|u\|+\frac{B_\theta}{1-\kappa}\right).
    $$ {#eq-backward-rate}
 
@@ -143,7 +143,7 @@ Under Parts 1--2 of @prp-fuh-stationarity,
 
 $$
 \nu_\theta=
-\operatorname{Law}_{\mathbb P_\theta^{\mathrm{stat}}}
+\operatorname{Law}_{\mathbb{P}_\theta^{\mathrm{stat}}}
 (X_0^\theta,M^\theta,V^\theta),
 $$ {#eq-stationary-joint-law}
 

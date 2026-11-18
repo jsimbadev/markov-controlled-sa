@@ -121,7 +121,7 @@ $$
 =u_{\theta_n}(Z_{n+1})-Q_{\theta_n}u_{\theta_n}(Z_n).
 $$ {#eq-poisson-martingale-increment}
 
-Then $\mathbb E[\Delta M_{n+1}\mid\mathcal F_n]=0$. Put $\phi_\theta=Q_\theta u_\theta$. Evaluating @eq-augmented-poisson at $Z_{n+1}$ and adding and subtracting $\phi_{\theta_n}(Z_n)$ gives
+Then $\mathbb{E}[\Delta M_{n+1}\mid\mathcal F_n]=0$. Put $\phi_\theta=Q_\theta u_\theta$. Evaluating @eq-augmented-poisson at $Z_{n+1}$ and adding and subtracting $\phi_{\theta_n}(Z_n)$ gives
 
 $$
 G_{\theta_n}(Z_{n+1})-F(\theta_n)

@@ -1,9 +1,10 @@
 # Stationary calibration and Markov augmentation for Adam-type adaptive MCMC
 
 Quarto is the canonical source. `index.qmd` assembles the stationary Adam
-analysis, Markov iterated-function-system proof, augmented Wasserstein lifting,
-parameter perturbation, and Poisson sections, followed by a measure-level
-appendix. The manuscript was reconstructed from the current local PDF draft;
+analysis, finite-dimensional Markov augmentation, augmented Wasserstein lifting,
+parameter perturbation, and Poisson sections. Fuh's iterated-function-system
+results are cited as motivation for relaxing assumptions, not reproduced.
+The manuscript was reconstructed from the supplied PDF draft;
 the source remains editable Quarto with linked HTML and a LuaLaTeX PDF.
 Authoring patterns are documented here rather than included in the manuscript.
 
@@ -315,7 +316,6 @@ compose.yaml                mounted workspace and local preview port
 Makefile                    native or Docker preview, builds, checks, and cleanup
 index.qmd                   metadata, ordered section includes, References
 sections/*.qmd             seven sections of the current manuscript
-appendices/*.qmd           measure-level MIFS stationarity proof
 macros.tex                  canonical semantic mathematical macros
 mathjax-macros.html          generated HTML macro configuration
 references.bib              Zotero-owned, version-controlled bibliography

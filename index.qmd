@@ -33,8 +33,6 @@ abstract: |
 
 {{< include sections/07-discussion-augmented.qmd >}}
 
-{{< include appendices/appendix-a-mifs.qmd >}}
-
 # References {.unnumbered}
 
 ::: {#refs}

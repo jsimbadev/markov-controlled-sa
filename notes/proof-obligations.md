@@ -6,7 +6,7 @@ This file is an internal check of mathematical scope. A manuscript proof is not 
 
 - [x] Stationary EMA memories from a finite second innovation moment: Section 2, Lemma 2.1.
 - [x] Momentum preservation and covariance identity at Robbins--Monro roots: Section 2.
-- [x] Joint MIFS invariant law and weak convergence under frozen assumptions: Section 3 and Appendix A, measure-level adaptation of Fuh.
+- [x] Stationary augmented-law identification and uniqueness under frozen assumptions: Section 3, by a stationary path construction and synchronous memory contraction.
 - [x] Lift a geometrically contracting driver trajectory coupling through a contractive memory: Section 4.
 - [x] Invariant law in \(\mathcal P_1\) and geometric Wasserstein convergence: Section 4, Banach argument.
 - [x] One-step parameter perturbation for the augmented kernel: Section 5.
@@ -19,7 +19,7 @@ This file is an internal check of mathematical scope. A manuscript proof is not 
 - Hofstadler (2026), Theorem 3.4: frozen centred Lipschitz Poisson solution and regularity under Wasserstein contraction and eccentricity.
 - Carè et al. (2026; arXiv:1906.09464): parameter-dependent Poisson regularity in weighted sup-norm spaces.
 - Andrieu--Moulines (2006): weighted MCMC drift and ergodicity results.
-- Fuh (2021): Markovian iterated-function-system stationarity and convergence.
+- Fuh (2021): Markovian iterated-function-system theory; cited as motivation for relaxing uniform contraction and regularity assumptions, not as a proof invoked in this manuscript.
 
 ## APPLICATION-SPECIFIC VERIFICATION
 

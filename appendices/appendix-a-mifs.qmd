@@ -1,0 +1,101 @@
+# Appendix A. Measure-level proof for uniformly contractive MIFS {#sec-appendix-fuh .unnumbered}
+
+Fix $\theta$ and suppress its subscript on $P,\pi,Q,b,B$. Write $T_x=T_\theta(x,\cdot)$, $u_0=(0,0)$ and $Y_n=(M_n,V_n)$. The proof follows the backward-contraction and time-reversal steps in [@Fuh2021, equation (2.9), Lemma 5 and the proof of Theorem 1]. The finite stationary-path identity replaces the density-based construction in [@Fuh2021, equations (2.3)--(2.7)].
+
+## Stationary path duality
+
+Disintegrate $\pi(dx)P(x,dy)$ with respect to its second marginal $\pi(dy)$. This gives a measurable probability kernel $P^\ast$ on the standard Borel space. Both $P$ and $P^\ast$ preserve $\pi$. In a stationary forward Markov chain, the past and future are conditionally independent given the present: for products of bounded functions of finitely many past and future states this follows by conditioning the forward Markov factorisation at the separating time; a monotone-class argument extends it to their sigma-algebras. The conditional law of the preceding state given the present is $P^\ast$ by disintegration. Successive conditioning therefore yields @eq-path-reversal for every $n$.
+
+In particular, the stationary block $(X_1,\ldots,X_n)$ has the same law as $(\widehat X_{n-1},\ldots,\widehat X_0)$. Applying the measurable map
+
+$$
+(x_1,\ldots,x_n)\longmapsto
+\bigl(x_n,T_{x_n}\circ\cdots\circ T_{x_1}(u)\bigr)
+$$
+
+gives @eq-forward-backward-duality. This argument neither assumes transition densities nor reverses a nonstationary path. In the Metropolis--Hastings case, detailed balance supplies $P^\ast=P$ directly. If rejection occurs at uncountably many states, no common sigma-finite dominating measure exists: each of its finite-measure covering sets has only finitely many singletons of mass at least $1/k$, for each $k\geq1$.
+
+## Backward contraction and the invariant law
+
+By the contraction calculation, for every $n\geq0$,
+
+$$
+\|B_{n+1}^{u_0}-B_n^{u_0}\|
+\leq\kappa^n b(\widehat X_n).
+$$ {#eq-appendix-backward-increment}
+
+Here $\kappa^0=1$, also when $\kappa=0$. Stationarity of the reverse chain gives
+
+$$
+\mathbb E\sum_{n\geq0}\kappa^n b(\widehat X_n)
+=\frac{B}{1-\kappa}<\infty.
+$$
+
+Thus the iterates are Cauchy almost surely; completeness of $\mathsf Y$ gives $B_\infty$, with $\mathbb E\|B_\infty\|\leq B/(1-\kappa)$. Summing the tail gives $\mathbb E\|B_\infty-B_n^{u_0}\|\leq\kappa^nB/(1-\kappa)$. For another deterministic $u$, $\|B_n^u-B_n^{u_0}\|\leq\kappa^n\|u\|$, proving Part 1 of @prp-fuh-stationarity. In particular, the limiting random variable, not only its law, is independent of $u$.
+
+Let $\mathcal L$ be the class of measurable real functions $f(x,u)$ with $|f|\leq1$ and
+
+$$
+|f(x,u)-f(x,v)|\leq\|u-v\|
+\quad\text{for every }x,u,v.
+$$ {#eq-memory-test-class}
+
+Scaled functions of the form $\mathbf1_{\{x\in A\}}\ell(u)$ with bounded Lipschitz $\ell$ belong to this class. Such products determine joint probability laws: Lipschitz functions determine measures on $\mathsf Y$, and rectangles generate the product sigma-algebra. Moreover $|Qf|\leq1$ and
+
+$$
+|Qf(x,u)-Qf(x,v)|\leq\kappa\|u-v\|,
+$$
+
+so $Qf\in\mathcal L$ whenever $f\in\mathcal L$.
+
+Set $\mu_n=(\pi\otimes\delta_{u_0})Q^n$ and $\nu=\operatorname{Law}(\widehat X_0,B_\infty)$. By joint duality, for $n\geq1$,
+
+$$
+\sup_{f\in\mathcal L}|\mu_n(f)-\nu(f)|
+\leq\mathbb E\|B_n^{u_0}-B_\infty\|
+\leq\frac{B\kappa^n}{1-\kappa}.
+$$ {#eq-backward-invariant-limit}
+
+Since $\mu_nQ=\mu_{n+1}$ and $Qf\in\mathcal L$, both $\mu_n(Qf)\to\nu(Qf)$ and $\mu_{n+1}(f)\to\nu(f)$. Hence $\nu Q=\nu$ on a measure-determining class, proving invariance. Its driving marginal is $\pi$ by construction. This limit passage requires no Feller property of the augmented kernel.
+
+For a stationary driver and an arbitrary finite initial memory $U$, generate its future from $P(X_0,\cdot)$ and run a second memory from $u_0$ along the same observations. Their distance at time $n$ is at most $\kappa^n\|U\|$. Thus for every $f\in\mathcal L$ their expectation difference is bounded by
+
+$$
+\mathbb E\min\{2,\kappa^n\|U\|\}\longrightarrow0.
+$$ {#eq-arbitrary-memory-initialisation}
+
+No independence or moment assumption on $U$ is used. If $\eta$ is any invariant law of $Q$, its driving marginal is invariant for $P$, by testing against functions of $x$ alone; uniqueness of $\pi$ therefore identifies that marginal with $\pi$. Apply @eq-arbitrary-memory-initialisation from initial law $\eta$ and compare with $\mu_n$. Invariance and @eq-backward-invariant-limit imply $\eta(f)=\nu(f)$ for all $f\in\mathcal L$, so $\eta=\nu$.
+
+Finally, choose a bounded complete compatible metric $d_X$ for the Polish topology specified in the proposition and the product metric $d_X(x,x')+\|u-u'\|$. Every real function bounded by one and Lipschitz with constant one for this metric belongs to $\mathcal L$. Convergence against this bounded-Lipschitz class implies weak convergence on the Polish product space. This proves Part 2.
+
+## Nonstationary initial driving laws
+
+Assume @asm-weighted-driver and start at $(x,u)$. Write $b\leq Kw$. The weighted estimate gives $P^tw(x)\leq\pi(w)+Cw(x)$ for every $t\geq0$. Iterating $\|Y_{t+1}\|\leq\kappa\|Y_t\|+b(X_{t+1})$ therefore yields
+
+$$
+\mathbb E_{x,u}\|Y_t\|
+\leq\kappa^t\|u\|+
+\frac{K[\pi(w)+Cw(x)]}{1-\kappa}.
+$$ {#eq-mifs-memory-bound}
+
+For $1\leq L\leq n$, replace $Y_{n-L}$ by $u_0$ and run the same last $L$ observations, obtaining $Y_n^{[L]}$. The error in $\mathcal L$ tests is at most $\kappa^L\mathbb E_{x,u}\|Y_{n-L}\|$. The distribution of the remaining length-$L$ driving block is a Markov-kernel image of $P^{n-L}(x,\cdot)$. Comparing that starting law with $\pi$ costs at most $C\rho^{n-L}w(x)$ for tests bounded by one, by @eq-weighted-driver and $w\geq1$. With this replacement the terminal law is $\mu_L$, whose distance from $\nu$ on $\mathcal L$ is bounded in @eq-backward-invariant-limit. Combining these three comparisons,
+
+$$
+\begin{aligned}
+\sup_{f\in\mathcal L}|Q^nf(x,u)-\nu(f)|
+\leq{}&\kappa^n\|u\|\\
+&+\frac{\kappa^L}{1-\kappa}
+\bigl\{K[\pi(w)+Cw(x)]+B\bigr\}\\
+&+C\rho^{n-L}w(x).
+\end{aligned}
+$$ {#eq-mifs-block-bound}
+
+Choosing $L=\lfloor n/2\rfloor$ for $n\geq2$ proves convergence from each $(x,u)$ and hence weak convergence. For an arbitrary initial probability $\eta$, integrate the minimum of $2$ and the right-hand side of @eq-mifs-block-bound. That integrand tends to zero at every $(x,u)$, since $w(x)$ and $u$ are finite. Dominated convergence gives the same conclusion without an initial moment assumption. If $\eta(w+\|u\|)<\infty$, the displayed bound can instead be integrated directly to retain its rate. This proves Part 3.
+
+## Scope of the reconstruction
+
+The dependencies are the joint MIFS augmentation in [@Fuh2021, equation (2.1)], stationary forward/reverse duality, and the uniformly contractive backward estimate in [@Fuh2021, equation (2.9) and Lemma 5]. The preceding proof supplies the limit-to-invariance, uniqueness and initial-state comparisons explicitly; none is inferred solely from contraction of memory.
+
+For $\kappa>0$ the negative logarithmic drift is $\log\kappa<0$. The printed condition in [@Fuh2021, equation (2.25)] has $\mathbb E\log^+L_1<0$, which is impossible with nonnegative $\log^+$. The condition in [@Fuh2021, equation (2.23)] and the surrounding negative-drift discussion use $\mathbb E\log L_1$. Our explicit bound @eq-appendix-backward-increment avoids relying on a correction to that printed condition.
+
+In particular, we have reconstructed the stationary-driver convergence and uniqueness mechanism in [@Fuh2021, Theorem 1(c)--(d)], and its uniformly contractive backward estimates. Passing from a stationary driver to an arbitrary driving state uses @eq-mifs-memory-bound and @eq-mifs-block-bound, not stationary time reversal alone. This gives the forward convergence relevant to the initialisations in [@Fuh2021, Theorems 2(b) and 3(b)], without claiming their general Prokhorov rates or any general-state-space extension for merely mean-contractive maps.

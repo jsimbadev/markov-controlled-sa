@@ -26,7 +26,7 @@ $$
 $$
 :::
 
-All subsequent stationary constructions are pointwise in $\theta$; no regularity of the family of invariant laws is assumed here. Under @asm-frozen-driver, the consistent stationary finite-dimensional laws specified by $\pi_\theta$ and $P_\theta$ extend, by the Kolmogorov extension theorem, to a two-sided stationary Markov chain $(X_k^\theta)_{k\in\mathbb{Z}}$ on this standard Borel space. Denote its law on $(\mathsf X^\mathbb{Z},\mathcal A^{\otimes\mathbb{Z}})$ by $\mathbb{P}_\theta^{\mathrm{stat}}$. Its one-time marginal is $\pi_\theta$, and its forward transition conditional on the entire past is $P_\theta$. The marginal $\pi_\theta$ describes one observation; $\mathbb{P}_\theta^{\mathrm{stat}}$ also describes temporal dependence and is generally not a product law.
+All subsequent stationary constructions are pointwise in $\theta$; no regularity of the family of invariant laws is assumed here. Under @asm-frozen-driver, the consistent stationary finite-dimensional laws specified by $\pi_\theta$ and $P_\theta$ extend, by the Kolmogorov extension theorem, to a two-sided stationary Markov chain $(X_k^\theta)_{k\in\mathbb{Z}}$ on this standard Borel space. Denote its law on $(\mathsf{X}^{\mathbb{Z}},\mathcal A^{\otimes\mathbb{Z}})$ by $\mathbb{P}_\theta^{\mathrm{stat}}$. Its one-time marginal is $\pi_\theta$, and its forward transition conditional on the entire past is $P_\theta$. The marginal $\pi_\theta$ describes one observation; $\mathbb{P}_\theta^{\mathrm{stat}}$ also describes temporal dependence and is generally not a product law.
 
 The ordinary frozen mean field is
 

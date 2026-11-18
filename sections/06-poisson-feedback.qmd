@@ -1,0 +1,155 @@
+# Poisson equations and changing parameters {#sec-poisson-feedback}
+
+The frozen augmented process has a stationary law $\nu_\theta$ and, under @thm-wasserstein-lifting, geometric Wasserstein contraction. For the controlled recursion, the remaining question is whether the centred observation can be accumulated along a path on which $\theta$ changes. We work with Lipschitz functions throughout; no weighted total-variation convergence of the augmented process is assumed.
+
+## Frozen Poisson equation on the Lipschitz space
+
+For a scalar observable $G_\theta\in\operatorname{Lip}(\mathsf Z,d_Z)$, put
+
+$$
+F(\theta)=\nu_\theta(G_\theta),\qquad
+\bar G_\theta=G_\theta-F(\theta).
+$$ {#eq-centred-adam-observable}
+
+Vector-valued observables are handled coordinatewise. Consider the frozen Poisson equation
+
+$$
+u_\theta-Q_\theta u_\theta=\bar G_\theta.
+$$ {#eq-augmented-poisson}
+
+Under geometric Wasserstein contraction, finite first eccentricity and the corresponding first-moment conditions, [@Hofstadler2026, Theorem 3.4] applies to this centred Lipschitz observable. In particular, a solution is given by
+
+$$
+u_\theta(z)=\sum_{n=0}^\infty Q_\theta^n\bar G_\theta(z),
+$$ {#eq-poisson-series}
+
+with $\nu_\theta(u_\theta)=0$ and
+
+$$
+\|u_\theta\|_{\operatorname{Lip}(d_Z)}
+\leq\Lambda_\theta\|G_\theta\|_{\operatorname{Lip}(d_Z)},
+\qquad
+\Lambda_\theta:=\sum_{n=0}^\infty\tau_{d_Z}(Q_\theta^n)
+\leq\frac{C_Z(\eta)}{1-\eta}.
+$$ {#eq-poisson-lipschitz-bound}
+
+The series and its normalisation are understood in the integrable Lipschitz class supplied by the theorem. The regularity assumption concerns the *forcing observable* $G_\theta$, not only the memory update $T_\theta$. The square-root coordinates and bounded-innovation case of @eq-sqrt-memory-update--@eq-adam-readout-lipschitz give one direct verification for Adam's normalised readout.
+
+## Parameter differences of Poisson solutions
+
+The one-step estimate @eq-weighted-pointwise-operator-bound is sufficient for the invariant-law perturbation argument. It is not, by itself, an estimate of the Lipschitz seminorm of $(Q_\theta-Q_\vartheta)f$ as a function of the state. We therefore record explicitly the additional operator condition used in the following restricted-space result.
+
+::: {#asm-poisson-operator}
+## Lipschitz-space operator regularity
+
+On $\mathsf K$ suppose the quantities $\Lambda_\theta$ in @eq-poisson-lipschitz-bound are uniformly bounded by $\Lambda<\infty$, and that
+
+$$
+\begin{aligned}
+\sup_{\theta\in\mathsf K}\|G_\theta\|_{\operatorname{Lip}}&\leq L_G,\\
+\|G_\theta-G_\vartheta\|_{\operatorname{Lip}}
+&\leq L_{G,\theta}\|\theta-\vartheta\|,\\
+\|(Q_\theta-Q_\vartheta)f\|_{\operatorname{Lip}}
+&\leq L_{\mathrm{op}}\|\theta-\vartheta\|
+\|f\|_{\operatorname{Lip}}
+\end{aligned}
+$$ {#eq-poisson-operator-assumption}
+
+for every Lipschitz $f$. The seminorm of a constant is zero, so the last inequality is unaffected by adding constants to $f$. Assume the corresponding Poisson solutions are well defined, as above.
+:::
+
+This is an explicit sufficient hypothesis, not a consequence claimed from @eq-weighted-pointwise-operator-bound. It can be replaced by a weaker weighted resolvent estimate if such an estimate is verified directly. The approach parallels the parameter-dependent Poisson argument of [@Care2026], formulated there in a weighted sup-norm rather than the present Lipschitz seminorm.
+
+::: {#prp-poisson-parameter}
+## Parameter regularity in the restricted Lipschitz space
+
+Under @asm-poisson-operator, fix $z_0\in\mathsf Z$ and choose the normalisation $u_\theta(z_0)=0$ for every $\theta\in\mathsf K$. Then
+
+$$
+\|u_\theta-u_\vartheta\|_{\operatorname{Lip}}
+\leq\Lambda\left(L_{G,\theta}
++L_{\mathrm{op}}\Lambda L_G\right)\|\theta-\vartheta\|.
+$$ {#eq-poisson-parameter-lipschitz}
+
+In particular,
+
+$$
+|u_\theta(z)-u_\vartheta(z)|
+\leq\Lambda\left(L_{G,\theta}
++L_{\mathrm{op}}\Lambda L_G\right)
+\|\theta-\vartheta\|d_Z(z,z_0).
+$$ {#eq-poisson-parameter-pointwise}
+:::
+
+::: {.proof}
+Subtract the two Poisson equations, writing $v=u_\theta-u_\vartheta$:
+
+$$
+(I-Q_\theta)v=
+(G_\theta-G_\vartheta)
+-\bigl(F(\theta)-F(\vartheta)\bigr)
++(Q_\theta-Q_\vartheta)u_\vartheta.
+$$ {#eq-poisson-parameter-identity}
+
+The right-hand side has zero $\nu_\theta$-mean: this follows by integrating the identity against $\nu_\theta$ and using invariance. Its Lipschitz seminorm is at most
+
+$$
+\left(L_{G,\theta}
++L_{\mathrm{op}}\|u_\vartheta\|_{\operatorname{Lip}}\right)
+\|\theta-\vartheta\|.
+$$
+
+The frozen Poisson estimate @eq-poisson-lipschitz-bound, applied to this centred right-hand side, bounds the Lipschitz seminorm of its solution by $\Lambda$ times the displayed quantity. Use $\|u_\vartheta\|_{\operatorname{Lip}}\leq\Lambda L_G$ to obtain @eq-poisson-parameter-lipschitz. Solutions of the centred Poisson equation differ by constants; the common value at $z_0$ identifies $v$ with the normalised solution. The pointwise estimate follows by the definition of the Lipschitz seminorm.
+:::
+
+The distinction between @eq-weighted-pointwise-operator-bound and @eq-poisson-operator-assumption matters for the intended application. The first has already been reduced to driver-level parameter estimates. The second still requires verification, or an alternative weighted resolvent argument, before the stated Poisson parameter conclusion can be invoked.
+
+## The feedback term in the controlled recursion
+
+Return to the changing-parameter augmented process,
+
+$$
+Z_{n+1}\mid\mathcal F_n\sim Q_{\theta_n}(Z_n,\cdot),
+\qquad
+\theta_{n+1}=\theta_n+\gamma_{n+1}G_{\theta_n}(Z_{n+1}).
+$$ {#eq-augmented-controlled-sa}
+
+For Adam, $G_\theta$ is the normalised readout on the augmented memory. The order of the transition and parameter update in @eq-augmented-controlled-sa is the one used in @eq-adam-recursion. Define
+
+$$
+\Delta M_{n+1}
+=u_{\theta_n}(Z_{n+1})-Q_{\theta_n}u_{\theta_n}(Z_n).
+$$ {#eq-poisson-martingale-increment}
+
+Then $\mathbb E[\Delta M_{n+1}\mid\mathcal F_n]=0$. Put $\phi_\theta=Q_\theta u_\theta$. Evaluating @eq-augmented-poisson at $Z_{n+1}$ and adding and subtracting $\phi_{\theta_n}(Z_n)$ gives
+
+$$
+G_{\theta_n}(Z_{n+1})-F(\theta_n)
+=\Delta M_{n+1}
++\phi_{\theta_n}(Z_n)-\phi_{\theta_n}(Z_{n+1}).
+$$ {#eq-controlled-poisson-decomposition}
+
+Under weighted summation, the last two terms telescope except for boundary, gain-variation and parameter-change terms. The latter involve
+
+$$
+\phi_{\theta_n}(Z_{n+1})-
+\phi_{\theta_{n+1}}(Z_{n+1}).
+$$ {#eq-poisson-feedback-remainder}
+
+The operator decomposition
+
+$$
+\phi_\theta-\phi_\vartheta
+=(Q_\theta-Q_\vartheta)u_\theta+
+Q_\vartheta(u_\theta-u_\vartheta)
+$$ {#eq-poisson-feedback-operator}
+ 
+shows how @eq-weighted-pointwise-operator-bound and @prp-poisson-parameter enter together. If these differences have the required weighted growth bound, and $\|\theta_{n+1}-\theta_n\|=O(\gamma_{n+1})$, the parameter-change remainder is of second order after multiplication by the SA gain. Controlling the sum still requires integrability along the adaptive path.
+
+The standard Poisson--martingale method of controlled stochastic approximation [@BenvenisteMetivierPriouret1990; @AndrieuMoulines2006; @Care2026] then suggests the limiting equation
+
+$$
+\dot\theta=F(\theta).
+$$ {#eq-adam-limiting-ode}
+
+No asymptotic pseudo-trajectory or parameter-convergence theorem is claimed here. Such a theorem additionally requires a stability or localisation argument for $(\theta_n)$, a gain condition, martingale moment estimates and control of the weighted remainders in @eq-controlled-poisson-decomposition. The preceding results identify the precise frozen and parameter-dependent estimates that would enter that proof; they do not replace it.

@@ -1,0 +1,174 @@
+# Parameter perturbation of the augmented process {#sec-parameter-perturbation}
+
+The contraction theorem is stated for each frozen parameter, with constants uniform on a specified region. We now compare two such frozen kernels, $Q_\theta$ and $Q_\vartheta$. The comparison is an operator calculation on Lipschitz test functions; it does not require constructing an additional coupling of the augmented transitions.
+
+## One-step kernel regularity
+
+For $f:\mathsf Z\to\mathbb R$ and $z=(x,u)$, write
+
+$$
+f_{\theta,u}(y)=f(y,T_\theta(y,u)).
+$$ {#eq-pulled-back-test}
+
+By @eq-augmented-kernel,
+
+$$
+Q_\theta f(x,u)=P_\theta f_{\theta,u}(x).
+$$
+
+Adding and subtracting $P_\vartheta f_{\theta,u}(x)$ gives
+
+$$
+\begin{aligned}
+(Q_\theta-Q_\vartheta)f(x,u)
+={}&(P_\theta-P_\vartheta)f_{\theta,u}(x)\\
+&+P_\vartheta(f_{\theta,u}-f_{\vartheta,u})(x).
+\end{aligned}
+$$ {#eq-augmented-operator-perturbation}
+
+Under @asm-memory-lipschitz, $\|f_{\theta,u}\|_{\operatorname{Lip}(d_X)}\leq(1+L_T)\|f\|_{\operatorname{Lip}(d_Z)}$, and
+
+$$
+|f_{\theta,u}(y)-f_{\vartheta,u}(y)|
+\leq\|f\|_{\operatorname{Lip}(d_Z)}
+d_Y(T_\theta(y,u),T_\vartheta(y,u)).
+$$
+
+Kantorovich--Rubinstein duality therefore yields
+
+$$
+\begin{aligned}
+&W_{d_Z}(Q_\theta((x,u),\cdot),Q_\vartheta((x,u),\cdot))\\
+&\quad\leq (1+L_T)W_{d_X}(P_\theta(x,\cdot),P_\vartheta(x,\cdot))\\
+&\qquad+P_\vartheta\!\left[
+d_Y(T_\theta(\cdot,u),T_\vartheta(\cdot,u))
+\right](x).
+\end{aligned}
+$$ {#eq-one-step-parameter-bound}
+
+The first term measures the change in the driving kernel; the second measures the change in the memory update under the same driving law. For the affine EMA, the second term depends only on $b_\theta-b_\vartheta$, since $A$ is fixed. In the square-root coordinates of @eq-sqrt-memory-update it can be controlled instead by the parameter difference of the original innovation $H_\theta$.
+
+::: {#asm-parameter-kernel}
+## Driver-level parameter regularity
+
+On a parameter region $\mathsf K$, assume there is a measurable $w:\mathsf X\to[1,\infty)$ and constants $L_P,L_{T,\theta}<\infty$, uniform over $\theta,\vartheta\in\mathsf K$, such that
+
+$$
+\begin{aligned}
+W_{d_X}(P_\theta(x,\cdot),P_\vartheta(x,\cdot))
+&\leq L_P\|\theta-\vartheta\|w(x),\\
+P_\vartheta[d_Y(T_\theta(\cdot,u),T_\vartheta(\cdot,u))](x)
+&\leq L_{T,\theta}\|\theta-\vartheta\|w(x)
+\end{aligned}
+$$ {#eq-driver-parameter-assumptions}
+
+for all $x$ and $u$ in the memory space under consideration. Let $\mathcal V:\mathsf Z\to[1,\infty)$ dominate $w(x)$ and suppose the family $(Q_\theta)_{\theta\in\mathsf K}$ has uniform geometric Wasserstein contraction as in @thm-wasserstein-lifting.
+:::
+
+The bounds in @asm-parameter-kernel are verification assumptions on the driver and forcing, not consequences of frozen contraction.
+
+::: {#prp-augmented-kernel-regularity}
+## One-step regularity of augmented kernels
+
+Under @asm-memory-lipschitz and @asm-parameter-kernel,
+
+$$
+\gamma_{\theta,\vartheta}
+:=\sup_{z\in\mathsf Z}
+\frac{W_{d_Z}(Q_\theta(z,\cdot),Q_\vartheta(z,\cdot))}
+{\mathcal V(z)}
+\leq L_Q\|\theta-\vartheta\|,
+$$ {#eq-augmented-perturbation-gamma}
+
+with $L_Q=(1+L_T)L_P+L_{T,\theta}$. Equivalently, for every $d_Z$-Lipschitz test $f$,
+
+$$
+|(Q_\theta-Q_\vartheta)f(z)|
+\leq L_Q\|\theta-\vartheta\|\mathcal V(z)
+\|f\|_{\operatorname{Lip}(d_Z)}.
+$$ {#eq-weighted-pointwise-operator-bound}
+:::
+
+::: {.proof}
+Apply @eq-one-step-parameter-bound, substitute @eq-driver-parameter-assumptions and divide by $\mathcal V(z)\geq w(x)$. The equivalent operator estimate is the dual representation of $W_{d_Z}$.
+:::
+
+## Perturbation of invariant laws
+
+The geometric estimate of @thm-wasserstein-lifting and the weighted one-step bound are the hypotheses appearing in the Wasserstein perturbation framework of [@RudolfSchweizer2018, Theorem 3.1]. The stationary specialisation can also be seen directly from the operator decomposition.
+
+::: {#cor-invariant-parameter}
+## Lipschitz dependence of augmented invariant laws
+
+Assume @prp-augmented-kernel-regularity and suppose the invariant laws satisfy
+
+$$
+\sup_{\theta\in\mathsf K}\nu_\theta(\mathcal V)\leq M_{\mathcal V}<\infty.
+$$ {#eq-uniform-invariant-moment}
+
+Then for every $\theta,\vartheta\in\mathsf K$,
+
+$$
+W_{d_Z}(\nu_\theta,\nu_\vartheta)
+\leq \frac{C_Z(\eta)L_QM_{\mathcal V}}{1-\eta}
+\|\theta-\vartheta\|.
+$$ {#eq-invariant-parameter-regularity}
+:::
+
+::: {.proof}
+Fix a $1$-Lipschitz $f$. Since $\nu_\theta$ and $\nu_\vartheta$ are invariant,
+
+$$
+\begin{aligned}
+|\nu_\theta(f)-\nu_\vartheta(f)|
+\leq{}&
+|(\nu_\theta-\nu_\vartheta)(Q_\theta^n f)|\\
+&+|\nu_\vartheta(Q_\theta^nf-Q_\vartheta^nf)|.
+\end{aligned}
+$$
+
+The first term is at most $C_Z(\eta)\eta^n W_{d_Z}(\nu_\theta,\nu_\vartheta)$. For the second use
+
+$$
+Q_\theta^n-Q_\vartheta^n
+=\sum_{j=0}^{n-1}Q_\vartheta^j
+(Q_\theta-Q_\vartheta)Q_\theta^{n-1-j}.
+$$ {#eq-perturbation-telescope}
+
+The stationarity of $\nu_\vartheta$, @eq-weighted-pointwise-operator-bound and the bound
+$\|Q_\theta^k f\|_{\operatorname{Lip}}\leq C_Z(\eta)\eta^k$
+give
+
+$$
+|\nu_\vartheta(Q_\theta^nf-Q_\vartheta^nf)|
+\leq C_Z(\eta)L_Q\|\theta-\vartheta\|\,
+\nu_\vartheta(\mathcal V)\sum_{j=0}^{n-1}\eta^{n-1-j}.
+$$
+
+Let $n\to\infty$. The first term tends to zero, and the geometric sum is bounded by $(1-\eta)^{-1}$. Taking the supremum over $f$ proves @eq-invariant-parameter-regularity.
+:::
+
+Uniform drift constants in @eq-augmented-drift, together with suitable moment conditions, provide one route to @eq-uniform-invariant-moment. The constant in @eq-invariant-parameter-regularity is not asserted to be uniform on parameter regions where the contraction, moment or perturbation constants diverge.
+
+## Regularity of the stationary Adam field
+
+Suppose $G_\theta:\mathsf Z\to\mathbb R^d$ has a uniform Lipschitz seminorm and satisfies
+
+$$
+\|G_\theta(z)-G_\vartheta(z)\|
+\leq L_{G,\theta}\|\theta-\vartheta\|\mathcal V(z).
+$$ {#eq-observable-parameter-assumption}
+
+For $F(\theta)=\nu_\theta(G_\theta)$, add and subtract $\nu_\vartheta(G_\theta)$ to obtain
+
+$$
+\begin{aligned}
+\|F(\theta)-F(\vartheta)\|
+\leq{}&
+\|G_\theta\|_{\operatorname{Lip}}\,
+W_{d_Z}(\nu_\theta,\nu_\vartheta)\\
+&+\nu_\vartheta(\|G_\theta-G_\vartheta\|).
+\end{aligned}
+$$ {#eq-field-parameter-bound}
+
+Thus @cor-invariant-parameter gives local Lipschitz regularity of $F$ under @eq-observable-parameter-assumption. For the square-root memory coordinates of @eq-adam-lipschitz-readout the readout is independent of $\theta$, so the second term vanishes. This is a regularity conclusion for the *stationary* field, not yet an ODE approximation for the changing-parameter recursion.

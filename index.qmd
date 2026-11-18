@@ -1,29 +1,39 @@
 ---
-title: "Adam-type stochastic approximation under controlled Markov noise"
+title: "Stationary calibration and Markov augmentation for Adam-type adaptive MCMC"
 author:
   - name: "Jordan Simbananiye"
     affiliations:
       - name: "University College London (UCL) - CCMI CDT"
 date: last-modified
+abstract: |
+  Adam-type adaptation replaces an ordinary stochastic-approximation innovation
+  by a normalised function of fixed-gain first- and second-moment memories.
+  We identify the stationary field under Markov innovations and its covariance
+  correction at Robbins--Monro roots. A finite-dimensional Markov augmentation
+  admits a stationary law under moment assumptions. Under stronger coupling
+  and regularity conditions, geometric Wasserstein contraction of the driver
+  lifts to the augmented process. We derive one-step parameter perturbation
+  bounds, invariant-law regularity and a restricted Lipschitz-space Poisson
+  estimate, distinguishing the latter's additional operator assumption.
+  The resulting estimates specify the ingredients for a controlled-Markov
+  ODE approximation; no adaptive ODE-tracking theorem is asserted.
 ---
 
-{{< include sections/01-introduction.qmd >}}
+{{< include sections/01-introduction-augmented.qmd >}}
 
-{{< include sections/02-controlled-markov-sa.qmd >}}
+{{< include sections/02-stationary-calibration.qmd >}}
 
-{{< include sections/03-momentum.qmd >}}
+{{< include sections/03-markov-augmentation.qmd >}}
 
-{{< include sections/04-adam-field.qmd >}}
+{{< include sections/04-wasserstein-lifting.qmd >}}
 
-{{< include sections/05-iid-to-markov.qmd >}}
+{{< include sections/05-parameter-perturbation.qmd >}}
 
-{{< include sections/06-main-result.qmd >}}
+{{< include sections/06-poisson-feedback.qmd >}}
 
-{{< include sections/07-adaptive-mcmc.qmd >}}
+{{< include sections/07-discussion-augmented.qmd >}}
 
-{{< include sections/08-example.qmd >}}
-
-{{< include sections/09-discussion.qmd >}}
+{{< include appendices/appendix-a-mifs.qmd >}}
 
 # References {.unnumbered}
 

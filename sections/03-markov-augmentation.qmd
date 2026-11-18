@@ -1,0 +1,163 @@
+# Markov iterated function systems {#sec-mifs}
+
+## The frozen augmented kernel
+
+Fix $\theta$. Let $\mathsf Y=\mathbb R^d\times[0,\infty)^d$ be the memory space, with its Euclidean product norm, and let $\mathsf Z=\mathsf X\times\mathsf Y$ carry the product sigma-algebra. Define
+
+$$
+T_\theta(x',m,v)=
+\begin{pmatrix}
+\alpha m+(1-\alpha)H_\theta(x')\\
+\beta v+(1-\beta)H_\theta(x')^{\odot2}
+\end{pmatrix}.
+$$ {#eq-memory-map}
+
+For $u=(m,v)$, also write $T_\theta(x,u)=T_\theta(x,m,v)$. For the frozen recursions, $Z_n=(X_n,M_n,V_n)$ has transition kernel
+
+$$
+Q_\theta((x,u),dx'\,du')
+=P_\theta(x,dx')\,\delta_{T_\theta(x',u)}(du').
+$$ {#eq-augmented-kernel}
+
+Indeed, conditional on the current state, the next observation has law $P_\theta(x,\cdot)$ and the next memory is a deterministic measurable function of that observation and the current memory. These facts give the Markov property of $Z_n$. With memory space $\mathsf Y$ and updating function $T_\theta$, the recursion is a MIFS as defined in [@Fuh2021, equation (1.1)], and @eq-augmented-kernel is the augmented transition construction of [@Fuh2021, equation (2.1)].
+
+For two memory states driven by the same observation,
+
+$$
+\begin{aligned}
+\|T_\theta(x',m,v)-T_\theta(x',\widetilde m,\widetilde v)\|^2
+&=\alpha^2\|m-\widetilde m\|^2+\beta^2\|v-\widetilde v\|^2\\
+&\leq\kappa^2\|(m,v)-(\widetilde m,\widetilde v)\|^2,
+\qquad \kappa=\max\{\alpha,\beta\}<1.
+\end{aligned}
+$$ {#eq-same-driver-memory-contraction}
+
+This contracts the memory coordinates along a common driving path. It is not a contraction assertion for $Q_\theta$ on the full augmented space: different initial driving states have not been coupled.
+
+## Frozen driving assumptions and forcing moments
+
+The stationary part of the argument uses @asm-frozen-driver. To obtain forward convergence from an arbitrary driving state under the MIFS construction, impose the following additional conditions, pointwise in the frozen parameter.
+
+::: {#asm-weighted-driver}
+## Weighted frozen-driver conditions
+
+The kernel $P_\theta$ is aperiodic and positive Harris recurrent. There exist a measurable finite-valued $w:\mathsf X\to[1,\infty)$, $C<\infty$, $\rho\in(0,1)$ and $A<\infty$ such that $\pi_\theta(w)<\infty$ and, for every $n\geq0$ and $x\in\mathsf X$,
+
+$$
+\sup_{|g|\leq w}|P_\theta^n g(x)-\pi_\theta(g)|
+\leq C\rho^n w(x),\qquad
+\|H_\theta(x)\|^2\leq Aw(x).
+$$ {#eq-weighted-driver}
+:::
+
+The supremum is over measurable real-valued $g$. A standard sufficient route is one-step drift and minorisation: for a measurable set $D$, a probability $\varphi$ with $\varphi(D)>0$, $\delta\in(0,1]$, $0\leq\lambda<1$ and $b<\infty$,
+
+$$
+P_\theta(x,\cdot)\geq\delta\varphi(\cdot)\quad(x\in D),\qquad
+P_\theta w(x)\leq
+\begin{cases}
+\lambda w(x),&x\notin D,\\
+b,&x\in D.
+\end{cases}
+$$ {#eq-driver-drift-minorisation}
+
+In the common-target MCMC setting, [@AndrieuMoulines2006, Assumption (A1), Theorem 2 and equation (16)] gives uniqueness of the invariant probability, its finite $w$-moment and the weighted geometric estimate from these conditions. The innovation growth bound in @eq-weighted-driver is checked separately. These are conditions on the chosen driver, not consequences of memory contraction.
+
+For the reference memory $u_0=(0,0)$, put
+
+$$
+b_\theta^{\mathrm{MIFS}}(x):=\|T_\theta(x,u_0)\|
+\leq (1-\alpha)\|H_\theta(x)\|+
+(1-\beta)\|H_\theta(x)\|^2,\qquad
+B_\theta:=\pi_\theta(b_\theta^{\mathrm{MIFS}})<\infty.
+$$ {#eq-mifs-forcing}
+
+The last inequality follows from @asm-frozen-driver. The Lipschitz constant in [@Fuh2021, equation (2.2)] is $\kappa$. If $\kappa>0$, its mean logarithm is $\log\kappa<0$; if $\kappa=0$, initial memory is forgotten in one step. Under @asm-weighted-driver, $b_\theta^{\mathrm{MIFS}}\leq K_\theta w$ for a finite constant $K_\theta$, controlling the forcing from nonstationary initial driving states.
+
+## Stationary reversal and backward iterations
+
+The stationary forward/backward MIFS argument uses time reversal [@Fuh2021, equations (2.3)--(2.7) and proof of Theorem 1]. The density formula there requires a measure dominating the driving transitions. For continuous-state Metropolis--Hastings, rejection contributes $r_\theta(x)\delta_x$ to $P_\theta(x,\cdot)$, and a common sigma-finite dominating measure need not exist. The construction can instead be written at the level of stationary probability measures.
+
+Disintegration on the standard Borel space gives a reverse kernel $P_\theta^\ast$, determined $\pi_\theta$-almost everywhere, satisfying
+
+$$
+\pi_\theta(dx)P_\theta(x,dy)
+=\pi_\theta(dy)P_\theta^\ast(y,dx).
+$$ {#eq-stationary-reversal}
+
+The corresponding finite-path identity is
+
+$$
+\pi_\theta(dx_0)\prod_{j=1}^nP_\theta(x_{j-1},dx_j)
+=\pi_\theta(dx_n)P_\theta^\ast(x_n,dx_{n-1})\cdots
+P_\theta^\ast(x_1,dx_0).
+$$ {#eq-path-reversal}
+
+For a reversible frozen Metropolis--Hastings kernel, detailed balance gives $P_\theta^\ast=P_\theta$. An enlarged driver recording proposals or acceptance variables need not be reversible; in that case @eq-stationary-reversal still defines the stationary reverse.
+
+Write $T_x(u)=T_\theta(x,u)$. Let $(\widehat X_j)_{j\geq0}$ have initial law $\pi_\theta$ and transition $P_\theta^\ast$. For deterministic $u\in\mathsf Y$, define
+
+$$
+B_n^u=T_{\widehat X_0}\circ\cdots\circ
+T_{\widehat X_{n-1}}(u),\qquad B_0^u=u.
+$$ {#eq-backward-memory}
+
+If $(X_n,Y_n^u)$ is the forward augmentation started with $X_0\sim\pi_\theta$ and $Y_0^u=u$, then @eq-path-reversal gives the joint identity
+
+$$
+\operatorname{Law}(X_n,Y_n^u)
+=\operatorname{Law}(\widehat X_0,B_n^u).
+$$ {#eq-forward-backward-duality}
+
+The endpoint $\widehat X_0$ is retained in this equality; reversing only the memory marginal would not identify an invariant law of $Q_\theta$.
+
+## Stationarity and forward convergence
+
+::: {#prp-fuh-stationarity}
+## Frozen Adam augmentation: stationarity and convergence
+
+Fix $\theta$, $0\leq\alpha,\beta<1$, and suppose @asm-frozen-driver holds.
+
+1. The backward iterates in @eq-backward-memory converge almost surely and in $L^1$ to a limit $B_\infty$, independent of the deterministic initial memory $u$. Moreover,
+
+   $$
+   \mathbb E\|B_\infty-B_n^u\|
+   \leq\kappa^n\left(\|u\|+\frac{B_\theta}{1-\kappa}\right).
+   $$ {#eq-backward-rate}
+
+2. The joint law $\nu_\theta=\operatorname{Law}(\widehat X_0,B_\infty)$ is the unique invariant probability of $Q_\theta$, with driving marginal $\pi_\theta$. For a stationary initial driver $X_0\sim\pi_\theta$, the forward augmented law converges weakly to $\nu_\theta$ from any almost-surely finite initial memory, which may depend on $X_0$.
+
+3. Under the additional @asm-weighted-driver, forward weak convergence holds from every $(x,u)\in\mathsf Z$, and hence from every initial probability on $\mathsf Z$, without an initial moment assumption.
+
+For weak convergence, equip $\mathsf X$ with a Polish topology generating $\mathcal A$ and use its product with the Euclidean memory space. No continuity of $P_\theta$ or $H_\theta$ in that topology is assumed.
+:::
+
+The proof reconstructs the uniformly contractive case of [@Fuh2021, Theorems 1--3]. The strict-contraction estimate bounds consecutive backward iterates by $\kappa^n b_\theta^{\mathrm{MIFS}}(\widehat X_n)$; their expected distances are summable. Joint duality transfers this limit to the forward augmented law. Invariance follows by passing to the limit against bounded measurable tests Lipschitz in memory. Synchronous memory contraction proves uniqueness and allows arbitrary finite initial memory when the driver is stationary. The weighted estimate compares a terminal driving block with a stationary block for nonstationary initialisations. The complete argument, including the measure-determining class and initial-state comparisons, is in @app-fuh.
+
+## Identification of the stationary memories
+
+::: {#cor-stationary-memory-law}
+## Stationary memory representation
+
+Under Parts 1--2 of @prp-fuh-stationarity,
+
+$$
+\nu_\theta=
+\operatorname{Law}_{\mathbb P_\theta^{\mathrm{stat}}}
+(X_0^\theta,M^\theta,V^\theta),
+$$ {#eq-stationary-joint-law}
+
+with $M^\theta,V^\theta$ as in @eq-stationary-memories. Consequently,
+
+$$
+F(\theta)=\int_{\mathsf Z}
+\frac{m}{\sqrt v+\varepsilon}\,
+\nu_\theta(dx\,dm\,dv).
+$$ {#eq-stationary-adam-integral}
+:::
+
+::: {.proof}
+Identify $\widehat X_j$ in distribution with $X_{-j}^\theta$. Unrolling the finite backward iterate from $u_0=(0,0)$ gives the weighted sums in @eq-stationary-memories, truncated at $j=n-1$. Their limit is therefore the stationary history pair. The joint law with $\widehat X_0$ gives @eq-stationary-joint-law. The readout is integrable by @lem-stationary-memories and $\varepsilon>0$, proving @eq-stationary-adam-integral.
+:::
+
+@prp-fuh-stationarity uses only fixed-parameter stationarity and moment assumptions for its first two conclusions. The Wasserstein conditions in the next section are additional, quantitative hypotheses; they are not needed to define $F(\theta)$.

@@ -48,6 +48,7 @@ The general results are conditional on the stated assumptions. Section 2 fixes t
 
 ## FINAL CHECKS
 
+- [x] Check shared result numbering in HTML and PDF: theorems, propositions, lemmas and corollaries use one sequence per section; definitions and assumptions retain their own sequences. All eight result headings agree between formats and all 19 HTML result cross-references match their targets. Semantic labels remain unchanged.
 - [x] Review the retained lifting, parameter-Poisson and tracking proofs, including uniform constants and the gain-index convention.
 - [x] Render and visually review the restructured Quarto PDF/HTML (20 pages), using a clean temporary source copy to avoid the existing checkout resource-scan failure. All 14 checker tests pass.
 - [x] Check cross-references, appendix links and bibliography after rendering. All local HTML anchors resolve; the PDF was reviewed for theorem and equation numbering. A citation immediately following an equation cross-reference was moved before it so Quarto renders both.

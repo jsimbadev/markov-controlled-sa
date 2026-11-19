@@ -260,11 +260,13 @@ Assumptions use a small portable adapter: `filters/assumptions.lua` converts
 conjectures. HTML anchors for assumptions consequently start with `cnj-`; source
 prose should use `@asm-...`. The adapter also handles local Markdown links.
 
-Theorem types have separate counters within sections. HTML uses Quarto's native
-top-level-section numbering (`crossref.chapters`); PDF uses `article` section
-counters and `\numberwithin` for equations, figures, and tables. These settings
-keep the numbering consistent without adding a chapter-based document class or
-a competing cross-reference package.
+Theorems, propositions, lemmas and corollaries share one counter within each
+section: for example, Proposition 5.1, Corollary 5.2, Proposition 5.3. Definitions
+and assumptions have independent counters within sections. For HTML,
+`filters/result-numbering.lua` updates native result headings and cross-references
+after Quarto renders them. For PDF, `tex/pdf-only.tex` shares the native `amsthm`
+result counters. Equation, figure and table counters remain separate and restart
+within each section.
 
 ### Macros, sections, figures, and tables
 

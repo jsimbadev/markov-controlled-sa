@@ -1,2 +1,15 @@
-% Put project-specific PDF preamble customisations here.
-% Keep mathematical macro definitions in ../macros.tex for HTML parity.
+% Quarto declares each amsthm environment with its own section counter.
+% Alias the result counters after those declarations; definitions and assumptions
+% keep their independent counters. HTML is handled by result-numbering.lua.
+\makeatletter
+\AtBeginDocument{%
+  \@ifundefined{c@theorem}{}{%
+    \@for\resultenv:=lemma,proposition,corollary\do{%
+      \@ifundefined{c@\resultenv}{}{%
+        \expandafter\let\csname c@\resultenv\endcsname\c@theorem
+        \expandafter\let\csname the\resultenv\endcsname\thetheorem
+      }%
+    }%
+  }%
+}
+\makeatother

@@ -18,6 +18,8 @@ toc-depth: 2
 filters:
   - path: filters/assumptions.lua
     at: pre-ast
+  - path: filters/result-numbering.lua
+    at: post-render
 
 crossref:
   ref-hyperlink: true

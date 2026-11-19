@@ -41,7 +41,7 @@ d_Y(T_\theta(x,u),T_\theta(y,v))
 \leq r\,d_Y(u,v)+L_Td_X(x,y).
 $$ {#eq-memory-joint-lipschitz}
 
-The one-step moment condition can be verified from a driver drift inequality and the growth of the memory forcing.
+The one-step moment condition can be verified from a driver drift inequality and the growth of the memory forcing, as shown in @sec-first-moment-verification.
 
 ::: {#thm-wasserstein-lifting}
 ## Wasserstein contraction lifts through contractive memory
@@ -94,7 +94,7 @@ Thus all three terms are bounded geometrically in $n$. The law of the coupled au
 At $n=1$ this gives $\tau_{d_Z}(Q_\theta)<\infty$. In conjunction with $Q_\theta(z_0,\cdot)\in\mathcal P_1$, the triangle inequality shows that $Q_\theta$ maps $\mathcal P_1(\mathsf Z)$ into itself. Choose $m$ such that $C_Z(\eta)\eta^m<1$. Then $\mu\mapsto\mu Q_\theta^m$ is a strict contraction on the complete space $(\mathcal P_1(\mathsf Z),W_{d_Z})$, so Banach's fixed-point theorem supplies a unique fixed point $\nu_\theta$. Since $\nu_\theta Q_\theta$ is also fixed by $Q_\theta^m$, uniqueness gives $\nu_\theta Q_\theta=\nu_\theta$. Finally, apply @eq-augmented-contraction to the coupling of $\delta_z$ and $\nu_\theta$.
 :::
 
-## First-moment verification
+## First-moment verification {#sec-first-moment-verification}
 
 A driver drift inequality and the growth of the memory forcing provide a convenient way to verify augmented moment bounds.
 

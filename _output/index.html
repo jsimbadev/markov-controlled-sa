@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jordan Simbananiye">
-<meta name="dcterms.date" content="2026-11-18">
+<meta name="dcterms.date" content="2026-11-19">
 
-<title>Stationary calibration and Markov augmentation for Adam-type adaptive MCMC</title>
+<title>Wasserstein stability and ODE tracking for Markov-driven stochastic approximation with contractive memory</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -200,36 +200,44 @@ window.Quarto = {
    
   <ul class="collapse">
   <li><a href="#sec-introduction" id="toc-sec-introduction" class="nav-link active" data-scroll-target="#sec-introduction"><span class="header-section-number">1</span> Introduction</a></li>
-  <li><a href="#sec-stationary-calibration" id="toc-sec-stationary-calibration" class="nav-link" data-scroll-target="#sec-stationary-calibration"><span class="header-section-number">2</span> Stationary calibration and the Adam mean field</a>
+  <li><a href="#sec-general-framework" id="toc-sec-general-framework" class="nav-link" data-scroll-target="#sec-general-framework"><span class="header-section-number">2</span> General framework and preliminaries</a>
   <ul class="collapse">
-  <li><a href="#frozen-kernels-and-probability-laws" id="toc-frozen-kernels-and-probability-laws" class="nav-link" data-scroll-target="#frozen-kernels-and-probability-laws"><span class="header-section-number">2.1</span> Frozen kernels and probability laws</a></li>
-  <li><a href="#fixed-gain-memories-and-the-stationary-field" id="toc-fixed-gain-memories-and-the-stationary-field" class="nav-link" data-scroll-target="#fixed-gain-memories-and-the-stationary-field"><span class="header-section-number">2.2</span> Fixed-gain memories and the stationary field</a></li>
-  <li><a href="#calibration-under-linear-and-nonlinear-memory" id="toc-calibration-under-linear-and-nonlinear-memory" class="nav-link" data-scroll-target="#calibration-under-linear-and-nonlinear-memory"><span class="header-section-number">2.3</span> Calibration under linear and nonlinear memory</a></li>
+  <li><a href="#markov-driven-recursions-with-memory" id="toc-markov-driven-recursions-with-memory" class="nav-link" data-scroll-target="#markov-driven-recursions-with-memory"><span class="header-section-number">2.1</span> Markov-driven recursions with memory</a></li>
+  <li><a href="#wasserstein-distance-and-lipschitz-functions" id="toc-wasserstein-distance-and-lipschitz-functions" class="nav-link" data-scroll-target="#wasserstein-distance-and-lipschitz-functions"><span class="header-section-number">2.2</span> Wasserstein distance and Lipschitz functions</a></li>
+  <li><a href="#weighted-norms-and-centred-poisson-equations" id="toc-weighted-norms-and-centred-poisson-equations" class="nav-link" data-scroll-target="#weighted-norms-and-centred-poisson-equations"><span class="header-section-number">2.3</span> Weighted norms and centred Poisson equations</a></li>
   </ul></li>
-  <li><a href="#sec-mifs" id="toc-sec-mifs" class="nav-link" data-scroll-target="#sec-mifs"><span class="header-section-number">3</span> Markov augmentation and stationary memory law</a>
+  <li><a href="#sec-wasserstein-lifting" id="toc-sec-wasserstein-lifting" class="nav-link" data-scroll-target="#sec-wasserstein-lifting"><span class="header-section-number">3</span> Wasserstein contraction of the augmented kernel</a>
   <ul class="collapse">
-  <li><a href="#the-frozen-augmented-kernel" id="toc-the-frozen-augmented-kernel" class="nav-link" data-scroll-target="#the-frozen-augmented-kernel"><span class="header-section-number">3.1</span> The frozen augmented kernel</a></li>
-  <li><a href="#identification-of-the-stationary-memories" id="toc-identification-of-the-stationary-memories" class="nav-link" data-scroll-target="#identification-of-the-stationary-memories"><span class="header-section-number">3.2</span> Identification of the stationary memories</a></li>
+  <li><a href="#coupling-assumptions-and-the-lifting-theorem" id="toc-coupling-assumptions-and-the-lifting-theorem" class="nav-link" data-scroll-target="#coupling-assumptions-and-the-lifting-theorem"><span class="header-section-number">3.1</span> Coupling assumptions and the lifting theorem</a></li>
+  <li><a href="#sec-first-moment-verification" id="toc-sec-first-moment-verification" class="nav-link" data-scroll-target="#sec-first-moment-verification"><span class="header-section-number">3.2</span> First-moment verification</a></li>
   </ul></li>
-  <li><a href="#sec-wasserstein-lifting" id="toc-sec-wasserstein-lifting" class="nav-link" data-scroll-target="#sec-wasserstein-lifting"><span class="header-section-number">4</span> Wasserstein contraction of the augmented kernel</a>
+  <li><a href="#sec-stationary-calibration" id="toc-sec-stationary-calibration" class="nav-link" data-scroll-target="#sec-stationary-calibration"><span class="header-section-number">4</span> Stationary calibration and Adam</a>
   <ul class="collapse">
-  <li><a href="#metrics-and-a-coupled-driving-chain" id="toc-metrics-and-a-coupled-driving-chain" class="nav-link" data-scroll-target="#metrics-and-a-coupled-driving-chain"><span class="header-section-number">4.1</span> Metrics and a coupled driving chain</a></li>
-  <li><a href="#affine-ema-updates-and-lyapunov-moments" id="toc-affine-ema-updates-and-lyapunov-moments" class="nav-link" data-scroll-target="#affine-ema-updates-and-lyapunov-moments"><span class="header-section-number">4.2</span> Affine EMA updates and Lyapunov moments</a></li>
-  <li><a href="#the-normalised-adam-observable" id="toc-the-normalised-adam-observable" class="nav-link" data-scroll-target="#the-normalised-adam-observable"><span class="header-section-number">4.3</span> The normalised Adam observable</a></li>
+  <li><a href="#frozen-kernels-and-probability-laws" id="toc-frozen-kernels-and-probability-laws" class="nav-link" data-scroll-target="#frozen-kernels-and-probability-laws"><span class="header-section-number">4.1</span> Frozen kernels and probability laws</a></li>
+  <li><a href="#fixed-gain-memories-and-the-stationary-field" id="toc-fixed-gain-memories-and-the-stationary-field" class="nav-link" data-scroll-target="#fixed-gain-memories-and-the-stationary-field"><span class="header-section-number">4.2</span> Fixed-gain memories and the stationary field</a></li>
+  <li><a href="#adam-as-a-markov-augmentation" id="toc-adam-as-a-markov-augmentation" class="nav-link" data-scroll-target="#adam-as-a-markov-augmentation"><span class="header-section-number">4.3</span> Adam as a Markov augmentation</a></li>
+  <li><a href="#identification-of-the-stationary-memories" id="toc-identification-of-the-stationary-memories" class="nav-link" data-scroll-target="#identification-of-the-stationary-memories"><span class="header-section-number">4.4</span> Identification of the stationary memories</a></li>
+  <li><a href="#calibration-under-linear-and-nonlinear-memory" id="toc-calibration-under-linear-and-nonlinear-memory" class="nav-link" data-scroll-target="#calibration-under-linear-and-nonlinear-memory"><span class="header-section-number">4.5</span> Calibration under linear and nonlinear memory</a></li>
+  <li><a href="#verification-of-the-memory-and-readout-hypotheses" id="toc-verification-of-the-memory-and-readout-hypotheses" class="nav-link" data-scroll-target="#verification-of-the-memory-and-readout-hypotheses"><span class="header-section-number">4.6</span> Verification of the memory and readout hypotheses</a></li>
   </ul></li>
-  <li><a href="#sec-parameter-perturbation" id="toc-sec-parameter-perturbation" class="nav-link" data-scroll-target="#sec-parameter-perturbation"><span class="header-section-number">5</span> Parameter perturbation of the augmented process</a>
+  <li><a href="#sec-parameter-perturbation" id="toc-sec-parameter-perturbation" class="nav-link" data-scroll-target="#sec-parameter-perturbation"><span class="header-section-number">5</span> Parameter perturbation and Poisson regularity</a>
   <ul class="collapse">
   <li><a href="#one-step-kernel-regularity" id="toc-one-step-kernel-regularity" class="nav-link" data-scroll-target="#one-step-kernel-regularity"><span class="header-section-number">5.1</span> One-step kernel regularity</a></li>
   <li><a href="#perturbation-of-invariant-laws" id="toc-perturbation-of-invariant-laws" class="nav-link" data-scroll-target="#perturbation-of-invariant-laws"><span class="header-section-number">5.2</span> Perturbation of invariant laws</a></li>
-  <li><a href="#regularity-of-the-stationary-adam-field" id="toc-regularity-of-the-stationary-adam-field" class="nav-link" data-scroll-target="#regularity-of-the-stationary-adam-field"><span class="header-section-number">5.3</span> Regularity of the stationary Adam field</a></li>
+  <li><a href="#regularity-of-the-stationary-mean-field" id="toc-regularity-of-the-stationary-mean-field" class="nav-link" data-scroll-target="#regularity-of-the-stationary-mean-field"><span class="header-section-number">5.3</span> Regularity of the stationary mean field</a></li>
+  <li><a href="#eccentricity-and-weighted-growth" id="toc-eccentricity-and-weighted-growth" class="nav-link" data-scroll-target="#eccentricity-and-weighted-growth"><span class="header-section-number">5.4</span> Eccentricity and weighted growth</a></li>
+  <li><a href="#frozen-poisson-solution" id="toc-frozen-poisson-solution" class="nav-link" data-scroll-target="#frozen-poisson-solution"><span class="header-section-number">5.5</span> Frozen Poisson solution</a></li>
+  <li><a href="#parameter-regularity-of-the-poisson-solution" id="toc-parameter-regularity-of-the-poisson-solution" class="nav-link" data-scroll-target="#parameter-regularity-of-the-poisson-solution"><span class="header-section-number">5.6</span> Parameter regularity of the Poisson solution</a></li>
   </ul></li>
-  <li><a href="#sec-poisson-feedback" id="toc-sec-poisson-feedback" class="nav-link" data-scroll-target="#sec-poisson-feedback"><span class="header-section-number">6</span> Poisson equations and changing parameters</a>
+  <li><a href="#sec-poisson-feedback" id="toc-sec-poisson-feedback" class="nav-link" data-scroll-target="#sec-poisson-feedback"><span class="header-section-number">6</span> ODE tracking and adaptive MCMC</a>
   <ul class="collapse">
-  <li><a href="#frozen-poisson-equation-on-the-lipschitz-space" id="toc-frozen-poisson-equation-on-the-lipschitz-space" class="nav-link" data-scroll-target="#frozen-poisson-equation-on-the-lipschitz-space"><span class="header-section-number">6.1</span> Frozen Poisson equation on the Lipschitz space</a></li>
-  <li><a href="#parameter-differences-of-poisson-solutions" id="toc-parameter-differences-of-poisson-solutions" class="nav-link" data-scroll-target="#parameter-differences-of-poisson-solutions"><span class="header-section-number">6.2</span> Parameter differences of Poisson solutions</a></li>
-  <li><a href="#the-feedback-term-in-the-controlled-recursion" id="toc-the-feedback-term-in-the-controlled-recursion" class="nav-link" data-scroll-target="#the-feedback-term-in-the-controlled-recursion"><span class="header-section-number">6.3</span> The feedback term in the controlled recursion</a></li>
+  <li><a href="#poisson-martingale-decomposition" id="toc-poisson-martingale-decomposition" class="nav-link" data-scroll-target="#poisson-martingale-decomposition"><span class="header-section-number">6.1</span> Poisson martingale decomposition</a></li>
+  <li><a href="#adaptive-moment-control-and-tracking" id="toc-adaptive-moment-control-and-tracking" class="nav-link" data-scroll-target="#adaptive-moment-control-and-tracking"><span class="header-section-number">6.2</span> Adaptive moment control and tracking</a></li>
+  <li><a href="#adam-adaptation-in-mcmc" id="toc-adam-adaptation-in-mcmc" class="nav-link" data-scroll-target="#adam-adaptation-in-mcmc"><span class="header-section-number">6.3</span> Adam adaptation in MCMC</a></li>
   </ul></li>
   <li><a href="#sec-discussion" id="toc-sec-discussion" class="nav-link" data-scroll-target="#sec-discussion"><span class="header-section-number">7</span> Discussion</a></li>
+  <li><a href="#sec-stationary-series-proof" id="toc-sec-stationary-series-proof" class="nav-link" data-scroll-target="#sec-stationary-series-proof">Appendix A: Stationary-series integrability</a></li>
+  <li><a href="#sec-augmented-drift-proof" id="toc-sec-augmented-drift-proof" class="nav-link" data-scroll-target="#sec-augmented-drift-proof">Appendix B: Augmented Lyapunov drift</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="index.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
@@ -238,7 +246,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Stationary calibration and Markov augmentation for Adam-type adaptive MCMC</h1>
+<h1 class="title">Wasserstein stability and ODE tracking for Markov-driven stochastic approximation with contractive memory</h1>
 </div>
 
 
@@ -262,7 +270,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">18 November 2026</p>
+      <p class="date">19 November 2026</p>
     </div>
   </div>
   
@@ -272,7 +280,7 @@ window.Quarto = {
 <div>
   <div class="abstract">
     <div class="block-title">Abstract</div>
-    <p>Adam-type adaptation replaces an ordinary stochastic-approximation innovation by a normalised function of fixed-gain first- and second-moment memories. We identify the stationary field under Markov innovations and its covariance correction at Robbins–Monro roots. A finite-dimensional Markov augmentation admits a stationary law under moment assumptions. Under stronger coupling and regularity conditions, geometric Wasserstein contraction of the driver lifts to the augmented process. We derive one-step parameter perturbation bounds, invariant-law regularity and a restricted Lipschitz-space Poisson estimate, distinguishing the latter’s additional operator assumption. The resulting estimates specify the ingredients for a controlled-Markov ODE approximation; no adaptive ODE-tracking theorem is asserted.</p>
+    <p>We study Markov-driven stochastic approximation with persistent, contractive memory. A trajectory coupling of the driving chain lifts to geometric Wasserstein contraction of the augmented kernel, yielding an invariant law and quantitative convergence. Weighted kernel perturbations give Lipschitz dependence of the invariant law and log-Lipschitz parameter regularity of centred Poisson solutions. Under quadratic drift, parameter stability, bounded increments and logarithmically corrected gain summability, a Poisson–martingale decomposition yields tracking of the stationary mean-field ODE. Adam adaptation in MCMC provides a motivating application: stationary EMA memories exist under weaker frozen moment assumptions, and the Adam field contains a covariance correction at Robbins–Monro roots.</p>
   </div>
 </div>
 
@@ -285,171 +293,64 @@ window.Quarto = {
 <p>Adaptive MCMC commonly calibrates a sampling-kernel parameter by Robbins–Monro stochastic approximation <span class="citation" data-cites="RobbinsMonro1951 AndrieuThoms2008">[<a href="#ref-RobbinsMonro1951" role="doc-biblioref">1</a>, <a href="#ref-AndrieuThoms2008" role="doc-biblioref">2</a>]</span>. For example, a proposal scale can be adjusted using an acceptance-rate residual relative to a prescribed target. With the parameter frozen at <span class="math inline">\(\theta\)</span>, the stationary expectation of that residual defines a field <span class="math inline">\(h(\theta)\)</span>; the intended calibration equation is <span class="math inline">\(h(\theta)=0\)</span>. More generally, adaptation seeks a root of a prescribed stationary mean-field equation.</p>
 <p>Adam replaces the ordinary innovation by a nonlinear function of exponentially weighted first- and second-moment estimates. The memory coefficients are fixed, while the parameter gain decreases. Linear momentum preserves the frozen mean field in expectation, but Adam’s random normaliser is coupled to its numerator. Its stationary field <span class="math inline">\(F(\theta)\)</span> need not coincide with <span class="math inline">\(h(\theta)\)</span>, and the two calibration equations need not have the same roots.</p>
 <p>Identifying this stationary field, proving that the actual stochastic recursion tracks an ODE, and proving convergence to a particular equilibrium are distinct questions. An ODE approximation with field <span class="math inline">\(F\)</span> does not establish convergence to a root of <span class="math inline">\(h\)</span>, or even convergence to a single equilibrium of <span class="math inline">\(F\)</span>. Dereich–Jentzen–Kassing <span class="citation" data-cites="Dereich2025_UJMNX8NK">[<a href="#ref-Dereich2025_UJMNX8NK" role="doc-biblioref">3</a>, Definition 1.3 and Theorem 1.5]</span> identify the Adam field and establish an ODE approximation under IID innovations, with moment, regularity and gain assumptions and <span class="math inline">\(\alpha^2&lt;\beta&lt;1\)</span>. Their analysis provides the IID benchmark; it does not supply the corresponding result for parameter-controlled Markov observations.</p>
-<p>In adaptive MCMC the innovations are dependent and their transition law changes with the adaptation parameter. Freezing that parameter gives a homogeneous Markov driver. This note identifies the stationary calibration issue for that frozen system and constructs its stationary Adam memories. The corresponding finite-dimensional Markov augmentation identifies the stationary memory law. We then use a forward coupling argument to obtain quantitative Wasserstein contraction of the augmented kernel, without requiring a reversed driving chain.</p>
-<p>We then consider the stronger quantitative structure needed for stochastic approximation. A geometric coupling estimate for the driver, together with contractive memory and regularity of its forcing, yields Wasserstein contraction of the augmented kernel. This permits the perturbation theory of <span class="citation" data-cites="RudolfSchweizer2018">[<a href="#ref-RudolfSchweizer2018" role="doc-biblioref">4</a>, Theorem 3.1]</span> to be applied to the parameter-indexed invariant laws, and the Poisson theory of <span class="citation" data-cites="Hofstadler2026">[<a href="#ref-Hofstadler2026" role="doc-biblioref">5</a>]</span> to be applied to Lipschitz observables. The assumptions are stated at the level of the driver and the memory update. The resulting stationary and parameter-regularity estimates are separate from the final adaptive ODE approximation, for which additional Poisson and stochastic-approximation conditions are identified but not inferred merely from frozen ergodicity.</p>
-<p>The covariance identity remains the calibration question motivating these constructions. We distinguish the weaker assumptions sufficient to define that covariance from the additional contraction and parameter-regularity assumptions used to study the controlled recursion.</p>
+<p>In adaptive MCMC the innovations are dependent and their transition law changes with the adaptation parameter. Freezing that parameter gives a homogeneous Markov driver. We study the broader family of Markov-driven stochastic approximation algorithms with persistent, contractive memory. Augmenting the driver by the memory coordinates gives a Markov kernel to which a forward coupling argument transfers geometric Wasserstein contraction.</p>
+<p>Geometric Wasserstein contraction and weighted one-step parameter regularity control the invariant laws <span class="citation" data-cites="RudolfSchweizer2018">[<a href="#ref-RudolfSchweizer2018" role="doc-biblioref">4</a>]</span>. Hofstadler’s Poisson construction <span class="citation" data-cites="Hofstadler2026">[<a href="#ref-Hofstadler2026" role="doc-biblioref">5</a>]</span> supplies the frozen resolvent, while eccentricity gives weighted-growth bounds. We combine these estimates to obtain a log-Lipschitz parameter modulus for the augmented Poisson solution. A Poisson–martingale decomposition then yields ODE tracking under quadratic drift, bounded increments, diminishing gains and parameter stability. The martingale identity follows the calculation in <span class="citation" data-cites="Laitinen2024_G3FDZQA8">[<a href="#ref-Laitinen2024_G3FDZQA8" role="doc-biblioref">6</a>, Lemma 4]</span>.</p>
+<p>The general recursion and notation are introduced in <a href="#sec-general-framework" class="quarto-xref">Chapter&nbsp;2</a>, followed by the lifting theorem in <a href="#sec-wasserstein-lifting" class="quarto-xref">Chapter&nbsp;3</a>. Stationary Adam calibration is developed in <a href="#sec-stationary-calibration" class="quarto-xref">Chapter&nbsp;4</a> under its own frozen moment assumptions. The parameter perturbation and Poisson results in <a href="#sec-parameter-perturbation" class="quarto-xref">Chapter&nbsp;5</a> then lead to the ODE-tracking theorem in <a href="#sec-poisson-feedback" class="quarto-xref">Chapter&nbsp;6</a>. The covariance identity remains the calibration question motivating these constructions.</p>
 </section>
-<section id="sec-stationary-calibration" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Stationary calibration and the Adam mean field</h1>
-<section id="frozen-kernels-and-probability-laws" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="frozen-kernels-and-probability-laws"><span class="header-section-number">2.1</span> Frozen kernels and probability laws</h2>
-<p>Let <span class="math inline">\((\mathsf X,\mathcal A)\)</span> be a standard Borel measurable space and <span class="math inline">\(\Theta\subseteq\mathbb{R}^d\)</span> a Borel parameter set. For each <span class="math inline">\(\theta\in\Theta\)</span>, let <span class="math inline">\(P_\theta\)</span> be a Markov transition kernel on <span class="math inline">\(\mathsf X\)</span>, with <span class="math inline">\((\theta,x)\mapsto P_\theta(x,A)\)</span> measurable for every <span class="math inline">\(A\in\mathcal A\)</span>. Let <span class="math inline">\(H:\Theta\times\mathsf X\to\mathbb{R}^d\)</span> be measurable and write <span class="math inline">\(H_\theta(x)=H(\theta,x)\)</span>. Write <span class="math inline">\(\mu(f)=\int f\,d\mu\)</span> when this integral exists. The action of a kernel on a probability measure is</p>
-<p><span id="eq-measure-kernel-action"><span class="math display">\[
-(\mu P_\theta)(A)=\int_{\mathsf X}P_\theta(x,A)\,\mu(dx),\qquad A\in\mathcal A.
+<section id="sec-general-framework" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> General framework and preliminaries</h1>
+<section id="markov-driven-recursions-with-memory" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="markov-driven-recursions-with-memory"><span class="header-section-number">2.1</span> Markov-driven recursions with memory</h2>
+<p>Let <span class="math inline">\((\mathsf X,\mathcal A)\)</span> and <span class="math inline">\((\mathsf Y,\mathcal B)\)</span> be standard Borel spaces for the driver and memory, and let <span class="math inline">\(\Theta\subseteq\mathbb R^d\)</span> be a Borel parameter set. For each <span class="math inline">\(\theta\in\Theta\)</span>, let <span class="math inline">\(P_\theta\)</span> be a Markov kernel on <span class="math inline">\(\mathsf X\)</span>, <span class="math inline">\(T_\theta:\mathsf X\times\mathsf Y\to\mathsf Y\)</span> a memory update and <span class="math inline">\(G_\theta:\mathsf X\times\mathsf Y\to\mathbb R^d\)</span> a readout. Assume these objects are jointly measurable in parameter and state. With <span class="math inline">\(X_n,U_n,\theta_n\)</span> adapted to <span class="math inline">\((\mathcal F_n)\)</span>, consider</p>
+<p><span id="eq-general-memory-recursion"><span class="math display">\[
+\begin{aligned}
+X_{n+1}\mid\mathcal F_n&amp;\sim P_{\theta_n}(X_n,\cdot),\\
+U_{n+1}&amp;=T_{\theta_n}(X_{n+1},U_n),\\
+\theta_{n+1}&amp;=\theta_n+\gamma_{n+1}G_{\theta_n}(X_{n+1},U_{n+1}),
+\end{aligned}
 \tag{2.1}\]</span></span></p>
-<p>An invariant probability <span class="math inline">\(\pi_\theta\)</span> satisfies</p>
-<p><span id="eq-driver-invariance"><span class="math display">\[
-\pi_\theta P_\theta=\pi_\theta.
-\tag{2.2}\]</span></span></p>
-<p>Thus one transition preserves the marginal <span class="math inline">\(\pi_\theta\)</span> when the parameter is fixed. In the usual MCMC setting the sampling kernels share a target <span class="math inline">\(\pi_\theta=\pi\)</span>, although their transition dependence changes with <span class="math inline">\(\theta\)</span>.</p>
-<div id="cnj-frozen-driver" class="theorem conjecture">
-<p><span class="theorem-title"><strong>Assumption 2.1 (Frozen driver and innovation moment)</strong></span> For each <span class="math inline">\(\theta\in\Theta\)</span>, <span class="math inline">\(P_\theta\)</span> has a unique invariant probability <span class="math inline">\(\pi_\theta\)</span>, and</p>
-<p><span class="math display">\[
-\pi_\theta(\|H_\theta\|^2)&lt;\infty.
-\]</span></p>
-</div>
-<p>All subsequent stationary constructions are pointwise in <span class="math inline">\(\theta\)</span>; no regularity of the family of invariant laws is assumed here. Under <a href="#cnj-frozen-driver" class="quarto-xref">Assumption&nbsp;2.1</a>, the consistent stationary finite-dimensional laws specified by <span class="math inline">\(\pi_\theta\)</span> and <span class="math inline">\(P_\theta\)</span> extend, by the Kolmogorov extension theorem, to a two-sided stationary Markov chain <span class="math inline">\((X_k^\theta)_{k\in\mathbb{Z}}\)</span> on this standard Borel space. Denote its law on <span class="math inline">\((\mathsf{X}^{\mathbb{Z}},\mathcal A^{\otimes\mathbb{Z}})\)</span> by <span class="math inline">\(\mathbb{P}_\theta^{\mathrm{stat}}\)</span>. Its one-time marginal is <span class="math inline">\(\pi_\theta\)</span>, and its forward transition conditional on the entire past is <span class="math inline">\(P_\theta\)</span>. The marginal <span class="math inline">\(\pi_\theta\)</span> describes one observation; <span class="math inline">\(\mathbb{P}_\theta^{\mathrm{stat}}\)</span> also describes temporal dependence and is generally not a product law.</p>
-<p>The ordinary frozen mean field is</p>
-<p><span id="eq-ordinary-frozen-field"><span class="math display">\[
-h(\theta)=\pi_\theta(H_\theta)
-=\mathbb{E}_{\mathbb{P}_\theta^{\mathrm{stat}}}[H_\theta(X_0^\theta)].
-\tag{2.3}\]</span></span></p>
-<p>A Robbins–Monro root <span class="math inline">\(\theta^\star\)</span> satisfies <span class="math inline">\(h(\theta^\star)=0\)</span>. For acceptance-rate calibration one may use <span class="math inline">\(H_\theta(x)=a_\theta(x)-a^\star\)</span>, where <span class="math inline">\(a_\theta(x)\)</span> is the conditional expected acceptance probability and <span class="math inline">\(a^\star\)</span> is the target rate. If the observed residual instead uses proposals or acceptance indicators, the driving state must include the variables needed to make that observation a function of its current state; the invariant law in <a href="#eq-ordinary-frozen-field" class="quarto-xref">Equation&nbsp;2.3</a> then refers to that enlarged driver.</p>
-</section>
-<section id="fixed-gain-memories-and-the-stationary-field" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="fixed-gain-memories-and-the-stationary-field"><span class="header-section-number">2.2</span> Fixed-gain memories and the stationary field</h2>
-<p>For context, a controlled recursion generates observations according to</p>
-<p><span id="eq-controlled-transition"><span class="math display">\[
-X_{n+1}\mid\mathcal F_n\sim P_{\theta_n}(X_n,\cdot),
-\tag{2.4}\]</span></span></p>
-<p>with <span class="math inline">\(\theta_n,X_n\)</span> measurable with respect to <span class="math inline">\(\mathcal F_n\)</span>. Ordinary Robbins–Monro adaptation takes the form</p>
-<p><span id="eq-rm-update"><span class="math display">\[
-\theta_{n+1}=\theta_n+\gamma_{n+1}H_{\theta_n}(X_{n+1}).
-\tag{2.5}\]</span></span></p>
-<p>Here <span class="math inline">\((\gamma_n)\)</span> are positive deterministic parameter gains. An Adam-type alternative fixes <span class="math inline">\(0\leq\alpha,\beta&lt;1\)</span> and <span class="math inline">\(\varepsilon&gt;0\)</span> and uses</p>
-<p><span id="eq-adam-recursion"><span class="math display">\[
-\begin{aligned}
-M_{n+1}&amp;=\alpha M_n+(1-\alpha)H_{\theta_n}(X_{n+1}),\\
-V_{n+1}&amp;=\beta V_n+(1-\beta)H_{\theta_n}(X_{n+1})^{\odot2},\\
-\theta_{n+1}&amp;=\theta_n+\gamma_{n+1}
-\frac{M_{n+1}}{\sqrt{V_{n+1}}+\varepsilon}.
-\end{aligned}
-\tag{2.6}\]</span></span></p>
-<p>Initially <span class="math inline">\(M_0\in\mathbb{R}^d\)</span> and <span class="math inline">\(V_0\in[0,\infty)^d\)</span>. Squares, square roots and division are componentwise, and <span class="math inline">\(\varepsilon\)</span> is added in each coordinate. We use uncorrected memories, without finite-time bias factors. The gains <span class="math inline">\(1-\alpha\)</span> and <span class="math inline">\(1-\beta\)</span> remain fixed. The displayed recursions motivate the frozen construction; no tracking assertion is made about their changing-parameter law.</p>
-<p>Fix <span class="math inline">\(\theta\)</span> and set <span class="math inline">\(U_k^\theta=H_\theta(X_k^\theta)\)</span>. Define the stationary memories at time zero by</p>
-<p><span id="eq-stationary-memories"><span class="math display">\[
-M^\theta=(1-\alpha)\sum_{j=0}^\infty\alpha^j U_{-j}^\theta,\qquad
-V^\theta=(1-\beta)\sum_{j=0}^\infty\beta^j(U_{-j}^\theta)^{\odot2}.
-\tag{2.7}\]</span></span></p>
-<p>For a zero coefficient the corresponding series consists only of its <span class="math inline">\(j=0\)</span> term. These variables are defined under <span class="math inline">\(\mathbb{P}_\theta^{\mathrm{stat}}\)</span>.</p>
-<div id="lem-stationary-memories" class="theorem lemma">
-<p><span class="theorem-title"><strong>Lemma 2.1 (Integrable stationary memories)</strong></span> Under <a href="#cnj-frozen-driver" class="quarto-xref">Assumption&nbsp;2.1</a>, the series in <a href="#eq-stationary-memories" class="quarto-xref">Equation&nbsp;2.7</a> converge absolutely almost surely and in <span class="math inline">\(L^1\)</span>. Moreover, <span class="math inline">\(M^\theta\in L^2\)</span>.</p>
-</div>
-<div class="proof">
-<p><span class="proof-title"><em>Proof</em>. </span>Put <span class="math inline">\(c_1=\pi_\theta(\|H_\theta\|)&lt;\infty\)</span> and <span class="math inline">\(c_2=\pi_\theta(\|H_\theta\|^2)&lt;\infty\)</span>. Tonelli’s theorem and stationarity give</p>
-<p><span class="math display">\[
-\begin{aligned}
-\mathbb{E}\left[(1-\alpha)\sum_{j\geq0}\alpha^j\|U_{-j}^\theta\|\right]&amp;=c_1,\\
-\mathbb{E}\left[(1-\beta)\sum_{j\geq0}\beta^j\|U_{-j}^\theta\|^2\right]&amp;=c_2.
-\end{aligned}
-\]</span></p>
-<p>Both nonnegative series are therefore finite almost surely. Since <span class="math inline">\(\|u^{\odot2}\|\leq\|u\|^2\)</span>, the expected norm tails after <span class="math inline">\(j=J\)</span> are at most <span class="math inline">\(c_1\alpha^{J+1}\)</span> and <span class="math inline">\(c_2\beta^{J+1}\)</span>, respectively. This also proves <span class="math inline">\(L^1\)</span> convergence. Jensen’s inequality for the weights <span class="math inline">\((1-\alpha)\alpha^j\)</span>, whose sum is one, yields</p>
-<p><span class="math display">\[
-\|M^\theta\|^2\leq(1-\alpha)\sum_{j\geq0}\alpha^j\|U_{-j}^\theta\|^2.
-\]</span></p>
-<p>Its expectation is at most <span class="math inline">\(c_2\)</span>, proving the final assertion.</p>
-</div>
-<p>The stationary Adam field is</p>
-<p><span id="eq-adam-field"><span class="math display">\[
-F(\theta)
-=\mathbb{E}_{\mathbb{P}_\theta^{\mathrm{stat}}}
-\left[\frac{M^\theta}{\sqrt{V^\theta}+\varepsilon}\right].
-\tag{2.8}\]</span></span></p>
-<p>It is finite because <span class="math inline">\(\|M^\theta/(\sqrt{V^\theta}+\varepsilon)\|\leq\|M^\theta\|/\varepsilon\)</span>. This expectation is under the stationary frozen Markov path law, not the nonstationary law of <a href="#eq-controlled-transition" class="quarto-xref">Equation&nbsp;2.4</a>–<a href="#eq-adam-recursion" class="quarto-xref">Equation&nbsp;2.6</a>. For the IID kernel <span class="math inline">\(P_\theta(x,\cdot)=\pi_\theta(\cdot)\)</span> it reduces to the history field of <span class="citation" data-cites="Dereich2025_UJMNX8NK">[<a href="#ref-Dereich2025_UJMNX8NK" role="doc-biblioref">3</a>, Definition 1.3]</span>. Neither the field’s existence nor the memory construction requires the additional restriction <span class="math inline">\(\alpha^2&lt;\beta\)</span> used in their ODE theorem.</p>
-</section>
-<section id="calibration-under-linear-and-nonlinear-memory" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="calibration-under-linear-and-nonlinear-memory"><span class="header-section-number">2.3</span> Calibration under linear and nonlinear memory</h2>
-<p>Linear EMA momentum preserves the ordinary field. By the absolute integrability just proved, expectation and summation can be interchanged:</p>
-<p><span id="eq-momentum-preservation"><span class="math display">\[
-\mathbb{E}_{\mathbb{P}_\theta^{\mathrm{stat}}}[M^\theta]
-=(1-\alpha)\sum_{j\geq0}\alpha^j\mathbb{E}[U_{-j}^\theta]
-=h(\theta).
-\tag{2.9}\]</span></span></p>
-<p>No independence is used. Adam instead multiplies each momentum coordinate by <span class="math inline">\(W_i^\theta=(\sqrt{V_i^\theta}+\varepsilon)^{-1}\)</span>. Since <span class="math inline">\(0&lt;W_i^\theta\leq\varepsilon^{-1}\)</span> and <span class="math inline">\(M_i^\theta\in L^2\)</span>, the covariance below is well defined. Expanding its definition gives</p>
-<p><span id="eq-covariance-decomposition"><span class="math display">\[
-F_i(\theta)=h_i(\theta)\,\mathbb{E}[W_i^\theta]
-+\operatorname{Cov}_{\mathbb{P}_\theta^{\mathrm{stat}}}(M_i^\theta,W_i^\theta).
-\tag{2.10}\]</span></span></p>
-<p>Consequently, at an ordinary root,</p>
-<p><span id="eq-covariance-at-root"><span class="math display">\[
-F_i(\theta^\star)
-=\operatorname{Cov}_{\mathbb{P}_{\theta^\star}^{\mathrm{stat}}}
-(M_i^{\theta^\star},W_i^{\theta^\star}).
-\tag{2.11}\]</span></span></p>
-<p>Thus an ordinary root is also an Adam root exactly when these componentwise covariances vanish. The identity isolates the calibration issue: centring the innovation centres the first memory, but does not by itself centre the normalised readout. It does not prove that any covariance is nonzero, locate an Adam equilibrium, or demonstrate root displacement for a particular Metropolis–Hastings model. Its role here is to motivate identifying the joint stationary memory law.</p>
-</section>
-</section>
-<section id="sec-mifs" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Markov augmentation and stationary memory law</h1>
-<section id="the-frozen-augmented-kernel" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="the-frozen-augmented-kernel"><span class="header-section-number">3.1</span> The frozen augmented kernel</h2>
-<p>Fix <span class="math inline">\(\theta\)</span>. Let <span class="math inline">\(\mathsf Y=\mathbb{R}^d\times[0,\infty)^d\)</span> be the memory space, with its Euclidean product norm, and let <span class="math inline">\(\mathsf Z=\mathsf X\times\mathsf Y\)</span> carry the product sigma-algebra. Define</p>
-<p><span id="eq-memory-map"><span class="math display">\[
-T_\theta(x',m,v)=
-\begin{pmatrix}
-\alpha m+(1-\alpha)H_\theta(x')\\
-\beta v+(1-\beta)H_\theta(x')^{\odot2}
-\end{pmatrix}.
-\tag{3.1}\]</span></span></p>
-<p>For <span class="math inline">\(u=(m,v)\)</span>, also write <span class="math inline">\(T_\theta(x,u)=T_\theta(x,m,v)\)</span>. For the frozen recursions, <span class="math inline">\(Z_n=(X_n,M_n,V_n)\)</span> has transition kernel</p>
+<p>where <span class="math inline">\((\gamma_n)\)</span> are positive deterministic gains; write <span class="math inline">\(G_\theta(z)=G_\theta(x,u)\)</span> for <span class="math inline">\(z=(x,u)\)</span>. The memory update persists on the observation timescale, while the parameter gain will decrease. Set <span class="math inline">\(\mathsf Z=\mathsf X\times\mathsf Y\)</span> and <span class="math inline">\(Z_n=(X_n,U_n)\)</span>. For a frozen parameter, the augmented transition kernel is</p>
 <p><span id="eq-augmented-kernel"><span class="math display">\[
 Q_\theta((x,u),dx'\,du')
 =P_\theta(x,dx')\,\delta_{T_\theta(x',u)}(du').
-\tag{3.2}\]</span></span></p>
-<p>Conditional on the current state, the next observation has law <span class="math inline">\(P_\theta(x,\cdot)\)</span> and the next memory is a deterministic measurable function of that observation and the current memory. Hence <span class="math inline">\(Z_n\)</span> is Markov. For two memory states driven by the same observation,</p>
-<p><span id="eq-same-driver-memory-contraction"><span class="math display">\[
-\begin{aligned}
-\|T_\theta(x',m,v)-T_\theta(x',\widetilde m,\widetilde v)\|^2
-&amp;=\alpha^2\|m-\widetilde m\|^2+\beta^2\|v-\widetilde v\|^2\\
-&amp;\leq\kappa^2\|(m,v)-(\widetilde m,\widetilde v)\|^2,
-\qquad \kappa=\max\{\alpha,\beta\}&lt;1.
-\end{aligned}
-\tag{3.3}\]</span></span></p>
-<p>This contracts the memory coordinates along a common driving path. It is not a contraction assertion for <span class="math inline">\(Q_\theta\)</span> on the full augmented space: different initial driving states have not been coupled.</p>
-</section>
-<section id="identification-of-the-stationary-memories" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="identification-of-the-stationary-memories"><span class="header-section-number">3.2</span> Identification of the stationary memories</h2>
-<div id="cor-stationary-memory-law" class="theorem corollary">
-<p><span class="theorem-title"><strong>Corollary 3.1 (Stationary memory representation)</strong></span> Under <a href="#cnj-frozen-driver" class="quarto-xref">Assumption&nbsp;2.1</a>, <span class="math inline">\(Q_\theta\)</span> has a unique invariant probability <span class="math inline">\(\nu_\theta\)</span>. Its driving marginal is <span class="math inline">\(\pi_\theta\)</span> and</p>
-<p><span id="eq-stationary-joint-law"><span class="math display">\[
-\nu_\theta=
-\operatorname{Law}_{\mathbb{P}_\theta^{\mathrm{stat}}}
-(X_0^\theta,M^\theta,V^\theta),
-\tag{3.4}\]</span></span></p>
-<p>where <span class="math inline">\(M^\theta,V^\theta\)</span> are the stationary histories in <a href="#eq-stationary-memories" class="quarto-xref">Equation&nbsp;2.7</a>. Consequently,</p>
-<p><span id="eq-stationary-adam-integral"><span class="math display">\[
-F(\theta)=\int_{\mathsf Z}
-\frac{m}{\sqrt v+\varepsilon}\,
-\nu_\theta(dx\,dm\,dv).
-\tag{3.5}\]</span></span></p>
+\tag{2.2}\]</span></span></p>
+<p>Marginalising over the memory coordinate gives <span class="math inline">\(Q_\theta((x,u),A\times\mathsf Y)=P_\theta(x,A)\)</span> for every <span class="math inline">\(A\in\mathcal A\)</span>. If <span class="math inline">\(\eta\)</span> is invariant for <span class="math inline">\(Q_\theta\)</span> and <span class="math inline">\(\eta_X\)</span> is its driver marginal, invariance gives <span class="math inline">\(\eta_X(A)=\int P_\theta(x,A)\,\eta_X(dx)\)</span>. Thus <span class="math inline">\(\eta_X\)</span> is invariant for <span class="math inline">\(P_\theta\)</span> and equals <span class="math inline">\(\pi_\theta\)</span> whenever the driver has a unique invariant probability <span class="math inline">\(\pi_\theta\)</span>. Consequently, for a driver-only readout <span class="math inline">\(G_\theta(x,u)=H_\theta(x)\)</span> with <span class="math inline">\(\pi_\theta\)</span>-integrable <span class="math inline">\(H_\theta\)</span>, one has <span class="math inline">\(\eta(G_\theta)=\pi_\theta(H_\theta)=h(\theta)\)</span>, preserving the ordinary Robbins–Monro mean field.</p>
+<p>The next memory is a deterministic function of the new observation and the current memory, so the frozen augmented process is Markov. The controlled recursion has conditional transition <span class="math inline">\(Q_{\theta_n}\)</span>.</p>
+<p>Write <span class="math inline">\(\mu(f)=\int f\,d\mu\)</span> when this integral exists. The action of a kernel on a probability measure is</p>
+<p><span id="eq-measure-kernel-action"><span class="math display">\[
+(\mu P_\theta)(A)=\int_{\mathsf X}P_\theta(x,A)\,\mu(dx),\qquad A\in\mathcal A.
+\tag{2.3}\]</span></span></p>
+<p>An invariant probability <span class="math inline">\(\pi_\theta\)</span> satisfies</p>
+<p><span id="eq-driver-invariance"><span class="math display">\[
+\pi_\theta P_\theta=\pi_\theta.
+\tag{2.4}\]</span></span></p>
+<p>Thus one transition preserves the marginal <span class="math inline">\(\pi_\theta\)</span> when the parameter is fixed. In the usual MCMC setting the sampling kernels share a target <span class="math inline">\(\pi_\theta=\pi\)</span>, although their transition dependence changes with <span class="math inline">\(\theta\)</span>.</p>
+<p>The same notation applies to <span class="math inline">\(Q_\theta\)</span> and its invariant probabilities. Whenever <span class="math inline">\(Q_\theta\)</span> has an invariant law <span class="math inline">\(\nu_\theta\)</span> and <span class="math inline">\(G_\theta\)</span> is <span class="math inline">\(\nu_\theta\)</span>-integrable, define the stationary mean field</p>
+<p><span id="eq-general-stationary-field"><span class="math display">\[
+F(\theta)=\nu_\theta(G_\theta).
+\tag{2.5}\]</span></span></p>
+<p>It is this field that enters the limiting ODE for the recursion with memory. Existence and regularity of <span class="math inline">\(\nu_\theta\)</span> and <span class="math inline">\(F\)</span> will follow under the assumptions stated below.</p>
+<p>To describe memory contraction, equip <span class="math inline">\(\mathsf Y\)</span> with a metric <span class="math inline">\(d_Y\)</span> generating <span class="math inline">\(\mathcal B\)</span>, and fix a parameter region <span class="math inline">\(\mathsf K\subseteq\Theta\)</span>.</p>
+<div id="def-contractive-memory" class="theorem definition">
+<p><span class="theorem-title"><strong>Definition 2.1 (Uniformly contractive memory)</strong></span> A memory update <span class="math inline">\(T_\theta:\mathsf X\times\mathsf Y\to\mathsf Y\)</span> is uniformly contractive in its memory argument on <span class="math inline">\(\mathsf K\)</span> if, for some <span class="math inline">\(0\leq r&lt;1\)</span>,</p>
+<p><span id="eq-memory-contraction"><span class="math display">\[
+d_Y(T_\theta(x,u),T_\theta(x,v))\leq r\,d_Y(u,v)
+\tag{2.6}\]</span></span></p>
+<p>for every <span class="math inline">\(x\in\mathsf X\)</span>, <span class="math inline">\(u,v\in\mathsf Y\)</span> and <span class="math inline">\(\theta\in\mathsf K\)</span>. Thus <span class="math inline">\(u\mapsto T_\theta(x,u)\)</span> is <span class="math inline">\(r\)</span>-Lipschitz uniformly over the driving observation and parameter.</p>
 </div>
-<div class="proof">
-<p><span class="proof-title"><em>Proof</em>. </span>Define <span class="math inline">\(M_k^\theta\)</span> and <span class="math inline">\(V_k^\theta\)</span> by shifting the infinite series in <a href="#eq-stationary-memories" class="quarto-xref">Equation&nbsp;2.7</a> to time <span class="math inline">\(k\)</span>. Their almost-sure convergence follows from <a href="#lem-stationary-memories" class="quarto-xref">Lemma&nbsp;2.1</a> and stationarity. They satisfy the frozen recursions, while the joint process <span class="math inline">\((X_k^\theta,M_k^\theta,V_k^\theta)_{k\in\mathbb{Z}}\)</span> is stationary. Its one-time law is therefore invariant for <a href="#eq-augmented-kernel" class="quarto-xref">Equation&nbsp;3.2</a>.</p>
-<p>For uniqueness, let <span class="math inline">\(\eta\)</span> be another invariant probability of <span class="math inline">\(Q_\theta\)</span>. Its driving marginal must equal <span class="math inline">\(\pi_\theta\)</span>, by the uniqueness assumed in <a href="#cnj-frozen-driver" class="quarto-xref">Assumption&nbsp;2.1</a>. Couple initial states with laws <span class="math inline">\(\eta\)</span> and <span class="math inline">\(\nu_\theta\)</span> so that their driving coordinates agree, and then use the same driving transitions for both memory recursions. Their memory difference after <span class="math inline">\(n\)</span> steps is bounded by <span class="math inline">\(\kappa^n\|U_0-\widetilde U_0\|\)</span>. This tends to zero almost surely without a moment assumption on the two initial memories. For every bounded measurable test function that is uniformly Lipschitz in the memory coordinate, bounded convergence gives equality of the two stationary expectations. Such tests determine probability measures on <span class="math inline">\(\mathsf X\times\mathsf Y\)</span>, hence <span class="math inline">\(\eta=\nu_\theta\)</span>. The integral representation follows from <a href="#lem-stationary-memories" class="quarto-xref">Lemma&nbsp;2.1</a> and <span class="math inline">\(\varepsilon&gt;0\)</span>.</p>
-</div>
-<p>This stationary identification does not require a geometric contraction estimate for the driving chain. Such an estimate is introduced in the next section to control distances between augmented transition laws from different initial driving states, and subsequently to compare kernels with different frozen parameters.</p>
+<p>This gives geometric forgetting of initial memory states along a common driving trajectory. Indeed, if <span class="math inline">\(U_{n+1}=T_\theta(X_{n+1},U_n)\)</span> and <span class="math inline">\(\widetilde U_{n+1}=T_\theta(X_{n+1},\widetilde U_n)\)</span>, induction gives</p>
+<p><span id="eq-common-driver-forgetting"><span class="math display">\[
+d_Y(U_n,\widetilde U_n)\leq r^n d_Y(U_0,\widetilde U_0).
+\tag{2.7}\]</span></span></p>
+<p>To compare memories along different driving trajectories, the lifting theorem will also require spatial regularity of <span class="math inline">\(T_\theta\)</span> in its observation argument.</p>
 </section>
-</section>
-<section id="sec-wasserstein-lifting" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Wasserstein contraction of the augmented kernel</h1>
-<p>The preceding construction identifies a stationary law without requiring a metric contraction of the augmented process. We now impose assumptions that give a quantitative bound on its transition kernel. The argument applies to a contractive memory update more generally than the affine EMA recursion.</p>
-<section id="metrics-and-a-coupled-driving-chain" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="metrics-and-a-coupled-driving-chain"><span class="header-section-number">4.1</span> Metrics and a coupled driving chain</h2>
-<p>Let <span class="math inline">\((\mathsf X,d_X)\)</span> be Polish and let <span class="math inline">\((\mathsf Y,d_Y)\)</span> be a complete separable memory space. On <span class="math inline">\(\mathsf Z=\mathsf X\times\mathsf Y\)</span> use</p>
+<section id="wasserstein-distance-and-lipschitz-functions" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="wasserstein-distance-and-lipschitz-functions"><span class="header-section-number">2.2</span> Wasserstein distance and Lipschitz functions</h2>
+<p>For the Wasserstein results, equip <span class="math inline">\(\mathsf X\)</span> and <span class="math inline">\(\mathsf Y\)</span> with complete separable metrics <span class="math inline">\(d_X,d_Y\)</span> generating their sigma-algebras. On <span class="math inline">\(\mathsf Z=\mathsf X\times\mathsf Y\)</span> use</p>
 <p><span id="eq-product-metric"><span class="math display">\[
 d_Z((x,u),(y,v))=d_X(x,y)+d_Y(u,v).
-\tag{4.1}\]</span></span></p>
-<p>Write <span class="math inline">\(\mathcal P_1(\mathsf Z)\)</span> for probabilities with finite first moment in <span class="math inline">\(d_Z\)</span>. For <span class="math inline">\(\mu,\eta\in\mathcal P_1(\mathsf Z)\)</span>, the <span class="math inline">\(1\)</span>-Wasserstein distance satisfies the primal and Kantorovich–Rubinstein dual representations,</p>
+\tag{2.8}\]</span></span></p>
+<p>Write <span class="math inline">\(\mathcal P_1(\mathsf Z)\)</span> for probabilities with finite first moment in <span class="math inline">\(d_Z\)</span>. For <span class="math inline">\(\mu,\eta\in\mathcal P_1(\mathsf Z)\)</span>, let <span class="math inline">\(\mathcal C(\mu,\eta)\)</span> denote their couplings. The <span class="math inline">\(1\)</span>-Wasserstein distance satisfies the primal and Kantorovich–Rubinstein dual representations,</p>
 <p><span id="eq-wasserstein-duality"><span class="math display">\[
 \begin{aligned}
 W_{d_Z}(\mu,\eta)
@@ -458,101 +359,272 @@ W_{d_Z}(\mu,\eta)
 &amp;=\sup_{\|f\|_{\operatorname{Lip}(d_Z)}\leq1}
 |\mu(f)-\eta(f)|.
 \end{aligned}
-\tag{4.2}\]</span></span></p>
+\tag{2.9}\]</span></span></p>
+<p>For a real-valued function <span class="math inline">\(f\)</span>, its Lipschitz seminorm is</p>
+<p><span id="eq-lipschitz-seminorm"><span class="math display">\[
+\|f\|_{\operatorname{Lip}(d_Z)}
+=\sup_{z\ne z'}\frac{|f(z)-f(z')|}{d_Z(z,z')}.
+\tag{2.10}\]</span></span></p>
 <p>For a Markov kernel <span class="math inline">\(K\)</span> write</p>
 <p><span id="eq-dobrushin-coefficient"><span class="math display">\[
 \tau_{d_Z}(K)=\sup_{z\ne z'}
 \frac{W_{d_Z}(K(z,\cdot),K(z',\cdot))}{d_Z(z,z')}.
-\tag{4.3}\]</span></span></p>
+\tag{2.11}\]</span></span></p>
+<p>By duality, <span class="math inline">\(\|Kf\|_{\operatorname{Lip}}\leq\tau_{d_Z}(K)\|f\|_{\operatorname{Lip}}\)</span>. These are the distance and contraction coefficient used in the perturbation theory of <span class="citation" data-cites="RudolfSchweizer2018">[<a href="#ref-RudolfSchweizer2018" role="doc-biblioref">4</a>]</span>. Constants in the subsequent estimates are uniform on a specified parameter region <span class="math inline">\(\mathsf K\subseteq\Theta\)</span>.</p>
+</section>
+<section id="weighted-norms-and-centred-poisson-equations" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="weighted-norms-and-centred-poisson-equations"><span class="header-section-number">2.3</span> Weighted norms and centred Poisson equations</h2>
+<p>For a measurable weight <span class="math inline">\(\mathcal V:\mathsf Z\to[1,\infty)\)</span>, write</p>
+<p><span id="eq-weighted-function-norm"><span class="math display">\[
+\|f\|_{\mathcal V}=\sup_z\frac{|f(z)|}{\mathcal V(z)}.
+\tag{2.12}\]</span></span></p>
+<p>A Lyapunov inequality <span class="math inline">\(Q_\theta\mathcal V\leq a\mathcal V+b\)</span>, with <span class="math inline">\(0\leq a&lt;1\)</span> and <span class="math inline">\(b&lt;\infty\)</span>, controls growth under iteration. Weighted one-step kernel differences will be measured against <span class="math inline">\(\mathcal V\)</span> on Lipschitz test functions. This keeps the Wasserstein estimates and the weighted-norm parameter analysis of <span class="citation" data-cites="Care2026">[<a href="#ref-Care2026" role="doc-biblioref">7</a>]</span> in a common setting.</p>
+<p>For <span class="math inline">\(\bar G_\theta=G_\theta-F(\theta)\)</span>, a centred Poisson solution satisfies</p>
+<p><span id="eq-augmented-poisson"><span class="math display">\[
+u_\theta-Q_\theta u_\theta=\bar G_\theta,
+\qquad \nu_\theta(u_\theta)=0.
+\tag{2.13}\]</span></span></p>
+<p>The Neumann-series representation is</p>
+<p><span id="eq-poisson-series"><span class="math display">\[
+u_\theta(z)=\sum_{n=0}^\infty
+\bigl[Q_\theta^nG_\theta(z)-F(\theta)\bigr],
+\tag{2.14}\]</span></span></p>
+<p>when the centred iterates are summable. Geometric Wasserstein contraction will give this summability for Lipschitz observables, as in <span class="citation" data-cites="Hofstadler2026">[<a href="#ref-Hofstadler2026" role="doc-biblioref">5</a>, Theorem 3.4]</span>. The bounds needed for parameter comparison and adaptive tracking are developed after the contraction theorem.</p>
+</section>
+</section>
+<section id="sec-wasserstein-lifting" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Wasserstein contraction of the augmented kernel</h1>
+<p>A contracting Markov driver and a contractive memory update give geometric contraction of the full augmented process. The proof couples the driver trajectories and propagates their separation through the memory recursion.</p>
+<section id="coupling-assumptions-and-the-lifting-theorem" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="coupling-assumptions-and-the-lifting-theorem"><span class="header-section-number">3.1</span> Coupling assumptions and the lifting theorem</h2>
 <p>Fix a parameter region <span class="math inline">\(\mathsf K\subseteq\Theta\)</span>. The constants below may depend on <span class="math inline">\(\mathsf K\)</span>, but not on <span class="math inline">\(\theta\in\mathsf K\)</span>.</p>
 <div id="cnj-driver-coupling" class="theorem conjecture">
-<p><span class="theorem-title"><strong>Assumption 4.1 (Geometrically contracting driver coupling)</strong></span> For every <span class="math inline">\(\theta\in\mathsf K\)</span> there is a Markovian coupling of two <span class="math inline">\(P_\theta\)</span>-chains, with joint law denoted by <span class="math inline">\(\mathbb{P}^\theta_{x,y}\)</span>, such that for every <span class="math inline">\(n\geq0\)</span> and <span class="math inline">\(x,y\in\mathsf X\)</span>,</p>
+<p><span class="theorem-title"><strong>Assumption 3.1 (Geometrically contracting driver coupling)</strong></span> For every <span class="math inline">\(\theta\in\mathsf K\)</span> there is a Markovian coupling of two <span class="math inline">\(P_\theta\)</span>-chains, with joint law denoted by <span class="math inline">\(\mathbb{P}^\theta_{x,y}\)</span>, such that for every <span class="math inline">\(n\geq0\)</span> and <span class="math inline">\(x,y\in\mathsf X\)</span>,</p>
 <p><span id="eq-driver-trajectory-coupling"><span class="math display">\[
 \mathbb{E}^\theta_{x,y}d_X(X_n,\widetilde X_n)
 \leq C_P\rho_P^n d_X(x,y),
 \qquad C_P&lt;\infty,\quad 0&lt;\rho_P&lt;1.
-\tag{4.4}\]</span></span></p>
+\tag{3.1}\]</span></span></p>
 </div>
 <p>This is an estimate for one coupled pair of <em>trajectories</em>, at every time. A bound on <span class="math inline">\(W_{d_X}(P_\theta^n(x,\cdot),P_\theta^n(y,\cdot))\)</span> for each <span class="math inline">\(n\)</span>, considered separately, does not by itself specify a consistent coupling of the intervening observations.</p>
 <div id="cnj-memory-lipschitz" class="theorem conjecture">
-<p><span class="theorem-title"><strong>Assumption 4.2 (Contractive and spatially regular memory update)</strong></span> For <span class="math inline">\(\theta\in\mathsf K\)</span>, the update <span class="math inline">\(T_\theta:\mathsf X\times\mathsf Y\to\mathsf Y\)</span> is measurable and, with constants <span class="math inline">\(r&lt;1\)</span> and <span class="math inline">\(L_T&lt;\infty\)</span> independent of <span class="math inline">\(\theta\)</span>,</p>
+<p><span class="theorem-title"><strong>Assumption 3.2 (Spatial regularity and first moments for contractive memory)</strong></span> The memory update is uniformly contractive on <span class="math inline">\(\mathsf K\)</span> in the sense of <a href="#def-contractive-memory" class="quarto-xref">Definition&nbsp;2.1</a>, with coefficient <span class="math inline">\(r\)</span>. In addition, there is a constant <span class="math inline">\(L_T&lt;\infty\)</span>, independent of <span class="math inline">\(\theta\in\mathsf K\)</span>, such that</p>
+<p><span id="eq-memory-spatial-lipschitz"><span class="math display">\[
+d_Y(T_\theta(x,u),T_\theta(y,u))\leq L_Td_X(x,y)
+\tag{3.2}\]</span></span></p>
+<p>for all <span class="math inline">\(x,y\in\mathsf X\)</span> and <span class="math inline">\(u\in\mathsf Y\)</span>.</p>
+<p>For one, hence every, fixed <span class="math inline">\(z_0\in\mathsf Z\)</span>, assume <span class="math inline">\(Q_\theta(z_0,\cdot)\in\mathcal P_1(\mathsf Z)\)</span>.</p>
+</div>
+<p>By the triangle inequality, memory contraction and spatial regularity together give</p>
 <p><span id="eq-memory-joint-lipschitz"><span class="math display">\[
 d_Y(T_\theta(x,u),T_\theta(y,v))
 \leq r\,d_Y(u,v)+L_Td_X(x,y).
-\tag{4.5}\]</span></span></p>
-<p>For one, hence every, fixed <span class="math inline">\(z_0\in\mathsf Z\)</span>, assume <span class="math inline">\(Q_\theta(z_0,\cdot)\in\mathcal P_1(\mathsf Z)\)</span>.</p>
-</div>
-<p>The last assumption is a one-step moment condition. It can be verified from a driver drift inequality and the growth of the memory forcing.</p>
+\tag{3.3}\]</span></span></p>
+<p>The one-step moment condition can be verified from a driver drift inequality and the growth of the memory forcing, as shown in <a href="#sec-first-moment-verification" class="quarto-xref">Section&nbsp;3.2</a>.</p>
 <div id="thm-wasserstein-lifting" class="theorem">
-<p><span class="theorem-title"><strong>Theorem 4.1 (Wasserstein contraction lifts through contractive memory)</strong></span> Suppose <a href="#cnj-driver-coupling" class="quarto-xref">Assumption&nbsp;4.1</a> and <a href="#cnj-memory-lipschitz" class="quarto-xref">Assumption&nbsp;4.2</a> hold. For every <span class="math inline">\(\eta\in(\max\{\rho_P,r\},1)\)</span> there is <span class="math inline">\(C_Z(\eta)&lt;\infty\)</span>, uniform in <span class="math inline">\(\theta\in\mathsf K\)</span>, such that</p>
+<p><span class="theorem-title"><strong>Theorem 3.1 (Wasserstein contraction lifts through contractive memory)</strong></span> Suppose <a href="#cnj-driver-coupling" class="quarto-xref">Assumption&nbsp;3.1</a> and <a href="#cnj-memory-lipschitz" class="quarto-xref">Assumption&nbsp;3.2</a> hold. For every <span class="math inline">\(\eta\in(\max\{\rho_P,r\},1)\)</span> there is <span class="math inline">\(C_Z(\eta)&lt;\infty\)</span>, uniform in <span class="math inline">\(\theta\in\mathsf K\)</span>, such that</p>
 <p><span id="eq-augmented-contraction"><span class="math display">\[
 W_{d_Z}(Q_\theta^n(z,\cdot),Q_\theta^n(z',\cdot))
 \leq C_Z(\eta)\eta^n d_Z(z,z'),
 \qquad n\geq0.
-\tag{4.6}\]</span></span></p>
+\tag{3.4}\]</span></span></p>
 <p>In particular <span class="math inline">\(\tau_{d_Z}(Q_\theta^n)\leq C_Z(\eta)\eta^n\)</span>. Each <span class="math inline">\(Q_\theta\)</span> has a unique invariant distribution <span class="math inline">\(\nu_\theta\)</span> in <span class="math inline">\(\mathcal P_1(\mathsf Z)\)</span>, and</p>
 <p><span id="eq-invariant-wasserstein-rate"><span class="math display">\[
 W_{d_Z}(\delta_zQ_\theta^n,\nu_\theta)
 \leq C_Z(\eta)\eta^n W_{d_Z}(\delta_z,\nu_\theta).
-\tag{4.7}\]</span></span></p>
+\tag{3.5}\]</span></span></p>
 </div>
 <div class="proof">
-<p><span class="proof-title"><em>Proof</em>. </span>Fix <span class="math inline">\(\theta\)</span>. Couple two driving paths according to <a href="#cnj-driver-coupling" class="quarto-xref">Assumption&nbsp;4.1</a>, and evolve the corresponding memories using those paths. Put <span class="math inline">\(e_n=\mathbb{E}^\theta_{x,y}d_Y(U_n,\widetilde U_n)\)</span>. By <a href="#eq-memory-joint-lipschitz" class="quarto-xref">Equation&nbsp;4.5</a> and induction,</p>
+<p><span class="proof-title"><em>Proof</em>. </span>Fix <span class="math inline">\(\theta\)</span>. Couple two driving paths according to <a href="#cnj-driver-coupling" class="quarto-xref">Assumption&nbsp;3.1</a>, and evolve the corresponding memories using those paths. Put <span class="math inline">\(e_n=\mathbb{E}^\theta_{x,y}d_Y(U_n,\widetilde U_n)\)</span>. By <a href="#eq-memory-joint-lipschitz" class="quarto-xref">Equation&nbsp;3.3</a> and induction,</p>
 <p><span class="math display">\[
 e_n\leq r^n d_Y(u,v)
 +L_T\sum_{j=1}^n r^{n-j}
 \mathbb{E}^\theta_{x,y}d_X(X_j,\widetilde X_j).
 \]</span></p>
-<p>Together with <a href="#eq-driver-trajectory-coupling" class="quarto-xref">Equation&nbsp;4.4</a> this gives</p>
+<p>Together with <a href="#eq-driver-trajectory-coupling" class="quarto-xref">Equation&nbsp;3.1</a> this gives</p>
 <p><span id="eq-memory-geometric-convolution"><span class="math display">\[
 \begin{aligned}
 \mathbb{E}^\theta_{x,y}d_Z(Z_n,\widetilde Z_n)
 \leq {}&amp; C_P\rho_P^n d_X(x,y)+r^n d_Y(u,v)\\
 &amp;+L_TC_P\sum_{j=1}^n r^{n-j}\rho_P^j d_X(x,y).
 \end{aligned}
-\tag{4.8}\]</span></span></p>
-<p>For <span class="math inline">\(\eta&gt;\max\{r,\rho_P\}\)</span>, the geometric convolution is bounded by <span class="math inline">\(c_\eta\eta^n\)</span> with <span class="math inline">\(c_\eta&lt;\infty\)</span>. The law of the coupled augmented paths is a coupling of the two <span class="math inline">\(n\)</span>-step transition laws. Taking it as a candidate in the primal Wasserstein formula proves <a href="#eq-augmented-contraction" class="quarto-xref">Equation&nbsp;4.6</a>.</p>
-<p>At <span class="math inline">\(n=1\)</span> this gives <span class="math inline">\(\tau_{d_Z}(Q_\theta)&lt;\infty\)</span>. In conjunction with <span class="math inline">\(Q_\theta(z_0,\cdot)\in\mathcal P_1\)</span>, the triangle inequality shows that <span class="math inline">\(Q_\theta\)</span> maps <span class="math inline">\(\mathcal P_1(\mathsf Z)\)</span> into itself. Choose <span class="math inline">\(m\)</span> such that <span class="math inline">\(C_Z(\eta)\eta^m&lt;1\)</span>. Then <span class="math inline">\(\mu\mapsto\mu Q_\theta^m\)</span> is a strict contraction on the complete space <span class="math inline">\((\mathcal P_1(\mathsf Z),W_{d_Z})\)</span>, so Banach’s fixed-point theorem supplies a unique fixed point <span class="math inline">\(\nu_\theta\)</span>. Since <span class="math inline">\(\nu_\theta Q_\theta\)</span> is also fixed by <span class="math inline">\(Q_\theta^m\)</span>, uniqueness gives <span class="math inline">\(\nu_\theta Q_\theta=\nu_\theta\)</span>. Finally, apply <a href="#eq-augmented-contraction" class="quarto-xref">Equation&nbsp;4.6</a> to the coupling of <span class="math inline">\(\delta_z\)</span> and <span class="math inline">\(\nu_\theta\)</span>.</p>
+\tag{3.6}\]</span></span></p>
+<p>For <span class="math inline">\(\eta&gt;\max\{r,\rho_P\}\)</span>, the geometric convolution satisfies</p>
+<p><span class="math display">\[
+\sum_{j=1}^n r^{n-j}\rho_P^j
+=\eta^n\sum_{j=1}^n(r/\eta)^{n-j}(\rho_P/\eta)^j
+\leq\frac{\rho_P}{\eta-\rho_P}\eta^n.
+\]</span></p>
+<p>Thus all three terms are bounded geometrically in <span class="math inline">\(n\)</span>. The law of the coupled augmented paths is a coupling of the two <span class="math inline">\(n\)</span>-step transition laws. Taking it as a candidate in the primal Wasserstein formula proves <a href="#eq-augmented-contraction" class="quarto-xref">Equation&nbsp;3.4</a>.</p>
+<p>At <span class="math inline">\(n=1\)</span> this gives <span class="math inline">\(\tau_{d_Z}(Q_\theta)&lt;\infty\)</span>. In conjunction with <span class="math inline">\(Q_\theta(z_0,\cdot)\in\mathcal P_1\)</span>, the triangle inequality shows that <span class="math inline">\(Q_\theta\)</span> maps <span class="math inline">\(\mathcal P_1(\mathsf Z)\)</span> into itself. Choose <span class="math inline">\(m\)</span> such that <span class="math inline">\(C_Z(\eta)\eta^m&lt;1\)</span>. Then <span class="math inline">\(\mu\mapsto\mu Q_\theta^m\)</span> is a strict contraction on the complete space <span class="math inline">\((\mathcal P_1(\mathsf Z),W_{d_Z})\)</span>, so Banach’s fixed-point theorem supplies a unique fixed point <span class="math inline">\(\nu_\theta\)</span>. Since <span class="math inline">\(\nu_\theta Q_\theta\)</span> is also fixed by <span class="math inline">\(Q_\theta^m\)</span>, uniqueness gives <span class="math inline">\(\nu_\theta Q_\theta=\nu_\theta\)</span>. Finally, apply <a href="#eq-augmented-contraction" class="quarto-xref">Equation&nbsp;3.4</a> to the coupling of <span class="math inline">\(\delta_z\)</span> and <span class="math inline">\(\nu_\theta\)</span>.</p>
 </div>
-<p>When <a href="#cnj-frozen-driver" class="quarto-xref">Assumption&nbsp;2.1</a> holds with the corresponding finite moments, <a href="#cor-stationary-memory-law" class="quarto-xref">Corollary&nbsp;3.1</a> identifies this invariant distribution with the law of the stationary infinite-history memories. Thus the Wasserstein construction gives a quantitative route to the same frozen expectation, without requiring a backward iteration in its proof. Uniqueness among all invariant probabilities in the affine EMA setting follows independently from the stationary construction and synchronous memory argument in <a href="#cor-stationary-memory-law" class="quarto-xref">Corollary&nbsp;3.1</a>; <a href="#thm-wasserstein-lifting" class="quarto-xref">Theorem&nbsp;4.1</a> itself asserts uniqueness in <span class="math inline">\(\mathcal P_1\)</span>.</p>
 </section>
-<section id="affine-ema-updates-and-lyapunov-moments" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="affine-ema-updates-and-lyapunov-moments"><span class="header-section-number">4.2</span> Affine EMA updates and Lyapunov moments</h2>
-<p>For <a href="#eq-memory-map" class="quarto-xref">Equation&nbsp;3.1</a>, use <span class="math inline">\(d_Y(u,v)=\|u-v\|\)</span> and write</p>
-<p><span id="eq-affine-memory"><span class="math display">\[
-T_\theta(x,u)=Au+b_\theta(x),\quad
-A=\operatorname{diag}(\alpha I_d,\beta I_d),\quad
-b_\theta(x)=\begin{pmatrix}(1-\alpha)H_\theta(x)\\(1-\beta)H_\theta(x)^{\odot2}\end{pmatrix}.
-\tag{4.9}\]</span></span></p>
-<p>If <span class="math inline">\(b_\theta\)</span> is <span class="math inline">\(L_b\)</span>-Lipschitz in <span class="math inline">\(d_X\)</span>, then <a href="#cnj-memory-lipschitz" class="quarto-xref">Assumption&nbsp;4.2</a> holds with <span class="math inline">\(r=\max\{\alpha,\beta\}\)</span> and <span class="math inline">\(L_T=L_b\)</span>. In particular, a bound on the second moment of <span class="math inline">\(H_\theta\)</span> is not alone a spatial Lipschitz estimate for <span class="math inline">\(b_\theta\)</span> in an arbitrary metric. The metric and the innovation regularity must be checked together.</p>
-<p>A drift inequality gives a complementary first-moment bound. Suppose for a measurable <span class="math inline">\(w:\mathsf X\to[1,\infty)\)</span>,</p>
+<section id="sec-first-moment-verification" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sec-first-moment-verification"><span class="header-section-number">3.2</span> First-moment verification</h2>
+<p>A driver drift inequality and the growth of the memory forcing provide a convenient way to verify augmented moment bounds.</p>
+<div id="lem-augmented-drift" class="theorem lemma">
+<p><span class="theorem-title"><strong>Lemma 3.2 (Drift lifted through memory)</strong></span> Suppose the memory space is a subset of a normed space. For finite nonnegative constants <span class="math inline">\(B,c_0,c_1\)</span> and a measurable <span class="math inline">\(w:\mathsf X\to[1,\infty)\)</span>, assume</p>
 <p><span id="eq-driver-memory-drift"><span class="math display">\[
 P_\theta w\leq aw+B,\qquad
 \|T_\theta(x,u)\|\leq r\|u\|+c_0+c_1w(x),
-\qquad a,r&lt;1.
-\tag{4.10}\]</span></span></p>
+\qquad 0\leq a,r&lt;1.
+\tag{3.7}\]</span></span></p>
 <p>Choose <span class="math inline">\(\delta\in(\max\{a,r\},1)\)</span> and <span class="math inline">\(k&gt;0\)</span> sufficiently large that <span class="math inline">\((k+c_1)a\leq\delta k\)</span>. With</p>
 <p><span id="eq-augmented-lyapunov"><span class="math display">\[
 \mathcal V(x,u)=1+kw(x)+\|u\|,
-\tag{4.11}\]</span></span></p>
+\tag{3.8}\]</span></span></p>
 <p>the augmented transition satisfies</p>
 <p><span id="eq-augmented-drift"><span class="math display">\[
 Q_\theta\mathcal V\leq\delta\mathcal V+L,\qquad L&lt;\infty.
-\tag{4.12}\]</span></span></p>
-<p>Indeed, <span class="math inline">\(Q_\theta\mathcal V(x,u)\leq1+(k+c_1)P_\theta w(x)+r\|u\|+c_0\)</span>, and substitution of <a href="#eq-driver-memory-drift" class="quarto-xref">Equation&nbsp;4.10</a> gives the claim. If <span class="math inline">\(w(x)\)</span> is comparable to <span class="math inline">\(1+d_X(x,x_0)\)</span>, this drift is naturally aligned with the first moment in <span class="math inline">\(d_Z\)</span>. For an invariant law with finite <span class="math inline">\(\mathcal V\)</span>-moment, invariance yields <span class="math inline">\(\nu_\theta(\mathcal V)\leq L/(1-\delta)\)</span>. In the metric of <a href="#eq-product-metric" class="quarto-xref">Equation&nbsp;4.1</a>, the corresponding first eccentricity is</p>
+\tag{3.9}\]</span></span></p>
+</div>
+<p>The calculation is given in <a href="#sec-augmented-drift-proof">Appendix B</a>.</p>
+<p>With the norm metric on memory, if <span class="math inline">\(w(x)\)</span> is comparable to <span class="math inline">\(1+d_X(x,x_0)\)</span>, this drift is naturally aligned with the first moment in <span class="math inline">\(d_Z\)</span>. For an invariant law with finite <span class="math inline">\(\mathcal V\)</span>-moment, invariance yields <span class="math inline">\(\nu_\theta(\mathcal V)\leq L/(1-\delta)\)</span>. In the metric of <a href="#eq-product-metric" class="quarto-xref">Equation&nbsp;2.8</a>, the corresponding first eccentricity is</p>
 <p><span class="math display">\[
 \int d_Z(z_0,z)\,\nu_\theta(dz)&lt;\infty,
 \]</span></p>
 <p>as required for the <span class="math inline">\(p=1\)</span> Wasserstein Poisson theory of <span class="citation" data-cites="Hofstadler2026">[<a href="#ref-Hofstadler2026" role="doc-biblioref">5</a>]</span>.</p>
 </section>
-<section id="the-normalised-adam-observable" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="the-normalised-adam-observable"><span class="header-section-number">4.3</span> The normalised Adam observable</h2>
+</section>
+<section id="sec-stationary-calibration" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Stationary calibration and Adam</h1>
+<section id="frozen-kernels-and-probability-laws" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="frozen-kernels-and-probability-laws"><span class="header-section-number">4.1</span> Frozen kernels and probability laws</h2>
+<p>For the driver family of <a href="#sec-general-framework" class="quarto-xref">Chapter&nbsp;2</a>, let <span class="math inline">\(H:\Theta\times\mathsf X\to\mathbb R^d\)</span> be a measurable innovation and write <span class="math inline">\(H_\theta(x)=H(\theta,x)\)</span>. The stationary EMA construction uses only the following frozen assumptions on the standard Borel driver space.</p>
+<div id="cnj-frozen-driver" class="theorem conjecture">
+<p><span class="theorem-title"><strong>Assumption 4.1 (Frozen driver and innovation moment)</strong></span> For each <span class="math inline">\(\theta\in\Theta\)</span>, <span class="math inline">\(P_\theta\)</span> has a unique invariant probability <span class="math inline">\(\pi_\theta\)</span>, and</p>
+<p><span class="math display">\[
+\pi_\theta(\|H_\theta\|^2)&lt;\infty.
+\]</span></p>
+</div>
+<p>All subsequent stationary constructions are pointwise in <span class="math inline">\(\theta\)</span>; no regularity of the family of invariant laws is assumed here. Under <a href="#cnj-frozen-driver" class="quarto-xref">Assumption&nbsp;4.1</a>, the consistent stationary finite-dimensional laws specified by <span class="math inline">\(\pi_\theta\)</span> and <span class="math inline">\(P_\theta\)</span> extend, by the Kolmogorov extension theorem, to a two-sided stationary Markov chain <span class="math inline">\((X_k^\theta)_{k\in\mathbb{Z}}\)</span> on this standard Borel space. Denote its law on <span class="math inline">\((\mathsf{X}^{\mathbb{Z}},\mathcal A^{\otimes\mathbb{Z}})\)</span> by <span class="math inline">\(\mathbb{P}_\theta^{\mathrm{stat}}\)</span>. Its one-time marginal is <span class="math inline">\(\pi_\theta\)</span>, and its forward transition conditional on the entire past is <span class="math inline">\(P_\theta\)</span>. The marginal <span class="math inline">\(\pi_\theta\)</span> describes one observation; <span class="math inline">\(\mathbb{P}_\theta^{\mathrm{stat}}\)</span> also describes temporal dependence and is generally not a product law.</p>
+<p>The ordinary frozen mean field is</p>
+<p><span id="eq-ordinary-frozen-field"><span class="math display">\[
+h(\theta)=\pi_\theta(H_\theta)
+=\mathbb{E}_{\mathbb{P}_\theta^{\mathrm{stat}}}[H_\theta(X_0^\theta)].
+\tag{4.1}\]</span></span></p>
+<p>A Robbins–Monro root <span class="math inline">\(\theta^\star\)</span> satisfies <span class="math inline">\(h(\theta^\star)=0\)</span>. For acceptance-rate calibration one may use <span class="math inline">\(H_\theta(x)=a_\theta(x)-a^\star\)</span>, where <span class="math inline">\(a_\theta(x)\)</span> is the conditional expected acceptance probability and <span class="math inline">\(a^\star\)</span> is the target rate. If the observed residual instead uses proposals or acceptance indicators, the driving state must include the variables needed to make that observation a function of its current state; the invariant law in <a href="#eq-ordinary-frozen-field" class="quarto-xref">Equation&nbsp;4.1</a> then refers to that enlarged driver.</p>
+</section>
+<section id="fixed-gain-memories-and-the-stationary-field" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="fixed-gain-memories-and-the-stationary-field"><span class="header-section-number">4.2</span> Fixed-gain memories and the stationary field</h2>
+<p>For context, a controlled recursion generates observations according to</p>
+<p><span id="eq-controlled-transition"><span class="math display">\[
+X_{n+1}\mid\mathcal F_n\sim P_{\theta_n}(X_n,\cdot),
+\tag{4.2}\]</span></span></p>
+<p>with <span class="math inline">\(\theta_n,X_n\)</span> measurable with respect to <span class="math inline">\(\mathcal F_n\)</span>. Ordinary Robbins–Monro adaptation takes the form</p>
+<p><span id="eq-rm-update"><span class="math display">\[
+\theta_{n+1}=\theta_n+\gamma_{n+1}H_{\theta_n}(X_{n+1}).
+\tag{4.3}\]</span></span></p>
+<p>Here <span class="math inline">\((\gamma_n)\)</span> are positive deterministic parameter gains. An Adam-type alternative fixes <span class="math inline">\(0\leq\alpha,\beta&lt;1\)</span> and <span class="math inline">\(\varepsilon&gt;0\)</span> and uses</p>
+<p><span id="eq-adam-recursion"><span class="math display">\[
+\begin{aligned}
+M_{n+1}&amp;=\alpha M_n+(1-\alpha)H_{\theta_n}(X_{n+1}),\\
+V_{n+1}&amp;=\beta V_n+(1-\beta)H_{\theta_n}(X_{n+1})^{\odot2},\\
+\theta_{n+1}&amp;=\theta_n+\gamma_{n+1}
+\frac{M_{n+1}}{\sqrt{V_{n+1}}+\varepsilon}.
+\end{aligned}
+\tag{4.4}\]</span></span></p>
+<p>Initially <span class="math inline">\(M_0\in\mathbb{R}^d\)</span> and <span class="math inline">\(V_0\in[0,\infty)^d\)</span>. Squares, square roots and division are componentwise, and <span class="math inline">\(\varepsilon\)</span> is added in each coordinate. We use uncorrected memories, without finite-time bias factors. The gains <span class="math inline">\(1-\alpha\)</span> and <span class="math inline">\(1-\beta\)</span> remain fixed. This is <a href="#eq-general-memory-recursion" class="quarto-xref">Equation&nbsp;2.1</a> with memory <span class="math inline">\(U_n=(M_n,V_n)\)</span> and readout <span class="math inline">\(G(x,m,v)=m/(\sqrt v+\varepsilon)\)</span>.</p>
+<p>Fix <span class="math inline">\(\theta\)</span> and set <span class="math inline">\(Y_k^\theta=H_\theta(X_k^\theta)\)</span>. Define the stationary memories at time zero by</p>
+<p><span id="eq-stationary-memories"><span class="math display">\[
+M^\theta=(1-\alpha)\sum_{j=0}^\infty\alpha^j Y_{-j}^\theta,\qquad
+V^\theta=(1-\beta)\sum_{j=0}^\infty\beta^j(Y_{-j}^\theta)^{\odot2}.
+\tag{4.5}\]</span></span></p>
+<p>For a zero coefficient the corresponding series consists only of its <span class="math inline">\(j=0\)</span> term. These variables are defined under <span class="math inline">\(\mathbb{P}_\theta^{\mathrm{stat}}\)</span>.</p>
+<div id="lem-stationary-memories" class="theorem lemma">
+<p><span class="theorem-title"><strong>Lemma 4.1 (Integrable stationary memories)</strong></span> Under <a href="#cnj-frozen-driver" class="quarto-xref">Assumption&nbsp;4.1</a>, the series in <a href="#eq-stationary-memories" class="quarto-xref">Equation&nbsp;4.5</a> converge absolutely almost surely and in <span class="math inline">\(L^1\)</span>. Moreover, <span class="math inline">\(M^\theta\in L^2\)</span>.</p>
+</div>
+<p>The proof is given in <a href="#sec-stationary-series-proof">Appendix A</a>.</p>
+<p>The stationary Adam field is</p>
+<p><span id="eq-adam-field"><span class="math display">\[
+F(\theta)
+=\mathbb{E}_{\mathbb{P}_\theta^{\mathrm{stat}}}
+\left[\frac{M^\theta}{\sqrt{V^\theta}+\varepsilon}\right].
+\tag{4.6}\]</span></span></p>
+<p>It is finite because <span class="math inline">\(\|M^\theta/(\sqrt{V^\theta}+\varepsilon)\|\leq\|M^\theta\|/\varepsilon\)</span>. This expectation is under the stationary frozen Markov path law, not the nonstationary law of <a href="#eq-controlled-transition" class="quarto-xref">Equation&nbsp;4.2</a>–<a href="#eq-adam-recursion" class="quarto-xref">Equation&nbsp;4.4</a>. For the IID kernel <span class="math inline">\(P_\theta(x,\cdot)=\pi_\theta(\cdot)\)</span> it reduces to the history field of <span class="citation" data-cites="Dereich2025_UJMNX8NK">[<a href="#ref-Dereich2025_UJMNX8NK" role="doc-biblioref">3</a>, Definition 1.3]</span>. Neither the field’s existence nor the memory construction requires the additional restriction <span class="math inline">\(\alpha^2&lt;\beta\)</span> used in their ODE theorem.</p>
+</section>
+<section id="adam-as-a-markov-augmentation" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="adam-as-a-markov-augmentation"><span class="header-section-number">4.3</span> Adam as a Markov augmentation</h2>
+<p>Fix <span class="math inline">\(\theta\)</span>. Let <span class="math inline">\(\mathsf Y=\mathbb{R}^d\times[0,\infty)^d\)</span> be the memory space, with its Euclidean product norm, and let <span class="math inline">\(\mathsf Z=\mathsf X\times\mathsf Y\)</span> carry the product sigma-algebra. Define</p>
+<p><span id="eq-memory-map"><span class="math display">\[
+T_\theta(x',m,v)=
+\begin{pmatrix}
+\alpha m+(1-\alpha)H_\theta(x')\\
+\beta v+(1-\beta)H_\theta(x')^{\odot2}
+\end{pmatrix}.
+\tag{4.7}\]</span></span></p>
+<p>For <span class="math inline">\(u=(m,v)\)</span>, also write <span class="math inline">\(T_\theta(x,u)=T_\theta(x,m,v)\)</span>. For the frozen recursions, <span class="math inline">\(Z_n=(X_n,M_n,V_n)\)</span> therefore has the kernel <span class="math inline">\(Q_\theta\)</span> in <a href="#eq-augmented-kernel" class="quarto-xref">Equation&nbsp;2.2</a>.</p>
+<p>For two memory states driven by the same observation,</p>
+<p><span id="eq-same-driver-memory-contraction"><span class="math display">\[
+\begin{aligned}
+\|T_\theta(x',m,v)-T_\theta(x',\widetilde m,\widetilde v)\|^2
+&amp;=\alpha^2\|m-\widetilde m\|^2+\beta^2\|v-\widetilde v\|^2\\
+&amp;\leq\kappa^2\|(m,v)-(\widetilde m,\widetilde v)\|^2,
+\qquad \kappa=\max\{\alpha,\beta\}&lt;1.
+\end{aligned}
+\tag{4.8}\]</span></span></p>
+<p>Thus the memory difference contracts along a common driving path, with coefficient <span class="math inline">\(\kappa=\max\{\alpha,\beta\}\)</span>. This estimate suffices to identify the invariant memory law under <a href="#cnj-frozen-driver" class="quarto-xref">Assumption&nbsp;4.1</a>.</p>
+</section>
+<section id="identification-of-the-stationary-memories" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="identification-of-the-stationary-memories"><span class="header-section-number">4.4</span> Identification of the stationary memories</h2>
+<div id="cor-stationary-memory-law" class="theorem corollary">
+<p><span class="theorem-title"><strong>Corollary 4.2 (Stationary memory representation)</strong></span> Under <a href="#cnj-frozen-driver" class="quarto-xref">Assumption&nbsp;4.1</a>, <span class="math inline">\(Q_\theta\)</span> has a unique invariant probability <span class="math inline">\(\nu_\theta\)</span>. Its driving marginal is <span class="math inline">\(\pi_\theta\)</span> and</p>
+<p><span id="eq-stationary-joint-law"><span class="math display">\[
+\nu_\theta=
+\operatorname{Law}_{\mathbb{P}_\theta^{\mathrm{stat}}}
+(X_0^\theta,M^\theta,V^\theta),
+\tag{4.9}\]</span></span></p>
+<p>where <span class="math inline">\(M^\theta,V^\theta\)</span> are the stationary histories in <a href="#eq-stationary-memories" class="quarto-xref">Equation&nbsp;4.5</a>. Consequently,</p>
+<p><span id="eq-stationary-adam-integral"><span class="math display">\[
+F(\theta)=\int_{\mathsf Z}
+\frac{m}{\sqrt v+\varepsilon}\,
+\nu_\theta(dx\,dm\,dv).
+\tag{4.10}\]</span></span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>Define <span class="math inline">\(M_k^\theta\)</span> and <span class="math inline">\(V_k^\theta\)</span> by shifting the infinite series in <a href="#eq-stationary-memories" class="quarto-xref">Equation&nbsp;4.5</a> to time <span class="math inline">\(k\)</span>. Their almost-sure convergence follows from <a href="#lem-stationary-memories" class="quarto-xref">Lemma&nbsp;4.1</a> and stationarity. They satisfy the frozen recursions, while the joint process <span class="math inline">\((X_k^\theta,M_k^\theta,V_k^\theta)_{k\in\mathbb{Z}}\)</span> is stationary. Its one-time law is therefore invariant for <a href="#eq-augmented-kernel" class="quarto-xref">Equation&nbsp;2.2</a>.</p>
+<p>For uniqueness, let <span class="math inline">\(\eta\)</span> be another invariant probability of <span class="math inline">\(Q_\theta\)</span>. By the marginal identity in <a href="#sec-general-framework" class="quarto-xref">Chapter&nbsp;2</a> and <a href="#cnj-frozen-driver" class="quarto-xref">Assumption&nbsp;4.1</a>, its driving marginal equals <span class="math inline">\(\pi_\theta\)</span>. Couple initial states with laws <span class="math inline">\(\eta\)</span> and <span class="math inline">\(\nu_\theta\)</span> so that their driving coordinates agree, and then use the same driving transitions for both memory recursions. Their memory difference after <span class="math inline">\(n\)</span> steps is bounded by <span class="math inline">\(\kappa^n\|U_0-\widetilde U_0\|\)</span>. This tends to zero almost surely without a moment assumption on the two initial memories. For every bounded measurable test function that is uniformly Lipschitz in the memory coordinate, bounded convergence gives equality of the two stationary expectations. Such tests determine probability measures on <span class="math inline">\(\mathsf X\times\mathsf Y\)</span>, hence <span class="math inline">\(\eta=\nu_\theta\)</span>. The integral representation follows from <a href="#lem-stationary-memories" class="quarto-xref">Lemma&nbsp;4.1</a> and <span class="math inline">\(\varepsilon&gt;0\)</span>.</p>
+</div>
+<p>The stationary representation follows from the invariant driver law, its innovation moment and synchronous memory contraction. Under the additional hypotheses of <a href="#thm-wasserstein-lifting" class="quarto-xref">Theorem&nbsp;3.1</a> and finite first moments in its metric, the invariant law constructed there is the same <span class="math inline">\(\nu_\theta\)</span>. In the affine EMA setting, the synchronous argument above gives uniqueness among all invariant probabilities.</p>
+</section>
+<section id="calibration-under-linear-and-nonlinear-memory" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="calibration-under-linear-and-nonlinear-memory"><span class="header-section-number">4.5</span> Calibration under linear and nonlinear memory</h2>
+<p>Linear EMA momentum preserves the ordinary field. By the absolute integrability just proved, expectation and summation can be interchanged:</p>
+<p><span id="eq-momentum-preservation"><span class="math display">\[
+\mathbb{E}_{\mathbb{P}_\theta^{\mathrm{stat}}}[M^\theta]
+=(1-\alpha)\sum_{j\geq0}\alpha^j\mathbb{E}[Y_{-j}^\theta]
+=h(\theta).
+\tag{4.11}\]</span></span></p>
+<p>No independence is used. Adam instead multiplies each momentum coordinate by <span class="math inline">\(W_i^\theta=(\sqrt{V_i^\theta}+\varepsilon)^{-1}\)</span>. Since <span class="math inline">\(0&lt;W_i^\theta\leq\varepsilon^{-1}\)</span> and <span class="math inline">\(M_i^\theta\in L^2\)</span>, the covariance below is well defined. Expanding its definition gives</p>
+<p><span id="eq-covariance-decomposition"><span class="math display">\[
+F_i(\theta)=h_i(\theta)\,\mathbb{E}[W_i^\theta]
++\operatorname{Cov}_{\mathbb{P}_\theta^{\mathrm{stat}}}(M_i^\theta,W_i^\theta).
+\tag{4.12}\]</span></span></p>
+<p>Consequently, at an ordinary root,</p>
+<p><span id="eq-covariance-at-root"><span class="math display">\[
+F_i(\theta^\star)
+=\operatorname{Cov}_{\mathbb{P}_{\theta^\star}^{\mathrm{stat}}}
+(M_i^{\theta^\star},W_i^{\theta^\star}).
+\tag{4.13}\]</span></span></p>
+<p>Thus an ordinary root is also an Adam root exactly when these componentwise covariances vanish. The identity isolates the calibration issue: centring the innovation centres the first memory, but does not by itself centre the normalised readout. Determining the sign or size of the covariance, and the resulting root displacement, requires analysis of a particular model.</p>
+</section>
+<section id="verification-of-the-memory-and-readout-hypotheses" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="verification-of-the-memory-and-readout-hypotheses"><span class="header-section-number">4.6</span> Verification of the memory and readout hypotheses</h2>
+<p>For <a href="#eq-memory-map" class="quarto-xref">Equation&nbsp;4.7</a>, use <span class="math inline">\(d_Y(u,v)=\|u-v\|\)</span> and write</p>
+<p><span id="eq-affine-memory"><span class="math display">\[
+T_\theta(x,u)=Au+b_\theta(x),\quad
+A=\operatorname{diag}(\alpha I_d,\beta I_d),\quad
+b_\theta(x)=\begin{pmatrix}(1-\alpha)H_\theta(x)\\(1-\beta)H_\theta(x)^{\odot2}\end{pmatrix}.
+\tag{4.14}\]</span></span></p>
+<p>If <span class="math inline">\(b_\theta\)</span> is <span class="math inline">\(L_b\)</span>-Lipschitz in <span class="math inline">\(d_X\)</span>, then <a href="#eq-memory-joint-lipschitz" class="quarto-xref">Equation&nbsp;3.3</a> holds with <span class="math inline">\(r=\max\{\alpha,\beta\}\)</span> and <span class="math inline">\(L_T=L_b\)</span>. The one-step first-moment condition in <a href="#cnj-memory-lipschitz" class="quarto-xref">Assumption&nbsp;3.2</a> can be checked using <a href="#lem-augmented-drift" class="quarto-xref">Lemma&nbsp;3.2</a> when its weight controls the metric. Spatial regularity of <span class="math inline">\(b_\theta\)</span> requires checking the metric and innovation together, in addition to the stationary second-moment assumption.</p>
+<section id="square-root-second-moment-coordinates" class="level3" data-number="4.6.1">
+<h3 data-number="4.6.1" class="anchored" data-anchor-id="square-root-second-moment-coordinates"><span class="header-section-number">4.6.1</span> Square-root second-moment coordinates</h3>
 <p>There is a distinction between regularity of the memory update and regularity of its readout. The map <span class="math inline">\((m,v)\mapsto m/(\sqrt v+\varepsilon)\)</span> is not globally Lipschitz in <span class="math inline">\(v\)</span> under the ordinary Euclidean metric near <span class="math inline">\(v=0\)</span>. For a bounded innovation, however, a change of memory coordinates removes this difficulty without modifying the Adam recursion.</p>
 <p>Assume, for the remainder of this subsection, that</p>
 <p><span id="eq-bounded-innovation"><span class="math display">\[
 \|H_\theta(x)\|_\infty\leq B_H,\qquad
 \|H_\theta(x)-H_\theta(y)\|\leq L_Hd_X(x,y).
-\tag{4.13}\]</span></span></p>
+\tag{4.15}\]</span></span></p>
 <p>Put <span class="math inline">\(S_n=\sqrt{V_n}\)</span> coordinatewise and use the forward-invariant memory set</p>
 <p><span class="math display">\[
 \mathsf Y_B=\{(m,s):\|m\|_\infty\leq B_H,\quad
@@ -565,7 +637,7 @@ Q_\theta\mathcal V\leq\delta\mathcal V+L,\qquad L&lt;\infty.
 \alpha m+(1-\alpha)H_\theta(x)\\
 \sqrt{\beta s^{\odot2}+(1-\beta)H_\theta(x)^{\odot2}}
 \end{pmatrix}.
-\tag{4.14}\]</span></span></p>
+\tag{4.16}\]</span></span></p>
 <p>For each coordinate, the second component is the Euclidean norm of <span class="math inline">\((\sqrt\beta\,s_i,\sqrt{1-\beta}\,H_{\theta,i}(x))\)</span>. The reverse triangle inequality therefore gives</p>
 <p><span id="eq-sqrt-memory-contraction"><span class="math display">\[
 \begin{aligned}
@@ -573,22 +645,23 @@ d_Y(\widehat T_\theta(x,u),\widehat T_\theta(y,v))
 \leq {}&amp;\max\{\alpha,\sqrt\beta\}\,d_Y(u,v)\\
 &amp;+\bigl(1-\alpha+\sqrt{1-\beta}\bigr)L_Hd_X(x,y).
 \end{aligned}
-\tag{4.15}\]</span></span></p>
-<p>Thus the transformed memory still satisfies <a href="#cnj-memory-lipschitz" class="quarto-xref">Assumption&nbsp;4.2</a>, with contraction coefficient <span class="math inline">\(\max\{\alpha,\sqrt\beta\}&lt;1\)</span>. On <span class="math inline">\(\mathsf Y_B\)</span> the Adam readout</p>
+\tag{4.17}\]</span></span></p>
+<p>Thus the transformed memory satisfies <a href="#eq-memory-joint-lipschitz" class="quarto-xref">Equation&nbsp;3.3</a>, with contraction coefficient <span class="math inline">\(\max\{\alpha,\sqrt\beta\}&lt;1\)</span>. On <span class="math inline">\(\mathsf Y_B\)</span> the Adam readout</p>
 <p><span id="eq-adam-lipschitz-readout"><span class="math display">\[
 G(m,s)=\frac{m}{s+\varepsilon}
-\tag{4.16}\]</span></span></p>
+\tag{4.18}\]</span></span></p>
 <p>is Lipschitz:</p>
 <p><span id="eq-adam-readout-lipschitz"><span class="math display">\[
 \|G(m,s)-G(m',s')\|
 \leq\varepsilon^{-1}\|m-m'\|
 +B_H\varepsilon^{-2}\|s-s'\|.
-\tag{4.17}\]</span></span></p>
-<p>This is an alternative metric representation of the same finite-dimensional memory process, not a change in its update rule. It gives a direct Lipschitz observable for the Poisson equation when the innovation is bounded, as for an acceptance-rate residual. For unbounded innovations the affine <span class="math inline">\((m,v)\)</span> representation still admits <a href="#thm-wasserstein-lifting" class="quarto-xref">Theorem&nbsp;4.1</a> under its stated assumptions; the Lipschitz property of the Adam readout must then be addressed separately.</p>
+\tag{4.19}\]</span></span></p>
+<p>These coordinates represent the same finite-dimensional memory process. Since the transformed memory is bounded, a driver one-step first moment supplies the remaining moment condition in <a href="#cnj-memory-lipschitz" class="quarto-xref">Assumption&nbsp;3.2</a>. It gives a direct Lipschitz observable for the Poisson equation when the innovation is bounded, as for an acceptance-rate residual. For unbounded innovations the affine <span class="math inline">\((m,v)\)</span> representation still admits <a href="#thm-wasserstein-lifting" class="quarto-xref">Theorem&nbsp;3.1</a> under its stated assumptions; the Lipschitz property of the Adam readout must then be addressed separately.</p>
+</section>
 </section>
 </section>
 <section id="sec-parameter-perturbation" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Parameter perturbation of the augmented process</h1>
+<h1 data-number="5"><span class="header-section-number">5</span> Parameter perturbation and Poisson regularity</h1>
 <p>The contraction theorem is stated for each frozen parameter, with constants uniform on a specified region. We now compare two such frozen kernels, <span class="math inline">\(Q_\theta\)</span> and <span class="math inline">\(Q_\vartheta\)</span>. The comparison is an operator calculation on Lipschitz test functions; it does not require constructing an additional coupling of the augmented transitions.</p>
 <section id="one-step-kernel-regularity" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="one-step-kernel-regularity"><span class="header-section-number">5.1</span> One-step kernel regularity</h2>
@@ -596,7 +669,7 @@ G(m,s)=\frac{m}{s+\varepsilon}
 <p><span id="eq-pulled-back-test"><span class="math display">\[
 f_{\theta,u}(y)=f(y,T_\theta(y,u)).
 \tag{5.1}\]</span></span></p>
-<p>By <a href="#eq-augmented-kernel" class="quarto-xref">Equation&nbsp;3.2</a>,</p>
+<p>By <a href="#eq-augmented-kernel" class="quarto-xref">Equation&nbsp;2.2</a>,</p>
 <p><span class="math display">\[
 Q_\theta f(x,u)=P_\theta f_{\theta,u}(x).
 \]</span></p>
@@ -608,7 +681,7 @@ Q_\theta f(x,u)=P_\theta f_{\theta,u}(x).
 &amp;+P_\vartheta(f_{\theta,u}-f_{\vartheta,u})(x).
 \end{aligned}
 \tag{5.2}\]</span></span></p>
-<p>Under <a href="#cnj-memory-lipschitz" class="quarto-xref">Assumption&nbsp;4.2</a>, <span class="math inline">\(\|f_{\theta,u}\|_{\operatorname{Lip}(d_X)}\leq(1+L_T)\|f\|_{\operatorname{Lip}(d_Z)}\)</span>, and</p>
+<p>Under <a href="#cnj-memory-lipschitz" class="quarto-xref">Assumption&nbsp;3.2</a>, <span class="math inline">\(\|f_{\theta,u}\|_{\operatorname{Lip}(d_X)}\leq(1+L_T)\|f\|_{\operatorname{Lip}(d_Z)}\)</span>, and</p>
 <p><span class="math display">\[
 |f_{\theta,u}(y)-f_{\vartheta,u}(y)|
 \leq\|f\|_{\operatorname{Lip}(d_Z)}
@@ -624,7 +697,7 @@ d_Y(T_\theta(\cdot,u),T_\vartheta(\cdot,u))
 \right](x).
 \end{aligned}
 \tag{5.3}\]</span></span></p>
-<p>The first term measures the change in the driving kernel; the second measures the change in the memory update under the same driving law. For the affine EMA, the second term depends only on <span class="math inline">\(b_\theta-b_\vartheta\)</span>, since <span class="math inline">\(A\)</span> is fixed. In the square-root coordinates of <a href="#eq-sqrt-memory-update" class="quarto-xref">Equation&nbsp;4.14</a> it can be controlled instead by the parameter difference of the original innovation <span class="math inline">\(H_\theta\)</span>.</p>
+<p>The first term measures the change in the driving kernel; the second measures the change in the memory update under the same driving law. For the affine EMA, the second term depends only on <span class="math inline">\(b_\theta-b_\vartheta\)</span>, since <span class="math inline">\(A\)</span> is fixed. In the square-root coordinates of <a href="#eq-sqrt-memory-update" class="quarto-xref">Equation&nbsp;4.16</a> it can be controlled instead by the parameter difference of the original innovation <span class="math inline">\(H_\theta\)</span>.</p>
 <div id="cnj-parameter-kernel" class="theorem conjecture">
 <p><span class="theorem-title"><strong>Assumption 5.1 (Driver-level parameter regularity)</strong></span> On a parameter region <span class="math inline">\(\mathsf K\)</span>, assume there is a measurable <span class="math inline">\(w:\mathsf X\to[1,\infty)\)</span> and constants <span class="math inline">\(L_P,L_{T,\theta}&lt;\infty\)</span>, uniform over <span class="math inline">\(\theta,\vartheta\in\mathsf K\)</span>, such that</p>
 <p><span id="eq-driver-parameter-assumptions"><span class="math display">\[
@@ -635,11 +708,11 @@ P_\vartheta[d_Y(T_\theta(\cdot,u),T_\vartheta(\cdot,u))](x)
 &amp;\leq L_{T,\theta}\|\theta-\vartheta\|w(x)
 \end{aligned}
 \tag{5.4}\]</span></span></p>
-<p>for all <span class="math inline">\(x\)</span> and <span class="math inline">\(u\)</span> in the memory space under consideration. Let <span class="math inline">\(\mathcal V:\mathsf Z\to[1,\infty)\)</span> dominate <span class="math inline">\(w(x)\)</span> and suppose the family <span class="math inline">\((Q_\theta)_{\theta\in\mathsf K}\)</span> has uniform geometric Wasserstein contraction as in <a href="#thm-wasserstein-lifting" class="quarto-xref">Theorem&nbsp;4.1</a>.</p>
+<p>for all <span class="math inline">\(x\)</span> and <span class="math inline">\(u\)</span> in the memory space under consideration. Let <span class="math inline">\(\mathcal V:\mathsf Z\to[1,\infty)\)</span> dominate <span class="math inline">\(w(x)\)</span> and suppose the family <span class="math inline">\((Q_\theta)_{\theta\in\mathsf K}\)</span> has uniform geometric Wasserstein contraction as in <a href="#thm-wasserstein-lifting" class="quarto-xref">Theorem&nbsp;3.1</a>.</p>
 </div>
 <p>The bounds in <a href="#cnj-parameter-kernel" class="quarto-xref">Assumption&nbsp;5.1</a> are verification assumptions on the driver and forcing, not consequences of frozen contraction.</p>
 <div id="prp-augmented-kernel-regularity" class="theorem proposition">
-<p><span class="theorem-title"><strong>Proposition 5.1 (One-step regularity of augmented kernels)</strong></span> Under <a href="#cnj-memory-lipschitz" class="quarto-xref">Assumption&nbsp;4.2</a> and <a href="#cnj-parameter-kernel" class="quarto-xref">Assumption&nbsp;5.1</a>,</p>
+<p><span class="theorem-title"><strong>Proposition 5.1 (One-step regularity of augmented kernels)</strong></span> Under <a href="#cnj-memory-lipschitz" class="quarto-xref">Assumption&nbsp;3.2</a> and <a href="#cnj-parameter-kernel" class="quarto-xref">Assumption&nbsp;5.1</a>,</p>
 <p><span id="eq-augmented-perturbation-gamma"><span class="math display">\[
 \gamma_{\theta,\vartheta}
 :=\sup_{z\in\mathsf Z}
@@ -660,9 +733,9 @@ P_\vartheta[d_Y(T_\theta(\cdot,u),T_\vartheta(\cdot,u))](x)
 </section>
 <section id="perturbation-of-invariant-laws" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="perturbation-of-invariant-laws"><span class="header-section-number">5.2</span> Perturbation of invariant laws</h2>
-<p>The geometric estimate of <a href="#thm-wasserstein-lifting" class="quarto-xref">Theorem&nbsp;4.1</a> and the weighted one-step bound are the hypotheses appearing in the Wasserstein perturbation framework of <span class="citation" data-cites="RudolfSchweizer2018">[<a href="#ref-RudolfSchweizer2018" role="doc-biblioref">4</a>, Theorem 3.1]</span>. The stationary specialisation can also be seen directly from the operator decomposition.</p>
+<p>The geometric estimate of <a href="#thm-wasserstein-lifting" class="quarto-xref">Theorem&nbsp;3.1</a> and the weighted one-step bound enter the Wasserstein perturbation framework of <span class="citation" data-cites="RudolfSchweizer2018">[<a href="#ref-RudolfSchweizer2018" role="doc-biblioref">4</a>, Theorem 3.1 and Corollary 3.1]</span>. The stationary estimate below uses the invariant weighted moment directly; a Lyapunov inequality is one way to obtain that moment. Its proof retains the operator calculation needed for Poisson regularity.</p>
 <div id="cor-invariant-parameter" class="theorem corollary">
-<p><span class="theorem-title"><strong>Corollary 5.1 (Lipschitz dependence of augmented invariant laws)</strong></span> Assume <a href="#prp-augmented-kernel-regularity" class="quarto-xref">Proposition&nbsp;5.1</a> and suppose the invariant laws satisfy</p>
+<p><span class="theorem-title"><strong>Corollary 5.2 (Lipschitz dependence of augmented invariant laws)</strong></span> Suppose <span class="math inline">\(Q_\theta\)</span> has invariant law <span class="math inline">\(\nu_\theta\in\mathcal P_1(\mathsf Z)\)</span>, satisfies <a href="#eq-augmented-contraction" class="quarto-xref">Equation&nbsp;3.4</a> and obeys <a href="#eq-weighted-pointwise-operator-bound" class="quarto-xref">Equation&nbsp;5.6</a>, as supplied by <a href="#prp-augmented-kernel-regularity" class="quarto-xref">Proposition&nbsp;5.1</a>. Suppose also that</p>
 <p><span id="eq-uniform-invariant-moment"><span class="math display">\[
 \sup_{\theta\in\mathsf K}\nu_\theta(\mathcal V)\leq M_{\mathcal V}&lt;\infty.
 \tag{5.7}\]</span></span></p>
@@ -697,10 +770,10 @@ Q_\theta^n-Q_\vartheta^n
 \]</span></p>
 <p>Let <span class="math inline">\(n\to\infty\)</span>. The first term tends to zero, and the geometric sum is bounded by <span class="math inline">\((1-\eta)^{-1}\)</span>. Taking the supremum over <span class="math inline">\(f\)</span> proves <a href="#eq-invariant-parameter-regularity" class="quarto-xref">Equation&nbsp;5.8</a>.</p>
 </div>
-<p>Uniform drift constants in <a href="#eq-augmented-drift" class="quarto-xref">Equation&nbsp;4.12</a>, together with suitable moment conditions, provide one route to <a href="#eq-uniform-invariant-moment" class="quarto-xref">Equation&nbsp;5.7</a>. The constant in <a href="#eq-invariant-parameter-regularity" class="quarto-xref">Equation&nbsp;5.8</a> is not asserted to be uniform on parameter regions where the contraction, moment or perturbation constants diverge.</p>
+<p>Uniform drift constants in <a href="#eq-augmented-drift" class="quarto-xref">Equation&nbsp;3.9</a>, together with suitable moment conditions, provide one route to <a href="#eq-uniform-invariant-moment" class="quarto-xref">Equation&nbsp;5.7</a>. The constants in <a href="#eq-invariant-parameter-regularity" class="quarto-xref">Equation&nbsp;5.8</a> depend on the contraction, moment and perturbation bounds on <span class="math inline">\(\mathsf K\)</span>.</p>
 </section>
-<section id="regularity-of-the-stationary-adam-field" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="regularity-of-the-stationary-adam-field"><span class="header-section-number">5.3</span> Regularity of the stationary Adam field</h2>
+<section id="regularity-of-the-stationary-mean-field" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="regularity-of-the-stationary-mean-field"><span class="header-section-number">5.3</span> Regularity of the stationary mean field</h2>
 <p>Suppose <span class="math inline">\(G_\theta:\mathsf Z\to\mathbb{R}^d\)</span> has a uniform Lipschitz seminorm and satisfies</p>
 <p><span id="eq-observable-parameter-assumption"><span class="math display">\[
 \|G_\theta(z)-G_\vartheta(z)\|
@@ -716,134 +789,277 @@ W_{d_Z}(\nu_\theta,\nu_\vartheta)\\
 &amp;+\nu_\vartheta(\|G_\theta-G_\vartheta\|).
 \end{aligned}
 \tag{5.11}\]</span></span></p>
-<p>Thus <a href="#cor-invariant-parameter" class="quarto-xref">Corollary&nbsp;5.1</a> gives local Lipschitz regularity of <span class="math inline">\(F\)</span> under <a href="#eq-observable-parameter-assumption" class="quarto-xref">Equation&nbsp;5.10</a>. For the square-root memory coordinates of <a href="#eq-adam-lipschitz-readout" class="quarto-xref">Equation&nbsp;4.16</a> the readout is independent of <span class="math inline">\(\theta\)</span>, so the second term vanishes. This is a regularity conclusion for the <em>stationary</em> field, not yet an ODE approximation for the changing-parameter recursion.</p>
+<p>Thus <a href="#cor-invariant-parameter" class="quarto-xref">Corollary&nbsp;5.2</a> gives local Lipschitz regularity of <span class="math inline">\(F\)</span> under <a href="#eq-observable-parameter-assumption" class="quarto-xref">Equation&nbsp;5.10</a>. For the square-root memory coordinates of <a href="#eq-adam-lipschitz-readout" class="quarto-xref">Equation&nbsp;4.18</a> the readout is independent of <span class="math inline">\(\theta\)</span>, so the second term vanishes. This Lipschitz bound will also supply the regularity of the limiting ODE field.</p>
 </section>
+<section id="eccentricity-and-weighted-growth" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="eccentricity-and-weighted-growth"><span class="header-section-number">5.4</span> Eccentricity and weighted growth</h2>
+<p>Write <span class="math inline">\(E_{1,\theta}(z)=\int d_Z(z,z')\,\nu_\theta(dz')\)</span> for the first eccentricity. Suppose <span class="math inline">\(E_{1,\theta}(z)\leq C_E\mathcal V(z)\)</span> uniformly for <span class="math inline">\(\theta\in\mathsf K\)</span>. Centring a Lipschitz function under <span class="math inline">\(\nu_\theta\)</span> gives</p>
+<p><span id="eq-eccentricity-weighted-embedding"><span class="math display">\[
+\|f-\nu_\theta(f)\|_{\mathcal V}
+\leq C_E\|f\|_{\operatorname{Lip}}.
+\tag{5.12}\]</span></span></p>
+<p>Indeed, <span class="math inline">\(|f(z)-\nu_\theta(f)|\leq\|f\|_{\operatorname{Lip}}E_{1,\theta}(z)\)</span>. The triangle inequality also gives</p>
+<p><span class="math display">\[
+E_{1,\theta}(z)
+\leq d_Z(z,z_0)+\nu_\theta(d_Z(z_0,\cdot)).
+\]</span></p>
+<p>Consequently the comparison is uniform if <span class="math inline">\(d_Z(z,z_0)\leq c\mathcal V(z)\)</span> and <span class="math inline">\(\sup_{\theta\in\mathsf K}\nu_\theta(\mathcal V)&lt;\infty\)</span>. For a zero-mass signed measure <span class="math inline">\(\xi\)</span> with finite weighted variation, define <span class="math inline">\(\|\xi\|_{\mathrm{KR}}=\sup_{\|f\|_{\operatorname{Lip}}\leq1}|\xi(f)|\)</span>. Subtracting <span class="math inline">\(\nu_\theta(f)\)</span> inside <span class="math inline">\(\xi(f)\)</span> and using the same embedding gives</p>
+<p><span id="eq-weighted-to-wasserstein"><span class="math display">\[
+\|\xi\|_{\mathrm{KR}}
+\leq C_E\int\mathcal V(z)\,|\xi|(dz).
+\tag{5.13}\]</span></span></p>
+<p>Eccentricity thus links the Lipschitz estimates obtained from Wasserstein contraction to the weighted-growth estimates used in <span class="citation" data-cites="Care2026">[<a href="#ref-Care2026" role="doc-biblioref">7</a>]</span>.</p>
 </section>
-<section id="sec-poisson-feedback" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> Poisson equations and changing parameters</h1>
-<p>The frozen augmented process has a stationary law <span class="math inline">\(\nu_\theta\)</span> and, under <a href="#thm-wasserstein-lifting" class="quarto-xref">Theorem&nbsp;4.1</a>, geometric Wasserstein contraction. For the controlled recursion, the remaining question is whether the centred observation can be accumulated along a path on which <span class="math inline">\(\theta\)</span> changes. We work with Lipschitz functions throughout; no weighted total-variation convergence of the augmented process is assumed.</p>
-<section id="frozen-poisson-equation-on-the-lipschitz-space" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="frozen-poisson-equation-on-the-lipschitz-space"><span class="header-section-number">6.1</span> Frozen Poisson equation on the Lipschitz space</h2>
-<p>For a scalar observable <span class="math inline">\(G_\theta\in\operatorname{Lip}(\mathsf Z,d_Z)\)</span>, put</p>
-<p><span id="eq-centred-adam-observable"><span class="math display">\[
-F(\theta)=\nu_\theta(G_\theta),\qquad
-\bar G_\theta=G_\theta-F(\theta).
-\tag{6.1}\]</span></span></p>
-<p>Vector-valued observables are handled coordinatewise. Consider the frozen Poisson equation</p>
-<p><span id="eq-augmented-poisson"><span class="math display">\[
-u_\theta-Q_\theta u_\theta=\bar G_\theta.
-\tag{6.2}\]</span></span></p>
-<p>Under geometric Wasserstein contraction, finite first eccentricity and the corresponding first-moment conditions, <span class="citation" data-cites="Hofstadler2026">[<a href="#ref-Hofstadler2026" role="doc-biblioref">5</a>, Theorem 3.4]</span> applies to this centred Lipschitz observable. In particular, a solution is given by</p>
-<p><span id="eq-poisson-series"><span class="math display">\[
-u_\theta(z)=\sum_{n=0}^\infty Q_\theta^n\bar G_\theta(z),
-\tag{6.3}\]</span></span></p>
-<p>with <span class="math inline">\(\nu_\theta(u_\theta)=0\)</span> and</p>
+<section id="frozen-poisson-solution" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="frozen-poisson-solution"><span class="header-section-number">5.5</span> Frozen Poisson solution</h2>
+<p>For a scalar Lipschitz observable <span class="math inline">\(G_\theta\)</span>, set <span class="math inline">\(\bar G_\theta=G_\theta-F(\theta)\)</span> as in <a href="#eq-augmented-poisson" class="quarto-xref">Equation&nbsp;2.13</a>; vector-valued observables are treated coordinatewise. Geometric Wasserstein contraction and finite first eccentricity give the unique centred Lipschitz solution <span class="citation" data-cites="Hofstadler2026">[<a href="#ref-Hofstadler2026" role="doc-biblioref">5</a>, Theorem 3.4]</span>, represented by <a href="#eq-poisson-series" class="quarto-xref">Equation&nbsp;2.14</a>, with <span class="math inline">\(\nu_\theta(u_\theta)=0\)</span> and</p>
 <p><span id="eq-poisson-lipschitz-bound"><span class="math display">\[
 \|u_\theta\|_{\operatorname{Lip}(d_Z)}
 \leq\Lambda_\theta\|G_\theta\|_{\operatorname{Lip}(d_Z)},
 \qquad
 \Lambda_\theta:=\sum_{n=0}^\infty\tau_{d_Z}(Q_\theta^n)
 \leq\frac{C_Z(\eta)}{1-\eta}.
-\tag{6.4}\]</span></span></p>
-<p>The series and its normalisation are understood in the integrable Lipschitz class supplied by the theorem. The regularity assumption concerns the <em>forcing observable</em> <span class="math inline">\(G_\theta\)</span>, not only the memory update <span class="math inline">\(T_\theta\)</span>. The square-root coordinates and bounded-innovation case of <a href="#eq-sqrt-memory-update" class="quarto-xref">Equation&nbsp;4.14</a>–<a href="#eq-adam-readout-lipschitz" class="quarto-xref">Equation&nbsp;4.17</a> give one direct verification for Adam’s normalised readout.</p>
+\tag{5.14}\]</span></span></p>
+<p>To see the summability directly, Kantorovich–Rubinstein duality gives</p>
+<p><span id="eq-frozen-centred-decay"><span class="math display">\[
+|Q_\theta^nG_\theta(z)-F(\theta)|
+\leq \tau_{d_Z}(Q_\theta^n)
+\|G_\theta\|_{\operatorname{Lip}}E_{1,\theta}(z).
+\tag{5.15}\]</span></span></p>
+<p>The right-hand side is summable in <span class="math inline">\(n\)</span>. It is also integrable under <span class="math inline">\(\nu_\theta\)</span>, since <span class="math inline">\(\nu_\theta\in\mathcal P_1\)</span>. Thus termwise integration centres the solution, and shifting the series proves <a href="#eq-augmented-poisson" class="quarto-xref">Equation&nbsp;2.13</a>. If two centred Lipschitz solutions existed, their difference <span class="math inline">\(v\)</span> would satisfy <span class="math inline">\(v=Q_\theta^n v\)</span> for every <span class="math inline">\(n\)</span>; contraction forces its Lipschitz seminorm to vanish, and centring then gives <span class="math inline">\(v=0\)</span>.</p>
+<p>Applying the Neumann-series bound yields</p>
+<p><span id="eq-poisson-weighted-growth"><span class="math display">\[
+\|u_\theta\|_{\mathcal V}
+\leq C_E\Lambda_\theta\|G_\theta\|_{\operatorname{Lip}}.
+\tag{5.16}\]</span></span></p>
+<p>The pointwise estimate <span class="math inline">\(|u_\theta(z)|\leq\Lambda_\theta\|G_\theta\|_{\operatorname{Lip}}E_{1,\theta}(z)\)</span> also gives stationary <span class="math inline">\(L^p\)</span> bounds whenever <span class="math inline">\(\nu_\theta(E_{1,\theta}^p)&lt;\infty\)</span> <span class="citation" data-cites="Hofstadler2026">[<a href="#ref-Hofstadler2026" role="doc-biblioref">5</a>, Theorem 3.5]</span>. For bounded innovations, <a href="#eq-adam-readout-lipschitz" class="quarto-xref">Equation&nbsp;4.19</a> verifies the Lipschitz readout hypothesis for Adam.</p>
 </section>
-<section id="parameter-differences-of-poisson-solutions" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="parameter-differences-of-poisson-solutions"><span class="header-section-number">6.2</span> Parameter differences of Poisson solutions</h2>
-<p>The one-step estimate <a href="#eq-weighted-pointwise-operator-bound" class="quarto-xref">Equation&nbsp;5.6</a> is sufficient for the invariant-law perturbation argument. It is not, by itself, an estimate of the Lipschitz seminorm of <span class="math inline">\((Q_\theta-Q_\vartheta)f\)</span> as a function of the state. We therefore record explicitly the additional operator condition used in the following restricted-space result.</p>
-<div id="cnj-poisson-operator" class="theorem conjecture">
-<p><span class="theorem-title"><strong>Assumption 6.1 (Lipschitz-space operator regularity)</strong></span> On <span class="math inline">\(\mathsf K\)</span> suppose the quantities <span class="math inline">\(\Lambda_\theta\)</span> in <a href="#eq-poisson-lipschitz-bound" class="quarto-xref">Equation&nbsp;6.4</a> are uniformly bounded by <span class="math inline">\(\Lambda&lt;\infty\)</span>, and that</p>
-<p><span id="eq-poisson-operator-assumption"><span class="math display">\[
-\begin{aligned}
-\sup_{\theta\in\mathsf K}\|G_\theta\|_{\operatorname{Lip}}&amp;\leq L_G,\\
-\|G_\theta-G_\vartheta\|_{\operatorname{Lip}}
-&amp;\leq L_{G,\theta}\|\theta-\vartheta\|,\\
-\|(Q_\theta-Q_\vartheta)f\|_{\operatorname{Lip}}
-&amp;\leq L_{\mathrm{op}}\|\theta-\vartheta\|
-\|f\|_{\operatorname{Lip}}
-\end{aligned}
-\tag{6.5}\]</span></span></p>
-<p>for every Lipschitz <span class="math inline">\(f\)</span>. The seminorm of a constant is zero, so the last inequality is unaffected by adding constants to <span class="math inline">\(f\)</span>. Assume the corresponding Poisson solutions are well defined, as above.</p>
-</div>
-<p>This is an explicit sufficient hypothesis, not a consequence claimed from <a href="#eq-weighted-pointwise-operator-bound" class="quarto-xref">Equation&nbsp;5.6</a>. It can be replaced by a weaker weighted resolvent estimate if such an estimate is verified directly. The approach parallels the parameter-dependent Poisson argument of <span class="citation" data-cites="Care2026">[<a href="#ref-Care2026" role="doc-biblioref">6</a>]</span>, formulated there in a weighted sup-norm rather than the present Lipschitz seminorm.</p>
+<section id="parameter-regularity-of-the-poisson-solution" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="parameter-regularity-of-the-poisson-solution"><span class="header-section-number">5.6</span> Parameter regularity of the Poisson solution</h2>
+<p>The weighted one-step perturbation bound of <a href="#prp-augmented-kernel-regularity" class="quarto-xref">Proposition&nbsp;5.1</a> combines with the decay of centred iterates to give a parameter modulus for the Poisson solution. This follows the comparison-of-iterates approach of <span class="citation" data-cites="Care2026">[<a href="#ref-Care2026" role="doc-biblioref">7</a>, Theorem 2]</span>, using Wasserstein contraction on the augmented space.</p>
 <div id="prp-poisson-parameter" class="theorem proposition">
-<p><span class="theorem-title"><strong>Proposition 6.1 (Parameter regularity in the restricted Lipschitz space)</strong></span> Under <a href="#cnj-poisson-operator" class="quarto-xref">Assumption&nbsp;6.1</a>, fix <span class="math inline">\(z_0\in\mathsf Z\)</span> and choose the normalisation <span class="math inline">\(u_\theta(z_0)=0\)</span> for every <span class="math inline">\(\theta\in\mathsf K\)</span>. Then</p>
-<p><span id="eq-poisson-parameter-lipschitz"><span class="math display">\[
-\|u_\theta-u_\vartheta\|_{\operatorname{Lip}}
-\leq\Lambda\left(L_{G,\theta}
-+L_{\mathrm{op}}\Lambda L_G\right)\|\theta-\vartheta\|.
-\tag{6.6}\]</span></span></p>
-<p>In particular,</p>
-<p><span id="eq-poisson-parameter-pointwise"><span class="math display">\[
+<p><span class="theorem-title"><strong>Proposition 5.3 (Log-Lipschitz parameter regularity)</strong></span> Let <span class="math inline">\(\mathsf K\)</span> be a compact parameter set. Assume uniformly over <span class="math inline">\(\theta,\vartheta\in\mathsf K\)</span> that:</p>
+<ol type="1">
+<li><span class="math inline">\(Q_\theta\)</span> satisfies <a href="#eq-augmented-contraction" class="quarto-xref">Equation&nbsp;3.4</a> with common constants <span class="math inline">\(C_Z&lt;\infty\)</span> and <span class="math inline">\(\rho\in(0,1)\)</span>, and has invariant law <span class="math inline">\(\nu_\theta\in\mathcal P_1(\mathsf Z)\)</span>.</li>
+<li>The one-step weighted estimate <a href="#eq-weighted-pointwise-operator-bound" class="quarto-xref">Equation&nbsp;5.6</a> holds, and <span class="math inline">\(Q_\theta\mathcal V\leq a\mathcal V+b\)</span> for some <span class="math inline">\(0\leq a&lt;1\)</span>, <span class="math inline">\(b&lt;\infty\)</span>.</li>
+<li><span class="math inline">\(\sup_{\theta\in\mathsf K}\nu_\theta(\mathcal V)&lt;\infty\)</span> and <span class="math inline">\(d_Z(z,z_0)\leq c\mathcal V(z)\)</span> for some <span class="math inline">\(z_0\)</span>.</li>
+<li><span class="math inline">\(\sup_{\theta\in\mathsf K}\|G_\theta\|_{\operatorname{Lip}}\leq L_G\)</span> and <span class="math inline">\(|G_\theta(z)-G_\vartheta(z)|\leq L_{G,\theta}\|\theta-\vartheta\|\mathcal V(z)\)</span>.</li>
+</ol>
+<p>Assume the kernels and observables are jointly measurable in parameter and state. For <span class="math inline">\(t&gt;0\)</span>, set <span class="math inline">\(\omega(t)=t(1+\log^+(1/t))\)</span> and <span class="math inline">\(\omega(0)=0\)</span>. Then there is <span class="math inline">\(C&lt;\infty\)</span> such that</p>
+<p><span id="eq-poisson-parameter-log-lipschitz"><span class="math display">\[
 |u_\theta(z)-u_\vartheta(z)|
-\leq\Lambda\left(L_{G,\theta}
-+L_{\mathrm{op}}\Lambda L_G\right)
-\|\theta-\vartheta\|d_Z(z,z_0).
-\tag{6.7}\]</span></span></p>
+\leq C\mathcal V(z)\omega(\|\theta-\vartheta\|).
+\tag{5.17}\]</span></span></p>
+<p>The same estimate holds for <span class="math inline">\(\phi_\theta=Q_\theta u_\theta\)</span>:</p>
+<p><span id="eq-poisson-feedback-log-lipschitz"><span class="math display">\[
+|\phi_\theta(z)-\phi_\vartheta(z)|
+\leq C\mathcal V(z)\omega(\|\theta-\vartheta\|).
+\tag{5.18}\]</span></span></p>
 </div>
 <div class="proof">
-<p><span class="proof-title"><em>Proof</em>. </span>Subtract the two Poisson equations, writing <span class="math inline">\(v=u_\theta-u_\vartheta\)</span>:</p>
-<p><span id="eq-poisson-parameter-identity"><span class="math display">\[
-(I-Q_\theta)v=
-(G_\theta-G_\vartheta)
--\bigl(F(\theta)-F(\vartheta)\bigr)
-+(Q_\theta-Q_\vartheta)u_\vartheta.
-\tag{6.8}\]</span></span></p>
-<p>The right-hand side has zero <span class="math inline">\(\nu_\theta\)</span>-mean: this follows by integrating the identity against <span class="math inline">\(\nu_\theta\)</span> and using invariance. Its Lipschitz seminorm is at most</p>
+<p><span class="proof-title"><em>Proof</em>. </span>Put <span class="math inline">\(\delta=\|\theta-\vartheta\|\)</span> and write</p>
 <p><span class="math display">\[
-\left(L_{G,\theta}
-+L_{\mathrm{op}}\|u_\vartheta\|_{\operatorname{Lip}}\right)
-\|\theta-\vartheta\|.
+R_\theta^nG_\theta(z)=Q_\theta^nG_\theta(z)-F(\theta),
+\qquad
+D_n(z)=R_\theta^nG_\theta(z)-R_\vartheta^nG_\vartheta(z).
 \]</span></p>
-<p>The frozen Poisson estimate <a href="#eq-poisson-lipschitz-bound" class="quarto-xref">Equation&nbsp;6.4</a>, applied to this centred right-hand side, bounds the Lipschitz seminorm of its solution by <span class="math inline">\(\Lambda\)</span> times the displayed quantity. Use <span class="math inline">\(\|u_\vartheta\|_{\operatorname{Lip}}\leq\Lambda L_G\)</span> to obtain <a href="#eq-poisson-parameter-lipschitz" class="quarto-xref">Equation&nbsp;6.6</a>. Solutions of the centred Poisson equation differ by constants; the common value at <span class="math inline">\(z_0\)</span> identifies <span class="math inline">\(v\)</span> with the normalised solution. The pointwise estimate follows by the definition of the Lipschitz seminorm.</p>
+<p>The drift assumption gives <span class="math inline">\(\sup_{\theta,n}Q_\theta^n\mathcal V(z)\leq C_V\mathcal V(z)\)</span>. By the eccentricity comparison and <a href="#eq-invariant-wasserstein-rate" class="quarto-xref">Equation&nbsp;3.5</a>,</p>
+<p><span class="math display">\[
+|R_\theta^nG_\theta(z)|
+\leq C_Z\rho^n L_GE_{1,\theta}(z)
+\leq C_1\rho^n\mathcal V(z),
+\]</span></p>
+<p>so <span class="math inline">\(|D_n(z)|\leq 2C_1\rho^n\mathcal V(z)\)</span>.</p>
+<p>For a second bound, decompose</p>
+<p><span class="math display">\[
+\begin{aligned}
+D_n={}&amp;(Q_\theta^n-Q_\vartheta^n)G_\theta\\
+&amp;+Q_\vartheta^n(G_\theta-G_\vartheta)
+-\bigl(F(\theta)-F(\vartheta)\bigr).
+\end{aligned}
+\]</span></p>
+<p>The last term is <span class="math inline">\(O(\delta)\)</span> by <a href="#eq-field-parameter-bound" class="quarto-xref">Equation&nbsp;5.11</a> and <a href="#cor-invariant-parameter" class="quarto-xref">Corollary&nbsp;5.2</a>. The middle term is at most <span class="math inline">\(L_{G,\theta}C_V\delta\mathcal V(z)\)</span>. For the first term, telescope as in <a href="#eq-perturbation-telescope" class="quarto-xref">Equation&nbsp;5.9</a>. Wasserstein contraction gives</p>
+<p><span class="math display">\[
+\|Q_\theta^kG_\theta\|_{\operatorname{Lip}}
+\leq C_Z\rho^kL_G.
+\]</span></p>
+<p>Applying <a href="#eq-weighted-pointwise-operator-bound" class="quarto-xref">Equation&nbsp;5.6</a> inside the telescoping sum,</p>
+<p><span id="eq-centred-iterate-parameter-bound"><span class="math display">\[
+\begin{aligned}
+&amp;|(Q_\theta^n-Q_\vartheta^n)G_\theta(z)|\\
+&amp;\quad\leq C_ZL_QL_G\delta
+\sum_{j=0}^{n-1}\rho^{n-1-j}Q_\vartheta^j\mathcal V(z)\\
+&amp;\quad\leq \frac{C_ZL_QL_GC_V}{1-\rho}\,
+\delta\mathcal V(z).
+\end{aligned}
+\tag{5.19}\]</span></span></p>
+<p>Thus <span class="math inline">\(|D_n(z)|\leq C_2\delta\mathcal V(z)\)</span>, uniformly in <span class="math inline">\(n\)</span>. Combining the two estimates and summing the Neumann series yields</p>
+<p><span class="math display">\[
+\begin{aligned}
+|u_\theta(z)-u_\vartheta(z)|
+&amp;\leq C_3\mathcal V(z)
+\sum_{n=0}^\infty\min\{\delta,\rho^n\}\\
+&amp;\leq C_4\mathcal V(z)\omega(\delta).
+\end{aligned}
+\]</span></p>
+<p>For <span class="math inline">\(0&lt;\delta&lt;1\)</span>, choose <span class="math inline">\(N=\lceil\log(1/\delta)/|\log\rho|\rceil\)</span>. The first <span class="math inline">\(N\)</span> terms contribute at most <span class="math inline">\(N\delta\)</span> and the remaining terms at most <span class="math inline">\(\rho^N/(1-\rho)\leq\delta/(1-\rho)\)</span>. For <span class="math inline">\(\delta\geq1\)</span> the geometric bound suffices, and <span class="math inline">\(\delta=0\)</span> is immediate. Finally, the Poisson identity gives <span class="math inline">\(\phi_\theta=u_\theta-G_\theta+F(\theta)\)</span>. The parameter estimates for its three terms prove <a href="#eq-poisson-feedback-log-lipschitz" class="quarto-xref">Equation&nbsp;5.18</a>.</p>
 </div>
-<p>The distinction between <a href="#eq-weighted-pointwise-operator-bound" class="quarto-xref">Equation&nbsp;5.6</a> and <a href="#eq-poisson-operator-assumption" class="quarto-xref">Equation&nbsp;6.5</a> matters for the intended application. The first has already been reduced to driver-level parameter estimates. The second still requires verification, or an alternative weighted resolvent argument, before the stated Poisson parameter conclusion can be invoked.</p>
+<p>The parameter modulus follows from the weighted one-step perturbation bound <a href="#eq-weighted-pointwise-operator-bound" class="quarto-xref">Equation&nbsp;5.6</a>. Its logarithmic term measures the number of iterations required for geometric forgetting to reach the scale of a parameter change.</p>
 </section>
-<section id="the-feedback-term-in-the-controlled-recursion" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="the-feedback-term-in-the-controlled-recursion"><span class="header-section-number">6.3</span> The feedback term in the controlled recursion</h2>
-<p>Return to the changing-parameter augmented process,</p>
+</section>
+<section id="sec-poisson-feedback" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> ODE tracking and adaptive MCMC</h1>
+<p>We return to the changing-parameter recursion <a href="#eq-general-memory-recursion" class="quarto-xref">Equation&nbsp;2.1</a>. The Poisson solution constructed above separates its centred observation noise into a martingale difference and telescoping remainders. This is the stochastic approximation approach of <span class="citation" data-cites="BenvenisteMetivierPriouret1990 AndrieuMoulines2006">[<a href="#ref-BenvenisteMetivierPriouret1990" role="doc-biblioref">8</a>, <a href="#ref-AndrieuMoulines2006" role="doc-biblioref">9</a>]</span>, applied to the augmented state.</p>
+<section id="poisson-martingale-decomposition" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="poisson-martingale-decomposition"><span class="header-section-number">6.1</span> Poisson martingale decomposition</h2>
+<p>In augmented coordinates the adaptive recursion is</p>
 <p><span id="eq-augmented-controlled-sa"><span class="math display">\[
 Z_{n+1}\mid\mathcal F_n\sim Q_{\theta_n}(Z_n,\cdot),
 \qquad
 \theta_{n+1}=\theta_n+\gamma_{n+1}G_{\theta_n}(Z_{n+1}).
-\tag{6.9}\]</span></span></p>
-<p>For Adam, <span class="math inline">\(G_\theta\)</span> is the normalised readout on the augmented memory. The order of the transition and parameter update in <a href="#eq-augmented-controlled-sa" class="quarto-xref">Equation&nbsp;6.9</a> is the one used in <a href="#eq-adam-recursion" class="quarto-xref">Equation&nbsp;2.6</a>. Define</p>
+\tag{6.1}\]</span></span></p>
+<p>Define</p>
 <p><span id="eq-poisson-martingale-increment"><span class="math display">\[
 \Delta M_{n+1}
-=u_{\theta_n}(Z_{n+1})-Q_{\theta_n}u_{\theta_n}(Z_n).
-\tag{6.10}\]</span></span></p>
-<p>Then <span class="math inline">\(\mathbb{E}[\Delta M_{n+1}\mid\mathcal F_n]=0\)</span>. Put <span class="math inline">\(\phi_\theta=Q_\theta u_\theta\)</span>. Evaluating <a href="#eq-augmented-poisson" class="quarto-xref">Equation&nbsp;6.2</a> at <span class="math inline">\(Z_{n+1}\)</span> and adding and subtracting <span class="math inline">\(\phi_{\theta_n}(Z_n)\)</span> gives</p>
+=u_{\theta_n}(Z_{n+1})-Q_{\theta_n}u_{\theta_n}(Z_n),
+\qquad \phi_\theta=Q_\theta u_\theta.
+\tag{6.2}\]</span></span></p>
+<p>The Poisson equation gives</p>
 <p><span id="eq-controlled-poisson-decomposition"><span class="math display">\[
 G_{\theta_n}(Z_{n+1})-F(\theta_n)
 =\Delta M_{n+1}
 +\phi_{\theta_n}(Z_n)-\phi_{\theta_n}(Z_{n+1}).
+\tag{6.3}\]</span></span></p>
+<p>When <span class="math inline">\(u_{\theta_n}(Z_{n+1})\)</span> is square-integrable, the conditional mean of <span class="math inline">\(\Delta M_{n+1}\)</span> is zero. For scalar observables, its conditional variance satisfies</p>
+<p><span id="eq-poisson-conditional-variance"><span class="math display">\[
+\begin{aligned}
+&amp;\mathbb E[(\Delta M_{n+1})^2\mid\mathcal F_n]\\
+&amp;\qquad=Q_{\theta_n}u_{\theta_n}^2(Z_n)
+-\bigl(Q_{\theta_n}u_{\theta_n}(Z_n)\bigr)^2.
+\end{aligned}
+\tag{6.4}\]</span></span></p>
+<p>This is the martingale calculation in <span class="citation" data-cites="Laitinen2024_G3FDZQA8">[<a href="#ref-Laitinen2024_G3FDZQA8" role="doc-biblioref">6</a>, Lemma 4]</span>, applied here to <span class="math inline">\(Q_\theta\)</span> on the augmented space. For vector-valued updates the corresponding identity holds with squared Euclidean norms. The weighted Poisson bound and a second-order drift estimate control its expectation along the adaptive path.</p>
+</section>
+<section id="adaptive-moment-control-and-tracking" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="adaptive-moment-control-and-tracking"><span class="header-section-number">6.2</span> Adaptive moment control and tracking</h2>
+<div id="thm-augmented-ode-tracking" class="theorem">
+<p><span class="theorem-title"><strong>Theorem 6.1 (ODE tracking under Markov noise with contractive memory)</strong></span> Assume <a href="#prp-poisson-parameter" class="quarto-xref">Proposition&nbsp;5.3</a> and suppose that, uniformly for <span class="math inline">\(\theta\in\mathsf K\)</span>,</p>
+<p><span id="eq-adaptive-quadratic-drift"><span class="math display">\[
+Q_\theta\mathcal V^2\leq a_2\mathcal V^2+b_2,
+\qquad 0\leq a_2&lt;1,\quad b_2&lt;\infty.
+\tag{6.5}\]</span></span></p>
+<p>Let <span class="math inline">\(\mathbb E[\mathcal V^2(Z_0)]&lt;\infty\)</span>, and suppose the unprojected recursion <a href="#eq-augmented-controlled-sa" class="quarto-xref">Equation&nbsp;6.1</a> remains in <span class="math inline">\(\mathsf K\)</span> almost surely. Assume also that <span class="math inline">\(\sup_{\theta\in\mathsf K,z\in\mathsf Z}|G_\theta(z)|\leq B&lt;\infty\)</span>. Let <span class="math inline">\((\gamma_n)\)</span> be deterministic, positive and nonincreasing, with</p>
+<p><span id="eq-log-gain-condition"><span class="math display">\[
+\gamma_n\to0,\qquad
+\sum_n\gamma_n=\infty,\qquad
+\sum_n\gamma_n^2(1+|\log\gamma_n|)&lt;\infty.
+\tag{6.6}\]</span></span></p>
+<p>Then</p>
+<p><span id="eq-centred-noise-summability"><span class="math display">\[
+\sum_{n=0}^\infty\gamma_{n+1}
+\bigl[G_{\theta_n}(Z_{n+1})-F(\theta_n)\bigr]
+\quad\text{converges almost surely}.
+\tag{6.7}\]</span></span></p>
+<p>If <span class="math inline">\(F\)</span> has a Lipschitz extension to a neighbourhood carrying its forward ODE flow <span class="math inline">\(\Phi\)</span>, the piecewise-linear interpolation <span class="math inline">\(\bar\theta\)</span> on the timescale <span class="math inline">\(t_n=\sum_{k=1}^n\gamma_k\)</span> is an asymptotic pseudo-trajectory of</p>
+<p><span id="eq-general-limiting-ode"><span class="math display">\[
+\dot\theta=F(\theta)
+\tag{6.8}\]</span></span></p>
+<p>(using that extension for the flow). In particular, for every <span class="math inline">\(T&gt;0\)</span>,</p>
+<p><span id="eq-augmented-apt"><span class="math display">\[
+\lim_{t\to\infty}\sup_{0\leq s\leq T}
+|\bar\theta(t+s)-\Phi_s(\bar\theta(t))|=0
+\qquad\text{almost surely}.
+\tag{6.9}\]</span></span></p>
+</div>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>Iterating <a href="#eq-adaptive-quadratic-drift" class="quarto-xref">Equation&nbsp;6.5</a> conditionally shows <span class="math inline">\(\sup_n\mathbb E[\mathcal V^2(Z_n)]&lt;\infty\)</span>. The frozen Poisson and drift estimates give <span class="math inline">\(|u_\theta|+|\phi_\theta|\leq C\mathcal V\)</span>. Using <a href="#eq-poisson-conditional-variance" class="quarto-xref">Equation&nbsp;6.4</a>,</p>
+<p><span class="math display">\[
+\sum_n\gamma_{n+1}^2
+\mathbb E[|\Delta M_{n+1}|^2]
+\leq C\sum_n\gamma_{n+1}^2&lt;\infty,
+\]</span></p>
+<p>so the weighted martingale converges almost surely.</p>
+<p>For the remaining terms of <a href="#eq-controlled-poisson-decomposition" class="quarto-xref">Equation&nbsp;6.3</a>, summation by parts yields, for <span class="math inline">\(N\geq1\)</span>,</p>
+<p><span id="eq-adaptive-poisson-summation"><span class="math display">\[
+\begin{aligned}
+&amp;\sum_{n=0}^{N-1}\gamma_{n+1}
+\bigl[G_{\theta_n}(Z_{n+1})-F(\theta_n)\bigr]\\
+={}&amp;\sum_{n=0}^{N-1}\gamma_{n+1}\Delta M_{n+1}
++\gamma_1\phi_{\theta_0}(Z_0)
+-\gamma_N\phi_{\theta_{N-1}}(Z_N)\\
+&amp;+\sum_{n=1}^{N-1}(\gamma_{n+1}-\gamma_n)\phi_{\theta_n}(Z_n)\\
+&amp;+\sum_{n=1}^{N-1}\gamma_n
+\bigl[\phi_{\theta_n}(Z_n)-\phi_{\theta_{n-1}}(Z_n)\bigr].
+\end{aligned}
+\tag{6.10}\]</span></span></p>
+<p>The terminal boundary term tends to zero almost surely, since its squared expectation is bounded by <span class="math inline">\(C\gamma_N^2\)</span> and <span class="math inline">\(\sum_N\gamma_N^2&lt;\infty\)</span>. The gain-variation series is absolutely summable almost surely because <span class="math inline">\(\sum_n|\gamma_{n+1}-\gamma_n|&lt;\infty\)</span> and <span class="math inline">\(\sup_n\mathbb E[\mathcal V(Z_n)]&lt;\infty\)</span>.</p>
+<p>Finally, <span class="math inline">\(|\theta_n-\theta_{n-1}|\leq B\gamma_n\)</span>, and <a href="#eq-poisson-feedback-log-lipschitz" class="quarto-xref">Equation&nbsp;5.18</a> gives, for all sufficiently large <span class="math inline">\(n\)</span>,</p>
+<p><span id="eq-adaptive-feedback-summable"><span class="math display">\[
+\gamma_n|\phi_{\theta_n}(Z_n)-\phi_{\theta_{n-1}}(Z_n)|
+\leq C\gamma_n^2(1+|\log\gamma_n|)\mathcal V(Z_n).
 \tag{6.11}\]</span></span></p>
-<p>Under weighted summation, the last two terms telescope except for boundary, gain-variation and parameter-change terms. The latter involve</p>
-<p><span id="eq-poisson-feedback-remainder"><span class="math display">\[
-\phi_{\theta_n}(Z_{n+1})-
-\phi_{\theta_{n+1}}(Z_{n+1}).
-\tag{6.12}\]</span></span></p>
-<p>The operator decomposition</p>
-<p><span id="eq-poisson-feedback-operator"><span class="math display">\[
-\phi_\theta-\phi_\vartheta
-=(Q_\theta-Q_\vartheta)u_\theta+
-Q_\vartheta(u_\theta-u_\vartheta)
-\tag{6.13}\]</span></span></p>
-<p>shows how <a href="#eq-weighted-pointwise-operator-bound" class="quarto-xref">Equation&nbsp;5.6</a> and <a href="#prp-poisson-parameter" class="quarto-xref">Proposition&nbsp;6.1</a> enter together. If these differences have the required weighted growth bound, and <span class="math inline">\(\|\theta_{n+1}-\theta_n\|=O(\gamma_{n+1})\)</span>, the parameter-change remainder is of second order after multiplication by the SA gain. Controlling the sum still requires integrability along the adaptive path.</p>
-<p>The standard Poisson–martingale method of controlled stochastic approximation <span class="citation" data-cites="BenvenisteMetivierPriouret1990 AndrieuMoulines2006 Care2026">[<a href="#ref-Care2026" role="doc-biblioref">6</a>–<a href="#ref-AndrieuMoulines2006" role="doc-biblioref">8</a>]</span> then suggests the limiting equation</p>
+<p>The right-hand side is summable almost surely by <a href="#eq-log-gain-condition" class="quarto-xref">Equation&nbsp;6.6</a> and the uniform first-moment bound. Thus the weighted centred-noise series converges. Put <span class="math inline">\(\epsilon_{n+1}=G_{\theta_n}(Z_{n+1})-F(\theta_n)\)</span>. Convergence of the weighted noise series gives</p>
+<p><span class="math display">\[
+\lim_{n\to\infty}\sup_{m\geq n}
+\left\|\sum_{k=n}^{m}\gamma_{k+1}\epsilon_{k+1}\right\|=0
+\qquad\text{almost surely}.
+\]</span></p>
+<p>The bounded readout also gives <span class="math inline">\(\|F(\theta)\|\leq B\)</span> on <span class="math inline">\(\mathsf K\)</span> and <span class="math inline">\(\|\epsilon_{n+1}\|\leq2B\)</span>. Thus fractional mesh intervals contribute at most <span class="math inline">\(2B\gamma_{n+1}\)</span> to the accumulated noise. On each interval <span class="math inline">\([t_n,t_{n+1}]\)</span>, <span class="math inline">\(\|\bar\theta(t)-\theta_n\|\leq B\gamma_{n+1}\)</span>. On any fixed time horizon, the Lipschitz extension of <span class="math inline">\(F\)</span> therefore makes the accumulated Euler discretisation error tend to zero. Comparing the resulting integral equation with the ODE by Gronwall’s inequality proves <a href="#eq-augmented-apt" class="quarto-xref">Equation&nbsp;6.9</a>, first at mesh points and then at arbitrary starting times.</p>
+</div>
+</section>
+<section id="adam-adaptation-in-mcmc" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="adam-adaptation-in-mcmc"><span class="header-section-number">6.3</span> Adam adaptation in MCMC</h2>
+<p>For the bounded-innovation Adam representation in <a href="#eq-sqrt-memory-update" class="quarto-xref">Equation&nbsp;4.16</a>, <a href="#eq-adam-readout-lipschitz" class="quarto-xref">Equation&nbsp;4.19</a> gives the Lipschitz readout estimate and <span class="math inline">\(\|G\|\leq\sqrt d B_H/\varepsilon\)</span>. The forward-invariant set <span class="math inline">\(\mathsf Y_B\)</span> therefore supplies the bounded parameter increments required above. The stationary construction in <a href="#cor-stationary-memory-law" class="quarto-xref">Corollary&nbsp;4.2</a> identifies its invariant field with <a href="#eq-adam-field" class="quarto-xref">Equation&nbsp;4.6</a>: the square-root coordinates simply push forward the same memory law. Under the driver coupling, weighted parameter perturbation, quadratic drift, stability and flow assumptions, <a href="#thm-augmented-ode-tracking" class="quarto-xref">Theorem&nbsp;6.1</a> then gives</p>
 <p><span id="eq-adam-limiting-ode"><span class="math display">\[
-\dot\theta=F(\theta).
-\tag{6.14}\]</span></span></p>
-<p>No asymptotic pseudo-trajectory or parameter-convergence theorem is claimed here. Such a theorem additionally requires a stability or localisation argument for <span class="math inline">\((\theta_n)\)</span>, a gain condition, martingale moment estimates and control of the weighted remainders in <a href="#eq-controlled-poisson-decomposition" class="quarto-xref">Equation&nbsp;6.11</a>. The preceding results identify the precise frozen and parameter-dependent estimates that would enter that proof; they do not replace it.</p>
+\dot\theta=F(\theta)
+=\mathbb E_{\nu_\theta}
+\left[\frac{M}{\sqrt V+\varepsilon}\right].
+\tag{6.12}\]</span></span></p>
+<p>For acceptance-rate calibration, the driving state includes the proposal or acceptance variables whenever they enter the observed residual. The coupling and parameter estimates must hold for that driver on the chosen parameter localisation set. Quadratic drift controls moments along the adaptive path; frozen stationary moments alone do not supply that control. The theorem assumes stability of the unprojected parameter recursion, so a localisation argument must establish the same conditions on the region where the recursion is analysed. Projected recursions require the corresponding projected ODE analysis.</p>
+<p>These conditions leave the calibration distinction in <a href="#eq-covariance-at-root" class="quarto-xref">Equation&nbsp;4.13</a> intact. The limiting field is <span class="math inline">\(F\)</span>; identifying its equilibria and their attraction properties is a further model-specific question.</p>
 </section>
 </section>
 <section id="sec-discussion" class="level1" data-number="7">
 <h1 data-number="7"><span class="header-section-number">7</span> Discussion</h1>
-<p>Adam’s stationary calibration field averages a nonlinear readout of joint first- and second-moment memories. Linear momentum preserves <span class="math inline">\(h\)</span>, whereas <a href="#eq-covariance-decomposition" class="quarto-xref">Equation&nbsp;2.10</a> shows why centring the ordinary innovation need not centre Adam’s readout. The field depends on the joint stationary memory law and hence potentially on temporal dependence, beyond the invariant one-time innovation marginal. No model-specific Metropolis–Hastings root displacement has been established here.</p>
-<p>For a frozen Markov driver with a unique invariant probability and a finite second innovation moment, the fixed-gain memories admit a finite-dimensional Markov augmentation with a unique invariant law. The integral in <a href="#eq-stationary-adam-integral" class="quarto-xref">Equation&nbsp;3.5</a> represents the stationary Adam field under this law. Under the additional driver coupling and spatial regularity assumptions of <a href="#thm-wasserstein-lifting" class="quarto-xref">Theorem&nbsp;4.1</a>, the augmented transition laws also converge at a geometric rate in Wasserstein distance. This forward argument does not require time reversal, and it supplies the quantitative contraction used in the invariant-measure perturbation and frozen Poisson results of <span class="citation" data-cites="RudolfSchweizer2018 Hofstadler2026">[<a href="#ref-RudolfSchweizer2018" role="doc-biblioref">4</a>, <a href="#ref-Hofstadler2026" role="doc-biblioref">5</a>]</span>.</p>
-<p>The Markovian iterated-function-system results of <span class="citation" data-cites="Fuh2021">[<a href="#ref-Fuh2021" role="doc-biblioref">9</a>]</span> provide a useful comparison. Their analysis allows contraction conditions formulated through random Lipschitz coefficients and stationary averages, rather than a uniform metric contraction at every memory update. It therefore motivates investigating which of the geometric coupling and regularity assumptions in the present framework can be weakened while retaining the quantitative bounds required for Wasserstein perturbation and Poisson control. We do not claim that the rates or conclusions of <span class="citation" data-cites="Fuh2021">[<a href="#ref-Fuh2021" role="doc-biblioref">9</a>]</span> imply the Wasserstein Dobrushin estimates used here.</p>
-<p>Parameter regularity can likewise be reduced to properties of the driver and its forcing. In particular, <a href="#eq-augmented-operator-perturbation" class="quarto-xref">Equation&nbsp;5.2</a> separates the change of the driving transition from the change of the memory update, and <a href="#cor-invariant-parameter" class="quarto-xref">Corollary&nbsp;5.1</a> transfers this estimate to the augmented invariant law. These calculations do not impose weighted total-variation ergodicity on the augmented process. Contractive deterministic memories can converge in Wasserstein while their transition laws remain mutually singular at every finite time.</p>
-<p>For bounded innovations, the square-root second-moment coordinate gives a natural metric in which both the memory update and Adam’s normalised readout are Lipschitz. This is relevant to acceptance-rate calibration, where the innovation is bounded. More general unbounded innovations may require different metrics or additional regularity of the readout.</p>
-<p>The parameter-dependent Poisson statement in <a href="#prp-poisson-parameter" class="quarto-xref">Proposition&nbsp;6.1</a> uses an additional Lipschitz-operator perturbation bound. The weaker weighted pointwise kernel estimate, although sufficient for the invariant-law result, does not establish this bound automatically. Closing that distinction and then controlling the adaptive martingale and summation-by-parts remainders are the remaining steps towards ODE tracking of <span class="math inline">\(F\)</span>. Convergence to a root of <span class="math inline">\(h\)</span>, or even to a single equilibrium of <span class="math inline">\(F\)</span>, remains a separate question. The present results establish the stationary covariance identity and a quantitative framework for studying its behaviour under controlled Markov noise, without identifying a particular adaptive-MCMC equilibrium.</p>
+<p>The Markov augmentation represents the memories by a finite-dimensional transition kernel. Under the driver-coupling and forcing assumptions of <a href="#thm-wasserstein-lifting" class="quarto-xref">Theorem&nbsp;3.1</a>, the augmented kernel is geometrically contractive in Wasserstein distance. This permits invariant-law perturbation estimates <span class="citation" data-cites="RudolfSchweizer2018">[<a href="#ref-RudolfSchweizer2018" role="doc-biblioref">4</a>]</span> and the frozen Poisson construction of <span class="citation" data-cites="Hofstadler2026">[<a href="#ref-Hofstadler2026" role="doc-biblioref">5</a>]</span>. Eccentricity relates the resulting Lipschitz estimates to the weighted-growth setting used by <span class="citation" data-cites="Care2026">[<a href="#ref-Care2026" role="doc-biblioref">7</a>]</span>.</p>
+<p>The parameter-dependent Poisson result <a href="#prp-poisson-parameter" class="quarto-xref">Proposition&nbsp;5.3</a> combines geometric decay with the weighted one-step perturbation bound. The resulting log-Lipschitz modulus is sufficient to control the adaptive feedback term for gains satisfying <a href="#eq-log-gain-condition" class="quarto-xref">Equation&nbsp;6.6</a>. Together with a quadratic Lyapunov drift and parameter stability, <a href="#thm-augmented-ode-tracking" class="quarto-xref">Theorem&nbsp;6.1</a> establishes tracking of the stationary field <span class="math inline">\(\dot\theta=F(\theta)\)</span>.</p>
+<p>The stationary Adam field averages a nonlinear readout of joint first- and second-moment memories. Linear momentum preserves <span class="math inline">\(h\)</span>, while <a href="#eq-covariance-decomposition" class="quarto-xref">Equation&nbsp;4.12</a> identifies the covariance correction introduced by Adam’s random normaliser. This correction depends on the joint stationary memory law and can therefore reflect temporal dependence in the Markov innovations.</p>
+<p>For bounded acceptance-rate innovations, the square-root second-moment coordinate provides a bounded Lipschitz Adam readout. The main application-specific work is to verify the driver coupling, parameter perturbation, quadratic drift and stability assumptions for a chosen MCMC sampler. A numerical example could then quantify the stationary covariance correction and its effect on calibration.</p>
+<p>The Markovian iterated-function-system results of <span class="citation" data-cites="Fuh2021">[<a href="#ref-Fuh2021" role="doc-biblioref">10</a>]</span> also suggest a direction for weakening the geometric coupling assumptions through contraction on average. Such extensions would broaden the range of drivers covered by the augmented analysis.</p>
+</section>
+<section id="sec-stationary-series-proof" class="level1 unnumbered">
+<h1 class="unnumbered">Appendix A: Stationary-series integrability</h1>
+<p>This proves <a href="#lem-stationary-memories" class="quarto-xref">Lemma&nbsp;4.1</a> using only <a href="#cnj-frozen-driver" class="quarto-xref">Assumption&nbsp;4.1</a>.</p>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>Put <span class="math inline">\(c_1=\pi_\theta(\|H_\theta\|)&lt;\infty\)</span> and <span class="math inline">\(c_2=\pi_\theta(\|H_\theta\|^2)&lt;\infty\)</span>. Tonelli’s theorem and stationarity give</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb{E}\left[(1-\alpha)\sum_{j\geq0}\alpha^j\|Y_{-j}^\theta\|\right]&amp;=c_1,\\
+\mathbb{E}\left[(1-\beta)\sum_{j\geq0}\beta^j\|Y_{-j}^\theta\|^2\right]&amp;=c_2.
+\end{aligned}
+\]</span></p>
+<p>Both nonnegative series are therefore finite almost surely. Since <span class="math inline">\(\|u^{\odot2}\|\leq\|u\|^2\)</span>, the expected norm tails after <span class="math inline">\(j=J\)</span> are at most <span class="math inline">\(c_1\alpha^{J+1}\)</span> and <span class="math inline">\(c_2\beta^{J+1}\)</span>, respectively. This also proves <span class="math inline">\(L^1\)</span> convergence. Jensen’s inequality for the weights <span class="math inline">\((1-\alpha)\alpha^j\)</span>, whose sum is one, yields</p>
+<p><span class="math display">\[
+\|M^\theta\|^2\leq(1-\alpha)\sum_{j\geq0}\alpha^j\|Y_{-j}^\theta\|^2.
+\]</span></p>
+<p>Its expectation is at most <span class="math inline">\(c_2\)</span>, proving the final assertion.</p>
+</div>
+</section>
+<section id="sec-augmented-drift-proof" class="level1 unnumbered">
+<h1 class="unnumbered">Appendix B: Augmented Lyapunov drift</h1>
+<p>This proves <a href="#lem-augmented-drift" class="quarto-xref">Lemma&nbsp;3.2</a>. With the notation of <a href="#eq-driver-memory-drift" class="quarto-xref">Equation&nbsp;3.7</a>–<a href="#eq-augmented-lyapunov" class="quarto-xref">Equation&nbsp;3.8</a>,</p>
+<div class="proof">
+<p><span class="proof-title"><em>Proof</em>. </span>The growth estimate in <a href="#eq-driver-memory-drift" class="quarto-xref">Equation&nbsp;3.7</a> gives <span class="math inline">\(Q_\theta\mathcal V(x,u)\leq1+(k+c_1)P_\theta w(x)+r\|u\|+c_0\)</span>. Substituting the driver drift,</p>
+<p><span class="math display">\[
+\begin{aligned}
+Q_\theta\mathcal V(x,u)
+&amp;\leq 1+(k+c_1)(aw(x)+B)+r\|u\|+c_0\\
+&amp;\leq\delta\mathcal V(x,u)
++1-\delta+(k+c_1)B+c_0.
+\end{aligned}
+\]</span></p>
+<p>Thus <span class="math inline">\(L=1-\delta+(k+c_1)B+c_0\)</span> is a uniform drift constant when the driver and forcing constants are uniform. For an invariant law with finite <span class="math inline">\(\mathcal V\)</span>-moment, integrating gives <span class="math inline">\((1-\delta)\nu_\theta(\mathcal V)\leq L\)</span>.</p>
+</div>
 </section>
 <section id="references" class="level1 unnumbered">
 <h1 class="unnumbered">References</h1>
@@ -863,17 +1079,20 @@ Q_\vartheta(u_\theta-u_\vartheta)
 <div id="ref-Hofstadler2026" class="csl-entry" role="listitem">
 <div class="csl-left-margin">[5] </div><div class="csl-right-inline">J. Hofstadler. <em>Solving Poisson’s Equation for Wasserstein Contractive Markov Chains</em>. 2026. <a href="https://arxiv.org/abs/2602.19119">https://arxiv.org/abs/2602.19119</a>.</div>
 </div>
+<div id="ref-Laitinen2024_G3FDZQA8" class="csl-entry" role="listitem">
+<div class="csl-left-margin">[6] </div><div class="csl-right-inline">P. Laitinen and M. Vihola. <em>An Invitation to Adaptive Markov Chain Monte Carlo Convergence Theory</em>. 2024. doi: <a href="https://doi.org/10.48550/arXiv.2408.14903">10.48550/arXiv.2408.14903</a>.</div>
+</div>
 <div id="ref-Care2026" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[6] </div><div class="csl-right-inline">A. Carè, B. C. Csáji, B. Gerencsér, L. Gerencsér, and M. Rásonyi. <em>Stochastic Approximation in a Markovian Framework Revisited: Lipschitz Continuity of the Poisson Equation</em>. Mathematics of Control, Signals, and Systems. 2026. doi: <a href="https://doi.org/10.1007/s00498-026-00436-0">10.1007/s00498-026-00436-0</a>.</div>
+<div class="csl-left-margin">[7] </div><div class="csl-right-inline">A. Carè, B. C. Csáji, B. Gerencsér, L. Gerencsér, and M. Rásonyi. <em>Stochastic Approximation in a Markovian Framework Revisited: Lipschitz Continuity of the Poisson Equation</em>. Mathematics of Control, Signals, and Systems. 2026. doi: <a href="https://doi.org/10.1007/s00498-026-00436-0">10.1007/s00498-026-00436-0</a>.</div>
 </div>
 <div id="ref-BenvenisteMetivierPriouret1990" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[7] </div><div class="csl-right-inline">A. Benveniste, M. Métivier, and P. Priouret. <em>Adaptive Algorithms and Stochastic Approximations</em>. Springer. 1990.</div>
+<div class="csl-left-margin">[8] </div><div class="csl-right-inline">A. Benveniste, M. Métivier, and P. Priouret. <em>Adaptive Algorithms and Stochastic Approximations</em>. Springer. 1990.</div>
 </div>
 <div id="ref-AndrieuMoulines2006" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[8] </div><div class="csl-right-inline">C. Andrieu and É. Moulines. <em>On the Ergodicity Properties of Some Adaptive <span>MCMC</span> Algorithms</em>. The Annals of Applied Probability, 16(3). 2006. doi: <a href="https://doi.org/10.1214/105051606000000286">10.1214/105051606000000286</a>.</div>
+<div class="csl-left-margin">[9] </div><div class="csl-right-inline">C. Andrieu and É. Moulines. <em>On the Ergodicity Properties of Some Adaptive <span>MCMC</span> Algorithms</em>. The Annals of Applied Probability, 16(3). 2006. doi: <a href="https://doi.org/10.1214/105051606000000286">10.1214/105051606000000286</a>.</div>
 </div>
 <div id="ref-Fuh2021" class="csl-entry" role="listitem">
-<div class="csl-left-margin">[9] </div><div class="csl-right-inline">C.-D. Fuh. <em>Asymptotic Behavior for Markovian Iterated Function Systems</em>. Stochastic Processes and their Applications, 138, pp. 186–211. 2021. doi: <a href="https://doi.org/10.1016/j.spa.2021.04.009">10.1016/j.spa.2021.04.009</a>.</div>
+<div class="csl-left-margin">[10] </div><div class="csl-right-inline">C.-D. Fuh. <em>Asymptotic Behavior for Markovian Iterated Function Systems</em>. Stochastic Processes and their Applications, 138, pp. 186–211. 2021. doi: <a href="https://doi.org/10.1016/j.spa.2021.04.009">10.1016/j.spa.2021.04.009</a>.</div>
 </div>
 </div>
 </section>

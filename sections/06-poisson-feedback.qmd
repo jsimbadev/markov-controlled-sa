@@ -37,25 +37,28 @@ The series and its normalisation are understood in the integrable Lipschitz clas
 
 ### Eccentricity and weighted growth
 
-Write $\|h\|_{\mathcal V}=\sup_z |h(z)|/\mathcal V(z)$ and $E_{1,\theta}(z)=\int d_Z(z,z')\,\nu_\theta(dz')$. If $E_{1,\theta}(z)\leq C_E\mathcal V(z)$ uniformly on $\mathsf K$, then centring any Lipschitz $f$ under $\nu_\theta$ and applying the Poisson-series estimate give
+Let $\|h\|_{\mathcal V}=\sup_z |h(z)|/\mathcal V(z)$, and write $E_{1,\theta}(z)=\int d_Z(z,z')\,\nu_\theta(dz')$. Suppose $E_{1,\theta}(z)\leq C_E\mathcal V(z)$ uniformly for $\theta\in\mathsf K$. Centring a Lipschitz function under $\nu_\theta$ gives
 
-$
-\begin{aligned}
+$$
 \|f-\nu_\theta(f)\|_{\mathcal V}
-&\leq C_E\|f\|_{\operatorname{Lip}},\\
+\leq C_E\|f\|_{\operatorname{Lip}}.
+$$ {#eq-eccentricity-weighted-embedding}
+
+The comparison follows from the triangle inequality whenever $d_Z(z,z_0)\leq c\mathcal V(z)$ and $\sup_{\theta\in\mathsf K}\nu_\theta(\mathcal V)<\infty$. Applying the same bound to the centred Neumann series yields
+
+$$
 \|u_\theta\|_{\mathcal V}
-&\leq C_E\Lambda_\theta\|G_\theta\|_{\operatorname{Lip}}.
-\end{aligned}
-$ {#eq-eccentricity-weighted-embedding}
+\leq C_E\Lambda_\theta\|G_\theta\|_{\operatorname{Lip}}.
+$$ {#eq-poisson-weighted-growth}
 
-The eccentricity comparison follows, for example, if $d_Z(z,z_0)\leq c\mathcal V(z)$ and $\sup_{\theta\in\mathsf K}\nu_\theta(\mathcal V)<\infty$, by the triangle inequality. Thus centred Lipschitz observables embed into the weighted-growth class used in [@Care2026]. Dually, for a zero-mass signed measure $\xi$ with finite weighted variation,
+For a zero-mass signed measure $\xi$ with finite weighted variation, the corresponding dual estimate is
 
-$
+$$
 \|\xi\|_{\mathrm{KR}}
 \leq C_E\int\mathcal V(z)\,|\xi|(dz).
-$ {#eq-weighted-to-wasserstein}
+$$ {#eq-weighted-to-wasserstein}
 
-These implications convert Wasserstein Poisson bounds into weighted estimates; they do **not** give weighted-total-variation contraction or an operator estimate on all weighted-bounded test functions. The Section 5 bound @eq-weighted-pointwise-operator-bound still takes Lipschitz functions as inputs.
+Eccentricity thus links the Lipschitz estimates obtained from Wasserstein contraction to the weighted-growth bounds used in [@Care2026].
 
 ## Parameter differences of Poisson solutions
 

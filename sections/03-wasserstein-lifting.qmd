@@ -21,19 +21,27 @@ $$ {#eq-driver-trajectory-coupling}
 This is an estimate for one coupled pair of *trajectories*, at every time. A bound on $W_{d_X}(P_\theta^n(x,\cdot),P_\theta^n(y,\cdot))$ for each $n$, considered separately, does not by itself specify a consistent coupling of the intervening observations.
 
 ::: {#asm-memory-lipschitz}
-## Contractive and spatially regular memory update
+## Spatial regularity and first moments for contractive memory
 
-For $\theta\in\mathsf K$, the update $T_\theta:\mathsf X\times\mathsf Y\to\mathsf Y$ is measurable and, with constants $0\leq r<1$ and $L_T<\infty$ independent of $\theta$,
+The memory update is uniformly contractive on $\mathsf K$ in the sense of @def-contractive-memory, with coefficient $r$. In addition, there is a constant $L_T<\infty$, independent of $\theta\in\mathsf K$, such that
+
+$$
+d_Y(T_\theta(x,u),T_\theta(y,u))\leq L_Td_X(x,y)
+$$ {#eq-memory-spatial-lipschitz}
+
+for all $x,y\in\mathsf X$ and $u\in\mathsf Y$.
+
+For one, hence every, fixed $z_0\in\mathsf Z$, assume $Q_\theta(z_0,\cdot)\in\mathcal P_1(\mathsf Z)$.
+:::
+
+By the triangle inequality, memory contraction and spatial regularity together give
 
 $$
 d_Y(T_\theta(x,u),T_\theta(y,v))
 \leq r\,d_Y(u,v)+L_Td_X(x,y).
 $$ {#eq-memory-joint-lipschitz}
 
-For one, hence every, fixed $z_0\in\mathsf Z$, assume $Q_\theta(z_0,\cdot)\in\mathcal P_1(\mathsf Z)$.
-:::
-
-The last assumption is a one-step moment condition. It can be verified from a driver drift inequality and the growth of the memory forcing.
+The one-step moment condition can be verified from a driver drift inequality and the growth of the memory forcing.
 
 ::: {#thm-wasserstein-lifting}
 ## Wasserstein contraction lifts through contractive memory

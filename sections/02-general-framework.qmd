@@ -43,6 +43,28 @@ $$ {#eq-general-stationary-field}
 
 It is this field that enters the limiting ODE for the recursion with memory. Existence and regularity of $\nu_\theta$ and $F$ will follow under the assumptions stated below.
 
+To describe memory contraction, equip $\mathsf Y$ with a metric $d_Y$ generating $\mathcal B$, and fix a parameter region $\mathsf K\subseteq\Theta$.
+
+::: {#def-contractive-memory}
+## Uniformly contractive memory
+
+A memory update $T_\theta:\mathsf X\times\mathsf Y\to\mathsf Y$ is uniformly contractive in its memory argument on $\mathsf K$ if, for some $0\leq r<1$,
+
+$$
+d_Y(T_\theta(x,u),T_\theta(x,v))\leq r\,d_Y(u,v)
+$$ {#eq-memory-contraction}
+
+for every $x\in\mathsf X$, $u,v\in\mathsf Y$ and $\theta\in\mathsf K$. Thus $u\mapsto T_\theta(x,u)$ is $r$-Lipschitz uniformly over the driving observation and parameter.
+:::
+
+This gives geometric forgetting of initial memory states along a common driving trajectory. Indeed, if $U_{n+1}=T_\theta(X_{n+1},U_n)$ and $\widetilde U_{n+1}=T_\theta(X_{n+1},\widetilde U_n)$, induction gives
+
+$$
+d_Y(U_n,\widetilde U_n)\leq r^n d_Y(U_0,\widetilde U_0).
+$$ {#eq-common-driver-forgetting}
+
+To compare memories along different driving trajectories, the lifting theorem will also require spatial regularity of $T_\theta$ in its observation argument.
+
 ## Wasserstein distance and Lipschitz functions
 
 For the Wasserstein results, equip $\mathsf X$ and $\mathsf Y$ with complete separable metrics $d_X,d_Y$ generating their sigma-algebras. On $\mathsf Z=\mathsf X\times\mathsf Y$ use

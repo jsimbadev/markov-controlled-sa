@@ -19,6 +19,7 @@ The general results are conditional on the stated assumptions. Section 2 fixes t
 
 ## DEPENDENCIES AND PROOF REVIEW
 
+- Section 2.1 defines uniform contraction in the memory argument and derives geometric forgetting along a common driving trajectory. Assumption 3.2 separately adds spatial regularity in the observation argument and the one-step first moment; the joint update bound follows by the triangle inequality.
 - The stationary Adam representation uses `asm-frozen-driver` and fixed EMA coefficients below one. It is independent of driver trajectory coupling, spatial Lipschitz forcing, parameter perturbation and adaptive drift. In particular, its finite innovation moment does not impose a first moment for an arbitrary driver metric.
 - The lifting theorem requires a single consistent coupling of driver trajectories, contractive and spatially regular memory, and a one-step augmented first moment. It asserts uniqueness in $\mathcal P_1$; the Adam stationary argument separately gives uniqueness among all invariant probabilities.
 - Spatial Lipschitz regularity of the affine or square-root memory map verifies the joint update bound. The one-step moment clause of `asm-memory-lipschitz` must also be checked; for bounded square-root memories it reduces to the driver's first moment.
@@ -48,5 +49,5 @@ The general results are conditional on the stated assumptions. Section 2 fixes t
 ## FINAL CHECKS
 
 - [x] Review the retained lifting, parameter-Poisson and tracking proofs, including uniform constants and the gain-index convention.
-- [x] Render and visually review the restructured Quarto PDF/HTML (19 pages), using a clean temporary source copy to avoid the existing checkout resource-scan failure. All 14 checker tests pass.
+- [x] Render and visually review the restructured Quarto PDF/HTML (20 pages), using a clean temporary source copy to avoid the existing checkout resource-scan failure. All 14 checker tests pass.
 - [x] Check cross-references, appendix links and bibliography after rendering. All local HTML anchors resolve; the PDF was reviewed for theorem and equation numbering. A citation immediately following an equation cross-reference was moved before it so Quarto renders both.

@@ -19,7 +19,9 @@ Q_\theta((x,u),dx'\,du')
 =P_\theta(x,dx')\,\delta_{T_\theta(x',u)}(du').
 $$ {#eq-augmented-kernel}
 
-The next observation has law $P_\theta(x,\cdot)$ and the next memory is a deterministic function of that observation and the current memory. Thus the frozen augmented process is Markov. The controlled recursion has conditional transition $Q_{\theta_n}$.
+Marginalising over the memory coordinate gives $Q_\theta((x,u),A\times\mathsf Y)=P_\theta(x,A)$ for every $A\in\mathcal A$. If $\eta$ is invariant for $Q_\theta$ and $\eta_X$ is its driver marginal, invariance gives $\eta_X(A)=\int P_\theta(x,A)\,\eta_X(dx)$. Thus $\eta_X$ is invariant for $P_\theta$ and equals $\pi_\theta$ whenever the driver has a unique invariant probability $\pi_\theta$. Consequently, for a driver-only readout $G_\theta(x,u)=H_\theta(x)$ with $\pi_\theta$-integrable $H_\theta$, one has $\eta(G_\theta)=\pi_\theta(H_\theta)=h(\theta)$, preserving the ordinary Robbins--Monro mean field.
+
+The next memory is a deterministic function of the new observation and the current memory, so the frozen augmented process is Markov. The controlled recursion has conditional transition $Q_{\theta_n}$.
 
 Write $\mu(f)=\int f\,d\mu$ when this integral exists. The action of a kernel on a probability measure is
 

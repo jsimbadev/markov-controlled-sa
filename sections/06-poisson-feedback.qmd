@@ -35,6 +35,28 @@ $$ {#eq-poisson-lipschitz-bound}
 
 The series and its normalisation are understood in the integrable Lipschitz class supplied by the theorem. The regularity assumption concerns the *forcing observable* $G_\theta$, not only the memory update $T_\theta$. The square-root coordinates and bounded-innovation case of @eq-sqrt-memory-update--@eq-adam-readout-lipschitz give one direct verification for Adam's normalised readout.
 
+### Eccentricity and weighted growth
+
+Write $\|h\|_{\mathcal V}=\sup_z |h(z)|/\mathcal V(z)$ and $E_{1,\theta}(z)=\int d_Z(z,z')\,\nu_\theta(dz')$. If $E_{1,\theta}(z)\leq C_E\mathcal V(z)$ uniformly on $\mathsf K$, then centring any Lipschitz $f$ under $\nu_\theta$ and applying the Poisson-series estimate give
+
+$
+\begin{aligned}
+\|f-\nu_\theta(f)\|_{\mathcal V}
+&\leq C_E\|f\|_{\operatorname{Lip}},\\
+\|u_\theta\|_{\mathcal V}
+&\leq C_E\Lambda_\theta\|G_\theta\|_{\operatorname{Lip}}.
+\end{aligned}
+$ {#eq-eccentricity-weighted-embedding}
+
+The eccentricity comparison follows, for example, if $d_Z(z,z_0)\leq c\mathcal V(z)$ and $\sup_{\theta\in\mathsf K}\nu_\theta(\mathcal V)<\infty$, by the triangle inequality. Thus centred Lipschitz observables embed into the weighted-growth class used in [@Care2026]. Dually, for a zero-mass signed measure $\xi$ with finite weighted variation,
+
+$
+\|\xi\|_{\mathrm{KR}}
+\leq C_E\int\mathcal V(z)\,|\xi|(dz).
+$ {#eq-weighted-to-wasserstein}
+
+These implications convert Wasserstein Poisson bounds into weighted estimates; they do **not** give weighted-total-variation contraction or an operator estimate on all weighted-bounded test functions. The Section 5 bound @eq-weighted-pointwise-operator-bound still takes Lipschitz functions as inputs.
+
 ## Parameter differences of Poisson solutions
 
 The one-step estimate @eq-weighted-pointwise-operator-bound is sufficient for the invariant-law perturbation argument. It is not, by itself, an estimate of the Lipschitz seminorm of $(Q_\theta-Q_\vartheta)f$ as a function of the state. We therefore record explicitly the additional operator condition used in the following restricted-space result.

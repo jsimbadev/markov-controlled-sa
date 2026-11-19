@@ -1,0 +1,41 @@
+# Appendix A: Stationary-series integrability {#sec-stationary-series-proof .unnumbered}
+
+This proves @lem-stationary-memories using only @asm-frozen-driver.
+
+::: {.proof}
+Put $c_1=\pi_\theta(\|H_\theta\|)<\infty$ and $c_2=\pi_\theta(\|H_\theta\|^2)<\infty$. Tonelli's theorem and stationarity give
+
+$$
+\begin{aligned}
+\mathbb{E}\left[(1-\alpha)\sum_{j\geq0}\alpha^j\|Y_{-j}^\theta\|\right]&=c_1,\\
+\mathbb{E}\left[(1-\beta)\sum_{j\geq0}\beta^j\|Y_{-j}^\theta\|^2\right]&=c_2.
+\end{aligned}
+$$
+
+Both nonnegative series are therefore finite almost surely. Since $\|u^{\odot2}\|\leq\|u\|^2$, the expected norm tails after $j=J$ are at most $c_1\alpha^{J+1}$ and $c_2\beta^{J+1}$, respectively. This also proves $L^1$ convergence. Jensen's inequality for the weights $(1-\alpha)\alpha^j$, whose sum is one, yields
+
+$$
+\|M^\theta\|^2\leq(1-\alpha)\sum_{j\geq0}\alpha^j\|Y_{-j}^\theta\|^2.
+$$
+
+Its expectation is at most $c_2$, proving the final assertion.
+:::
+
+# Appendix B: Augmented Lyapunov drift {#sec-augmented-drift-proof .unnumbered}
+
+This proves @lem-augmented-drift. With the notation of @eq-driver-memory-drift--@eq-augmented-lyapunov,
+
+::: {.proof}
+The growth estimate in @eq-driver-memory-drift gives $Q_\theta\mathcal V(x,u)\leq1+(k+c_1)P_\theta w(x)+r\|u\|+c_0$. Substituting the driver drift,
+
+$$
+\begin{aligned}
+Q_\theta\mathcal V(x,u)
+&\leq 1+(k+c_1)(aw(x)+B)+r\|u\|+c_0\\
+&\leq\delta\mathcal V(x,u)
++1-\delta+(k+c_1)B+c_0.
+\end{aligned}
+$$
+
+Thus $L=1-\delta+(k+c_1)B+c_0$ is a uniform drift constant when the driver and forcing constants are uniform. For an invariant law with finite $\mathcal V$-moment, integrating gives $(1-\delta)\nu_\theta(\mathcal V)\leq L$.
+:::

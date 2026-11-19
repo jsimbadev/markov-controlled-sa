@@ -1,10 +1,10 @@
 # Discussion {#sec-discussion}
 
-The stationary Adam field averages a nonlinear readout of joint first- and second-moment memories. Linear momentum preserves $h$, while @eq-covariance-decomposition identifies the covariance correction introduced by Adam's random normaliser. This correction depends on the joint stationary memory law and can therefore reflect temporal dependence in the Markov innovations.
-
 The Markov augmentation represents the memories by a finite-dimensional transition kernel. Under the driver-coupling and forcing assumptions of @thm-wasserstein-lifting, the augmented kernel is geometrically contractive in Wasserstein distance. This permits invariant-law perturbation estimates [@RudolfSchweizer2018] and the frozen Poisson construction of [@Hofstadler2026]. Eccentricity relates the resulting Lipschitz estimates to the weighted-growth setting used by [@Care2026].
 
 The parameter-dependent Poisson result @prp-poisson-parameter combines geometric decay with the weighted one-step perturbation bound. The resulting log-Lipschitz modulus is sufficient to control the adaptive feedback term for gains satisfying @eq-log-gain-condition. Together with a quadratic Lyapunov drift and parameter stability, @thm-augmented-ode-tracking establishes tracking of the stationary field $\dot\theta=F(\theta)$.
+
+The stationary Adam field averages a nonlinear readout of joint first- and second-moment memories. Linear momentum preserves $h$, while @eq-covariance-decomposition identifies the covariance correction introduced by Adam's random normaliser. This correction depends on the joint stationary memory law and can therefore reflect temporal dependence in the Markov innovations.
 
 For bounded acceptance-rate innovations, the square-root second-moment coordinate provides a bounded Lipschitz Adam readout. The main application-specific work is to verify the driver coupling, parameter perturbation, quadratic drift and stability assumptions for a chosen MCMC sampler. A numerical example could then quantify the stationary covariance correction and its effect on calibration.
 

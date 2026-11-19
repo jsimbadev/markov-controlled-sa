@@ -1,0 +1,144 @@
+# ODE tracking and adaptive MCMC {#sec-poisson-feedback}
+
+We return to the changing-parameter recursion @eq-general-memory-recursion. The Poisson solution constructed above separates its centred observation noise into a martingale difference and telescoping remainders. This is the stochastic approximation approach of [@BenvenisteMetivierPriouret1990; @AndrieuMoulines2006], applied to the augmented state.
+
+## Poisson martingale decomposition
+
+In augmented coordinates the adaptive recursion is
+
+$$
+Z_{n+1}\mid\mathcal F_n\sim Q_{\theta_n}(Z_n,\cdot),
+\qquad
+\theta_{n+1}=\theta_n+\gamma_{n+1}G_{\theta_n}(Z_{n+1}).
+$$ {#eq-augmented-controlled-sa}
+
+Define
+
+$$
+\Delta M_{n+1}
+=u_{\theta_n}(Z_{n+1})-Q_{\theta_n}u_{\theta_n}(Z_n),
+\qquad \phi_\theta=Q_\theta u_\theta.
+$$ {#eq-poisson-martingale-increment}
+
+The Poisson equation gives
+
+$$
+G_{\theta_n}(Z_{n+1})-F(\theta_n)
+=\Delta M_{n+1}
++\phi_{\theta_n}(Z_n)-\phi_{\theta_n}(Z_{n+1}).
+$$ {#eq-controlled-poisson-decomposition}
+
+When $u_{\theta_n}(Z_{n+1})$ is square-integrable, the conditional mean of $\Delta M_{n+1}$ is zero. For scalar observables, its conditional variance satisfies
+
+$$
+\begin{aligned}
+&\mathbb E[(\Delta M_{n+1})^2\mid\mathcal F_n]\\
+&\qquad=Q_{\theta_n}u_{\theta_n}^2(Z_n)
+-\bigl(Q_{\theta_n}u_{\theta_n}(Z_n)\bigr)^2.
+\end{aligned}
+$$ {#eq-poisson-conditional-variance}
+
+This is the martingale calculation in [@Laitinen2024_G3FDZQA8, Lemma 4], applied here to $Q_\theta$ on the augmented space. For vector-valued updates the corresponding identity holds with squared Euclidean norms. The weighted Poisson bound and a second-order drift estimate control its expectation along the adaptive path.
+
+## Adaptive moment control and tracking
+
+::: {#thm-augmented-ode-tracking}
+## ODE tracking under Markov noise with contractive memory
+
+Assume @prp-poisson-parameter and suppose that, uniformly for $\theta\in\mathsf K$,
+
+$$
+Q_\theta\mathcal V^2\leq a_2\mathcal V^2+b_2,
+\qquad 0\leq a_2<1,\quad b_2<\infty.
+$$ {#eq-adaptive-quadratic-drift}
+
+Let $\mathbb E[\mathcal V^2(Z_0)]<\infty$, and suppose the unprojected recursion @eq-augmented-controlled-sa remains in $\mathsf K$ almost surely. Assume also that $\sup_{\theta\in\mathsf K,z\in\mathsf Z}|G_\theta(z)|\leq B<\infty$. Let $(\gamma_n)$ be deterministic, positive and nonincreasing, with
+
+$$
+\gamma_n\to0,\qquad
+\sum_n\gamma_n=\infty,\qquad
+\sum_n\gamma_n^2(1+|\log\gamma_n|)<\infty.
+$$ {#eq-log-gain-condition}
+
+Then
+
+$$
+\sum_{n=0}^\infty\gamma_{n+1}
+\bigl[G_{\theta_n}(Z_{n+1})-F(\theta_n)\bigr]
+\quad\text{converges almost surely}.
+$$ {#eq-centred-noise-summability}
+
+If $F$ has a Lipschitz extension to a neighbourhood carrying its forward ODE flow $\Phi$, the piecewise-linear interpolation $\bar\theta$ on the timescale $t_n=\sum_{k=1}^n\gamma_k$ is an asymptotic pseudo-trajectory of
+
+$$
+\dot\theta=F(\theta)
+$$ {#eq-general-limiting-ode}
+
+(using that extension for the flow). In particular, for every $T>0$,
+
+$$
+\lim_{t\to\infty}\sup_{0\leq s\leq T}
+|\bar\theta(t+s)-\Phi_s(\bar\theta(t))|=0
+\qquad\text{almost surely}.
+$$ {#eq-augmented-apt}
+:::
+
+::: {.proof}
+Iterating @eq-adaptive-quadratic-drift conditionally shows $\sup_n\mathbb E[\mathcal V^2(Z_n)]<\infty$. The frozen Poisson and drift estimates give $|u_\theta|+|\phi_\theta|\leq C\mathcal V$. Using @eq-poisson-conditional-variance,
+
+$$
+\sum_n\gamma_{n+1}^2
+\mathbb E[|\Delta M_{n+1}|^2]
+\leq C\sum_n\gamma_{n+1}^2<\infty,
+$$
+
+so the weighted martingale converges almost surely.
+
+For the remaining terms of @eq-controlled-poisson-decomposition, summation by parts yields, for $N\geq1$,
+
+$$
+\begin{aligned}
+&\sum_{n=0}^{N-1}\gamma_{n+1}
+\bigl[G_{\theta_n}(Z_{n+1})-F(\theta_n)\bigr]\\
+={}&\sum_{n=0}^{N-1}\gamma_{n+1}\Delta M_{n+1}
++\gamma_1\phi_{\theta_0}(Z_0)
+-\gamma_N\phi_{\theta_{N-1}}(Z_N)\\
+&+\sum_{n=1}^{N-1}(\gamma_{n+1}-\gamma_n)\phi_{\theta_n}(Z_n)\\
+&+\sum_{n=1}^{N-1}\gamma_n
+\bigl[\phi_{\theta_n}(Z_n)-\phi_{\theta_{n-1}}(Z_n)\bigr].
+\end{aligned}
+$$ {#eq-adaptive-poisson-summation}
+
+The terminal boundary term tends to zero almost surely, since its squared expectation is bounded by $C\gamma_N^2$ and $\sum_N\gamma_N^2<\infty$. The gain-variation series is absolutely summable almost surely because $\sum_n|\gamma_{n+1}-\gamma_n|<\infty$ and $\sup_n\mathbb E[\mathcal V(Z_n)]<\infty$.
+
+Finally, $|\theta_n-\theta_{n-1}|\leq B\gamma_n$, and @eq-poisson-feedback-log-lipschitz gives, for all sufficiently large $n$,
+
+$$
+\gamma_n|\phi_{\theta_n}(Z_n)-\phi_{\theta_{n-1}}(Z_n)|
+\leq C\gamma_n^2(1+|\log\gamma_n|)\mathcal V(Z_n).
+$$ {#eq-adaptive-feedback-summable}
+
+The right-hand side is summable almost surely by @eq-log-gain-condition and the uniform first-moment bound. Thus the weighted centred-noise series converges. Put $\epsilon_{n+1}=G_{\theta_n}(Z_{n+1})-F(\theta_n)$. Convergence of the weighted noise series gives
+
+$$
+\lim_{n\to\infty}\sup_{m\geq n}
+\left\|\sum_{k=n}^{m}\gamma_{k+1}\epsilon_{k+1}\right\|=0
+\qquad\text{almost surely}.
+$$
+
+The bounded readout also gives $\|F(\theta)\|\leq B$ on $\mathsf K$ and $\|\epsilon_{n+1}\|\leq2B$. Thus fractional mesh intervals contribute at most $2B\gamma_{n+1}$ to the accumulated noise. On each interval $[t_n,t_{n+1}]$, $\|\bar\theta(t)-\theta_n\|\leq B\gamma_{n+1}$. On any fixed time horizon, the Lipschitz extension of $F$ therefore makes the accumulated Euler discretisation error tend to zero. Comparing the resulting integral equation with the ODE by Gronwall's inequality proves @eq-augmented-apt, first at mesh points and then at arbitrary starting times.
+:::
+
+## Adam adaptation in MCMC
+
+For the bounded-innovation Adam representation in @eq-sqrt-memory-update, @eq-adam-readout-lipschitz gives the Lipschitz readout estimate and $\|G\|\leq\sqrt d B_H/\varepsilon$. The forward-invariant set $\mathsf Y_B$ therefore supplies the bounded parameter increments required above. The stationary construction in @cor-stationary-memory-law identifies its invariant field with @eq-adam-field: the square-root coordinates simply push forward the same memory law. Under the driver coupling, weighted parameter perturbation, quadratic drift, stability and flow assumptions, @thm-augmented-ode-tracking then gives
+
+$$
+\dot\theta=F(\theta)
+=\mathbb E_{\nu_\theta}
+\left[\frac{M}{\sqrt V+\varepsilon}\right].
+$$ {#eq-adam-limiting-ode}
+
+For acceptance-rate calibration, the driving state includes the proposal or acceptance variables whenever they enter the observed residual. The coupling and parameter estimates must hold for that driver on the chosen parameter localisation set. Quadratic drift controls moments along the adaptive path; frozen stationary moments alone do not supply that control. The theorem assumes stability of the unprojected parameter recursion, so a localisation argument must establish the same conditions on the region where the recursion is analysed. Projected recursions require the corresponding projected ODE analysis.
+
+These conditions leave the calibration distinction in @eq-covariance-at-root intact. The limiting field is $F$; identifying its equilibria and their attraction properties is a further model-specific question.

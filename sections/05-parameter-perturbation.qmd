@@ -1,4 +1,4 @@
-# Parameter perturbation of the augmented process {#sec-parameter-perturbation}
+# Parameter perturbation and Poisson regularity {#sec-parameter-perturbation}
 
 The contraction theorem is stated for each frozen parameter, with constants uniform on a specified region. We now compare two such frozen kernels, $Q_\theta$ and $Q_\vartheta$. The comparison is an operator calculation on Lipschitz test functions; it does not require constructing an additional coupling of the augmented transitions.
 
@@ -95,12 +95,12 @@ Apply @eq-one-step-parameter-bound, substitute @eq-driver-parameter-assumptions 
 
 ## Perturbation of invariant laws
 
-The geometric estimate of @thm-wasserstein-lifting and the weighted one-step bound are the hypotheses appearing in the Wasserstein perturbation framework of [@RudolfSchweizer2018, Theorem 3.1]. The stationary specialisation can also be seen directly from the operator decomposition.
+The geometric estimate of @thm-wasserstein-lifting and the weighted one-step bound enter the Wasserstein perturbation framework of [@RudolfSchweizer2018, Theorem 3.1 and Corollary 3.1]. The stationary estimate below uses the invariant weighted moment directly; a Lyapunov inequality is one way to obtain that moment. Its proof retains the operator calculation needed for Poisson regularity.
 
 ::: {#cor-invariant-parameter}
 ## Lipschitz dependence of augmented invariant laws
 
-Assume @prp-augmented-kernel-regularity and suppose the invariant laws satisfy
+Suppose $Q_\theta$ has invariant law $\nu_\theta\in\mathcal P_1(\mathsf Z)$, satisfies @eq-augmented-contraction and obeys @eq-weighted-pointwise-operator-bound, as supplied by @prp-augmented-kernel-regularity. Suppose also that
 
 $$
 \sup_{\theta\in\mathsf K}\nu_\theta(\mathcal V)\leq M_{\mathcal V}<\infty.
@@ -148,9 +148,9 @@ $$
 Let $n\to\infty$. The first term tends to zero, and the geometric sum is bounded by $(1-\eta)^{-1}$. Taking the supremum over $f$ proves @eq-invariant-parameter-regularity.
 :::
 
-Uniform drift constants in @eq-augmented-drift, together with suitable moment conditions, provide one route to @eq-uniform-invariant-moment. The constant in @eq-invariant-parameter-regularity is not asserted to be uniform on parameter regions where the contraction, moment or perturbation constants diverge.
+Uniform drift constants in @eq-augmented-drift, together with suitable moment conditions, provide one route to @eq-uniform-invariant-moment. The constants in @eq-invariant-parameter-regularity depend on the contraction, moment and perturbation bounds on $\mathsf K$.
 
-## Regularity of the stationary Adam field
+## Regularity of the stationary mean field
 
 Suppose $G_\theta:\mathsf Z\to\mathbb{R}^d$ has a uniform Lipschitz seminorm and satisfies
 
@@ -171,4 +171,154 @@ W_{d_Z}(\nu_\theta,\nu_\vartheta)\\
 \end{aligned}
 $$ {#eq-field-parameter-bound}
 
-Thus @cor-invariant-parameter gives local Lipschitz regularity of $F$ under @eq-observable-parameter-assumption. For the square-root memory coordinates of @eq-adam-lipschitz-readout the readout is independent of $\theta$, so the second term vanishes. This is a regularity conclusion for the *stationary* field, not yet an ODE approximation for the changing-parameter recursion.
+Thus @cor-invariant-parameter gives local Lipschitz regularity of $F$ under @eq-observable-parameter-assumption. For the square-root memory coordinates of @eq-adam-lipschitz-readout the readout is independent of $\theta$, so the second term vanishes. This Lipschitz bound will also supply the regularity of the limiting ODE field.
+
+## Eccentricity and weighted growth
+
+Write $E_{1,\theta}(z)=\int d_Z(z,z')\,\nu_\theta(dz')$ for the first eccentricity. Suppose $E_{1,\theta}(z)\leq C_E\mathcal V(z)$ uniformly for $\theta\in\mathsf K$. Centring a Lipschitz function under $\nu_\theta$ gives
+
+$$
+\|f-\nu_\theta(f)\|_{\mathcal V}
+\leq C_E\|f\|_{\operatorname{Lip}}.
+$$ {#eq-eccentricity-weighted-embedding}
+
+Indeed, $|f(z)-\nu_\theta(f)|\leq\|f\|_{\operatorname{Lip}}E_{1,\theta}(z)$. The triangle inequality also gives
+
+$$
+E_{1,\theta}(z)
+\leq d_Z(z,z_0)+\nu_\theta(d_Z(z_0,\cdot)).
+$$
+
+Consequently the comparison is uniform if $d_Z(z,z_0)\leq c\mathcal V(z)$ and $\sup_{\theta\in\mathsf K}\nu_\theta(\mathcal V)<\infty$. For a zero-mass signed measure $\xi$ with finite weighted variation, define $\|\xi\|_{\mathrm{KR}}=\sup_{\|f\|_{\operatorname{Lip}}\leq1}|\xi(f)|$. Subtracting $\nu_\theta(f)$ inside $\xi(f)$ and using the same embedding gives
+
+$$
+\|\xi\|_{\mathrm{KR}}
+\leq C_E\int\mathcal V(z)\,|\xi|(dz).
+$$ {#eq-weighted-to-wasserstein}
+
+Eccentricity thus links the Lipschitz estimates obtained from Wasserstein contraction to the weighted-growth estimates used in [@Care2026].
+
+## Frozen Poisson solution
+
+For a scalar Lipschitz observable $G_\theta$, set $\bar G_\theta=G_\theta-F(\theta)$ as in @eq-augmented-poisson; vector-valued observables are treated coordinatewise. Geometric Wasserstein contraction and finite first eccentricity give the unique centred Lipschitz solution [@Hofstadler2026, Theorem 3.4], represented by @eq-poisson-series, with $\nu_\theta(u_\theta)=0$ and
+
+$$
+\|u_\theta\|_{\operatorname{Lip}(d_Z)}
+\leq\Lambda_\theta\|G_\theta\|_{\operatorname{Lip}(d_Z)},
+\qquad
+\Lambda_\theta:=\sum_{n=0}^\infty\tau_{d_Z}(Q_\theta^n)
+\leq\frac{C_Z(\eta)}{1-\eta}.
+$$ {#eq-poisson-lipschitz-bound}
+
+To see the summability directly, Kantorovich--Rubinstein duality gives
+
+$$
+|Q_\theta^nG_\theta(z)-F(\theta)|
+\leq \tau_{d_Z}(Q_\theta^n)
+\|G_\theta\|_{\operatorname{Lip}}E_{1,\theta}(z).
+$$ {#eq-frozen-centred-decay}
+
+The right-hand side is summable in $n$. It is also integrable under $\nu_\theta$, since $\nu_\theta\in\mathcal P_1$. Thus termwise integration centres the solution, and shifting the series proves @eq-augmented-poisson. If two centred Lipschitz solutions existed, their difference $v$ would satisfy $v=Q_\theta^n v$ for every $n$; contraction forces its Lipschitz seminorm to vanish, and centring then gives $v=0$.
+
+Applying the Neumann-series bound yields
+
+$$
+\|u_\theta\|_{\mathcal V}
+\leq C_E\Lambda_\theta\|G_\theta\|_{\operatorname{Lip}}.
+$$ {#eq-poisson-weighted-growth}
+
+The pointwise estimate $|u_\theta(z)|\leq\Lambda_\theta\|G_\theta\|_{\operatorname{Lip}}E_{1,\theta}(z)$ also gives stationary $L^p$ bounds whenever $\nu_\theta(E_{1,\theta}^p)<\infty$ [@Hofstadler2026, Theorem 3.5]. For bounded innovations, @eq-adam-readout-lipschitz verifies the Lipschitz readout hypothesis for Adam.
+
+## Parameter regularity of the Poisson solution
+
+The weighted one-step perturbation bound of @prp-augmented-kernel-regularity combines with the decay of centred iterates to give a parameter modulus for the Poisson solution. This follows the comparison-of-iterates approach of [@Care2026, Theorem 2], using Wasserstein contraction on the augmented space.
+
+::: {#prp-poisson-parameter}
+## Log-Lipschitz parameter regularity
+
+Let $\mathsf K$ be a compact parameter set. Assume uniformly over $\theta,\vartheta\in\mathsf K$ that:
+
+1. $Q_\theta$ satisfies @eq-augmented-contraction with common constants $C_Z<\infty$ and $\rho\in(0,1)$, and has invariant law $\nu_\theta\in\mathcal P_1(\mathsf Z)$.
+2. The one-step weighted estimate @eq-weighted-pointwise-operator-bound holds, and $Q_\theta\mathcal V\leq a\mathcal V+b$ for some $0\leq a<1$, $b<\infty$.
+3. $\sup_{\theta\in\mathsf K}\nu_\theta(\mathcal V)<\infty$ and $d_Z(z,z_0)\leq c\mathcal V(z)$ for some $z_0$.
+4. $\sup_{\theta\in\mathsf K}\|G_\theta\|_{\operatorname{Lip}}\leq L_G$ and
+   $|G_\theta(z)-G_\vartheta(z)|\leq L_{G,\theta}\|\theta-\vartheta\|\mathcal V(z)$.
+
+Assume the kernels and observables are jointly measurable in parameter and state. For $t>0$, set $\omega(t)=t(1+\log^+(1/t))$ and $\omega(0)=0$. Then there is $C<\infty$ such that
+
+$$
+|u_\theta(z)-u_\vartheta(z)|
+\leq C\mathcal V(z)\omega(\|\theta-\vartheta\|).
+$$ {#eq-poisson-parameter-log-lipschitz}
+
+The same estimate holds for $\phi_\theta=Q_\theta u_\theta$:
+
+$$
+|\phi_\theta(z)-\phi_\vartheta(z)|
+\leq C\mathcal V(z)\omega(\|\theta-\vartheta\|).
+$$ {#eq-poisson-feedback-log-lipschitz}
+:::
+
+::: {.proof}
+Put $\delta=\|\theta-\vartheta\|$ and write
+
+$$
+R_\theta^nG_\theta(z)=Q_\theta^nG_\theta(z)-F(\theta),
+\qquad
+D_n(z)=R_\theta^nG_\theta(z)-R_\vartheta^nG_\vartheta(z).
+$$
+
+The drift assumption gives $\sup_{\theta,n}Q_\theta^n\mathcal V(z)\leq C_V\mathcal V(z)$. By the eccentricity comparison and @eq-invariant-wasserstein-rate,
+
+$$
+|R_\theta^nG_\theta(z)|
+\leq C_Z\rho^n L_GE_{1,\theta}(z)
+\leq C_1\rho^n\mathcal V(z),
+$$
+
+so $|D_n(z)|\leq 2C_1\rho^n\mathcal V(z)$.
+
+For a second bound, decompose
+
+$$
+\begin{aligned}
+D_n={}&(Q_\theta^n-Q_\vartheta^n)G_\theta\\
+&+Q_\vartheta^n(G_\theta-G_\vartheta)
+-\bigl(F(\theta)-F(\vartheta)\bigr).
+\end{aligned}
+$$
+
+The last term is $O(\delta)$ by @eq-field-parameter-bound and @cor-invariant-parameter. The middle term is at most $L_{G,\theta}C_V\delta\mathcal V(z)$. For the first term, telescope as in @eq-perturbation-telescope. Wasserstein contraction gives
+
+$$
+\|Q_\theta^kG_\theta\|_{\operatorname{Lip}}
+\leq C_Z\rho^kL_G.
+$$
+
+Applying @eq-weighted-pointwise-operator-bound inside the telescoping sum,
+
+$$
+\begin{aligned}
+&|(Q_\theta^n-Q_\vartheta^n)G_\theta(z)|\\
+&\quad\leq C_ZL_QL_G\delta
+\sum_{j=0}^{n-1}\rho^{n-1-j}Q_\vartheta^j\mathcal V(z)\\
+&\quad\leq \frac{C_ZL_QL_GC_V}{1-\rho}\,
+\delta\mathcal V(z).
+\end{aligned}
+$$ {#eq-centred-iterate-parameter-bound}
+
+Thus $|D_n(z)|\leq C_2\delta\mathcal V(z)$, uniformly in $n$. Combining the two estimates and summing the Neumann series yields
+
+$$
+\begin{aligned}
+|u_\theta(z)-u_\vartheta(z)|
+&\leq C_3\mathcal V(z)
+\sum_{n=0}^\infty\min\{\delta,\rho^n\}\\
+&\leq C_4\mathcal V(z)\omega(\delta).
+\end{aligned}
+$$
+
+For $0<\delta<1$, choose $N=\lceil\log(1/\delta)/|\log\rho|\rceil$. The first $N$ terms contribute at most $N\delta$ and the remaining terms at most $\rho^N/(1-\rho)\leq\delta/(1-\rho)$. For $\delta\geq1$ the geometric bound suffices, and $\delta=0$ is immediate. Finally, the Poisson identity gives $\phi_\theta=u_\theta-G_\theta+F(\theta)$. The parameter estimates for its three terms prove @eq-poisson-feedback-log-lipschitz.
+:::
+
+The parameter modulus follows from the weighted one-step perturbation bound @eq-weighted-pointwise-operator-bound. Its logarithmic term measures the number of iterations required for geometric forgetting to reach the scale of a parameter change.

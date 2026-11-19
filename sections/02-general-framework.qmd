@@ -1,0 +1,106 @@
+# General framework and preliminaries {#sec-general-framework}
+
+## Markov-driven recursions with memory
+
+Let $(\mathsf X,\mathcal A)$ and $(\mathsf Y,\mathcal B)$ be standard Borel spaces for the driver and memory, and let $\Theta\subseteq\mathbb R^d$ be a Borel parameter set. For each $\theta\in\Theta$, let $P_\theta$ be a Markov kernel on $\mathsf X$, $T_\theta:\mathsf X\times\mathsf Y\to\mathsf Y$ a memory update and $G_\theta:\mathsf X\times\mathsf Y\to\mathbb R^d$ a readout. Assume these objects are jointly measurable in parameter and state. With $X_n,U_n,\theta_n$ adapted to $(\mathcal F_n)$, consider
+
+$$
+\begin{aligned}
+X_{n+1}\mid\mathcal F_n&\sim P_{\theta_n}(X_n,\cdot),\\
+U_{n+1}&=T_{\theta_n}(X_{n+1},U_n),\\
+\theta_{n+1}&=\theta_n+\gamma_{n+1}G_{\theta_n}(X_{n+1},U_{n+1}),
+\end{aligned}
+$$ {#eq-general-memory-recursion}
+
+where $(\gamma_n)$ are positive deterministic gains; write $G_\theta(z)=G_\theta(x,u)$ for $z=(x,u)$. The memory update persists on the observation timescale, while the parameter gain will decrease. Set $\mathsf Z=\mathsf X\times\mathsf Y$ and $Z_n=(X_n,U_n)$. For a frozen parameter, the augmented transition kernel is
+
+$$
+Q_\theta((x,u),dx'\,du')
+=P_\theta(x,dx')\,\delta_{T_\theta(x',u)}(du').
+$$ {#eq-augmented-kernel}
+
+The next observation has law $P_\theta(x,\cdot)$ and the next memory is a deterministic function of that observation and the current memory. Thus the frozen augmented process is Markov. The controlled recursion has conditional transition $Q_{\theta_n}$.
+
+Write $\mu(f)=\int f\,d\mu$ when this integral exists. The action of a kernel on a probability measure is
+
+$$
+(\mu P_\theta)(A)=\int_{\mathsf X}P_\theta(x,A)\,\mu(dx),\qquad A\in\mathcal A.
+$$ {#eq-measure-kernel-action}
+
+An invariant probability $\pi_\theta$ satisfies
+
+$$
+\pi_\theta P_\theta=\pi_\theta.
+$$ {#eq-driver-invariance}
+
+Thus one transition preserves the marginal $\pi_\theta$ when the parameter is fixed. In the usual MCMC setting the sampling kernels share a target $\pi_\theta=\pi$, although their transition dependence changes with $\theta$.
+
+The same notation applies to $Q_\theta$ and its invariant probabilities. Whenever $Q_\theta$ has an invariant law $\nu_\theta$ and $G_\theta$ is $\nu_\theta$-integrable, define the stationary mean field
+
+$$
+F(\theta)=\nu_\theta(G_\theta).
+$$ {#eq-general-stationary-field}
+
+It is this field that enters the limiting ODE for the recursion with memory. Existence and regularity of $\nu_\theta$ and $F$ will follow under the assumptions stated below.
+
+## Wasserstein distance and Lipschitz functions
+
+For the Wasserstein results, equip $\mathsf X$ and $\mathsf Y$ with complete separable metrics $d_X,d_Y$ generating their sigma-algebras. On $\mathsf Z=\mathsf X\times\mathsf Y$ use
+
+$$
+d_Z((x,u),(y,v))=d_X(x,y)+d_Y(u,v).
+$$ {#eq-product-metric}
+
+Write $\mathcal P_1(\mathsf Z)$ for probabilities with finite first moment in $d_Z$. For $\mu,\eta\in\mathcal P_1(\mathsf Z)$, let $\mathcal C(\mu,\eta)$ denote their couplings. The $1$-Wasserstein distance satisfies the primal and Kantorovich--Rubinstein dual representations,
+
+$$
+\begin{aligned}
+W_{d_Z}(\mu,\eta)
+&=\inf_{\gamma\in\mathcal C(\mu,\eta)}
+\int d_Z(z,z')\,\gamma(dz\,dz')\\
+&=\sup_{\|f\|_{\operatorname{Lip}(d_Z)}\leq1}
+|\mu(f)-\eta(f)|.
+\end{aligned}
+$$ {#eq-wasserstein-duality}
+
+For a real-valued function $f$, its Lipschitz seminorm is
+
+$$
+\|f\|_{\operatorname{Lip}(d_Z)}
+=\sup_{z\ne z'}\frac{|f(z)-f(z')|}{d_Z(z,z')}.
+$$ {#eq-lipschitz-seminorm}
+
+For a Markov kernel $K$ write
+
+$$
+\tau_{d_Z}(K)=\sup_{z\ne z'}
+\frac{W_{d_Z}(K(z,\cdot),K(z',\cdot))}{d_Z(z,z')}.
+$$ {#eq-dobrushin-coefficient}
+
+By duality, $\|Kf\|_{\operatorname{Lip}}\leq\tau_{d_Z}(K)\|f\|_{\operatorname{Lip}}$. These are the distance and contraction coefficient used in the perturbation theory of [@RudolfSchweizer2018]. Constants in the subsequent estimates are uniform on a specified parameter region $\mathsf K\subseteq\Theta$.
+
+## Weighted norms and centred Poisson equations
+
+For a measurable weight $\mathcal V:\mathsf Z\to[1,\infty)$, write
+
+$$
+\|f\|_{\mathcal V}=\sup_z\frac{|f(z)|}{\mathcal V(z)}.
+$$ {#eq-weighted-function-norm}
+
+A Lyapunov inequality $Q_\theta\mathcal V\leq a\mathcal V+b$, with $0\leq a<1$ and $b<\infty$, controls growth under iteration. Weighted one-step kernel differences will be measured against $\mathcal V$ on Lipschitz test functions. This keeps the Wasserstein estimates and the weighted-norm parameter analysis of [@Care2026] in a common setting.
+
+For $\bar G_\theta=G_\theta-F(\theta)$, a centred Poisson solution satisfies
+
+$$
+u_\theta-Q_\theta u_\theta=\bar G_\theta,
+\qquad \nu_\theta(u_\theta)=0.
+$$ {#eq-augmented-poisson}
+
+The Neumann-series representation is
+
+$$
+u_\theta(z)=\sum_{n=0}^\infty
+\bigl[Q_\theta^nG_\theta(z)-F(\theta)\bigr],
+$$ {#eq-poisson-series}
+
+when the centred iterates are summable. Geometric Wasserstein contraction will give this summability for Lipschitz observables, as in [@Hofstadler2026, Theorem 3.4]. The bounds needed for parameter comparison and adaptive tracking are developed after the contraction theorem.

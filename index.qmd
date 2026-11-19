@@ -1,37 +1,39 @@
 ---
-title: "Stationary calibration and Markov augmentation for Adam-type adaptive MCMC"
+title: "Wasserstein stability and ODE tracking for Markov-driven stochastic approximation with contractive memory"
 author:
   - name: "Jordan Simbananiye"
     affiliations:
       - name: "University College London (UCL) - CCMI CDT"
 date: last-modified
 abstract: |
-  Adam-type adaptation normalises fixed-gain first- and second-moment memories.
-  Under Markov innovations, its stationary calibration field contains a
-  covariance correction at Robbins--Monro roots. We construct the stationary
-  augmented process and lift geometric Wasserstein contraction from its
-  Markov driver. Weighted kernel perturbations yield regularity of the
-  invariant law and a log-Lipschitz parameter estimate for the augmented
-  Poisson solution. With quadratic drift, bounded adaptation increments
-  and standard gain conditions, the resulting martingale decomposition gives
-  ODE tracking of the stationary Adam field. The abstract results apply to
-  contractive-memory Markov recursions; sampler-specific assumptions are
-  identified separately.
+  We study Markov-driven stochastic approximation with persistent, contractive
+  memory. A trajectory coupling of the driving chain lifts to geometric
+  Wasserstein contraction of the augmented kernel, yielding an invariant law
+  and quantitative convergence. Weighted kernel perturbations give Lipschitz
+  dependence of the invariant law and log-Lipschitz parameter regularity of
+  centred Poisson solutions. Under quadratic drift, parameter stability,
+  bounded increments and logarithmically corrected gain summability, a
+  Poisson--martingale decomposition yields tracking of the stationary mean-field
+  ODE. Adam adaptation in MCMC provides a motivating application: stationary
+  EMA memories exist under weaker frozen moment assumptions, and the Adam
+  field contains a covariance correction at Robbins--Monro roots.
 ---
 
 {{< include sections/01-introduction-augmented.qmd >}}
 
-{{< include sections/02-stationary-calibration.qmd >}}
+{{< include sections/02-general-framework.qmd >}}
 
-{{< include sections/03-markov-augmentation.qmd >}}
+{{< include sections/03-wasserstein-lifting.qmd >}}
 
-{{< include sections/04-wasserstein-lifting.qmd >}}
+{{< include sections/04-stationary-adam.qmd >}}
 
 {{< include sections/05-parameter-perturbation.qmd >}}
 
-{{< include sections/06-poisson-feedback.qmd >}}
+{{< include sections/06-ode-tracking.qmd >}}
 
 {{< include sections/07-discussion-augmented.qmd >}}
+
+{{< include sections/08-appendices.qmd >}}
 
 # References {.unnumbered}
 

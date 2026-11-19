@@ -6,17 +6,17 @@ author:
       - name: "University College London (UCL) - CCMI CDT"
 date: last-modified
 abstract: |
-  Adam-type adaptation replaces an ordinary stochastic-approximation innovation
-  by a normalised function of fixed-gain first- and second-moment memories.
-  We identify the stationary field under Markov innovations and its covariance
-  correction at Robbins--Monro roots. A finite-dimensional Markov augmentation
-  admits a stationary law under moment assumptions. Under stronger coupling
-  and regularity conditions, geometric Wasserstein contraction of the driver
-  lifts to the augmented process. We derive one-step parameter perturbation
-  bounds, invariant-law regularity and a restricted Lipschitz-space Poisson
-  estimate, distinguishing the latter's additional operator assumption.
-  The resulting estimates specify the ingredients for a controlled-Markov
-  ODE approximation; no adaptive ODE-tracking theorem is asserted.
+  Adam-type adaptation normalises fixed-gain first- and second-moment memories.
+  Under Markov innovations, its stationary calibration field contains a
+  covariance correction at Robbins--Monro roots. We construct the stationary
+  augmented process and lift geometric Wasserstein contraction from its
+  Markov driver. Weighted kernel perturbations yield regularity of the
+  invariant law and a log-Lipschitz parameter estimate for the augmented
+  Poisson solution. With quadratic drift, bounded adaptation increments
+  and standard gain conditions, the resulting martingale decomposition gives
+  ODE tracking of the stationary Adam field. The abstract results apply to
+  contractive-memory Markov recursions; sampler-specific assumptions are
+  identified separately.
 ---
 
 {{< include sections/01-introduction-augmented.qmd >}}
